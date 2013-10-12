@@ -1,0 +1,18 @@
+goog.addDependency("base.js", ['goog'], []);
+goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.array', 'goog.object', 'goog.string.format', 'goog.string.StringBuffer', 'goog.string']);
+goog.addDependency("../clojure/zip.js", ['clojure.zip'], ['cljs.core']);
+goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['cljs.core', 'goog.events.EventType', 'goog.events.EventTarget', 'goog.events']);
+goog.addDependency("../iiiiioiooooo/iiiiioiooooo/core/test.js", ['iiiiioiooooo.core.test'], ['cljs.core', 'clojure.zip']);
+goog.addDependency("../iiiiioiooooo/iiiiioiooooo/core/structure.js", ['iiiiioiooooo.core.structure'], ['cljs.core', 'clojure.zip', 'iiiiioiooooo.core.test']);
+goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string.StringBuffer', 'goog.string']);
+goog.addDependency("../cljs/analyzer.js", ['cljs.analyzer'], ['cljs.core', 'clojure.string']);
+goog.addDependency("../cljs/reader.js", ['cljs.reader', 'cljs.reader.StringReader', 'cljs.reader.PushbackReader', 'cljs.reader.IndexingPushbackReader'], ['cljs.core', 'cljs.analyzer', 'clojure.string', 'goog.string']);
+goog.addDependency("../iiiiioiooooo/style.js", ['iiiiioiooooo.style'], ['cljs.core']);
+goog.addDependency("../dommy/attrs.js", ['dommy.attrs'], ['cljs.core', 'clojure.string']);
+goog.addDependency("../dommy/template.js", ['dommy.template'], ['cljs.core', 'dommy.attrs', 'clojure.string']);
+goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
+goog.addDependency("../dommy/core.js", ['dommy.core'], ['cljs.core', 'dommy.template', 'dommy.attrs', 'dommy.utils', 'clojure.string']);
+goog.addDependency("../cljs/io.js", ['cljs.io', 'cljs.io.File'], ['cljs.core']);
+goog.addDependency("../cljs/compiler.js", ['cljs.compiler'], ['cljs.core', 'cljs.reader', 'cljs.analyzer', 'clojure.string', 'cljs.io']);
+goog.addDependency("../iiiiioiooooo/ui.js", ['iiiiioiooooo.ui'], ['cljs.core', 'clojure.zip', 'clojure.browser.event', 'iiiiioiooooo.core.structure', 'cljs.reader', 'goog.events.KeyCodes', 'iiiiioiooooo.style', 'cljs.analyzer', 'dommy.core', 'cljs.compiler', 'goog.events.KeyHandler']);
+goog.addDependency("../iiiiioiooooo/iiiiioiooooo/core/macros.js", ['iiiiioiooooo.core.macros'], ['cljs.core', 'clojure.zip']);
