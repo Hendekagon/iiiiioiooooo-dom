@@ -2,32 +2,25 @@ goog.provide('iiiiioiooooo.core.structure');
 goog.require('cljs.core');
 goog.require('iiiiioiooooo.core.test');
 goog.require('clojure.zip');
-iiiiioiooooo.core.structure.maybe = (function maybe(f,x){
-if(cljs.core.truth_(x))
-{return f.call(null,x);
+iiiiioiooooo.core.structure.maybe = (function maybe(f,x){if(cljs.core.truth_(x))
+{return (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(x) : f.call(null,x));
 } else
 {return x;
 }
 });
-iiiiioiooooo.core.structure.peek_first = (function peek_first(p){
-return [cljs.core.str(cljs.core.partial.call(null,clojure.zip.down.call(null,p),iiiiioiooooo.core.structure.maybe,clojure.zip.node))].join('');
+iiiiioiooooo.core.structure.peek_first = (function peek_first(p){return [cljs.core.str(cljs.core.partial.cljs$core$IFn$_invoke$arity$3(clojure.zip.down(p),iiiiioiooooo.core.structure.maybe,clojure.zip.node))].join('');
 });
-iiiiioiooooo.core.structure.make_id = (function make_id(h){
-return [cljs.core.str("id"),cljs.core.str(h)].join('');
+iiiiioiooooo.core.structure.make_id = (function make_id(h){return [cljs.core.str("id"),cljs.core.str(h)].join('');
 });
 iiiiioiooooo.core.structure.to_html = (function() {
 var to_html = null;
-var to_html__0 = (function (){
-return cljs.core.PersistentVector.fromArray(["\uFDD0'div",cljs.core.ObjMap.fromObject(["\uFDD0'class"],{"\uFDD0'class":"branch "})], true);
+var to_html__0 = (function (){return cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$32,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$33,"branch "], true)], true);
 });
-var to_html__1 = (function (n){
-return cljs.core.conj.call(null,cljs.core.PersistentVector.fromArray(["\uFDD0'div",cljs.core.ObjMap.fromObject(["\uFDD0'class"],{"\uFDD0'class":[cljs.core.str("leaf "),cljs.core.str(((cljs.core.fn_QMARK_.call(null,n))?"fn ":null)),cljs.core.str((cljs.core.truth_((new cljs.core.Keyword("\uFDD0'open")).call(null,cljs.core.meta.call(null,n)))?"open":"closed"))].join('')})], true),[cljs.core.str(n)].join(''));
+var to_html__1 = (function (n){return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$32,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$33,[cljs.core.str("leaf "),cljs.core.str(((cljs.core.fn_QMARK_(n))?"fn ":null)),cljs.core.str((cljs.core.truth_(cljs.core.constant$keyword$34.call(null,cljs.core.meta(n)))?"open":"closed"))].join('')], true)], true),[cljs.core.str(n)].join(''));
 });
-var to_html__2 = (function (n,c){
-return cljs.core.apply.call(null,cljs.core.conj,cljs.core.PersistentVector.fromArray(["\uFDD0'div",cljs.core.ObjMap.fromObject(["\uFDD0'class"],{"\uFDD0'class":[cljs.core.str("branch open "),cljs.core.str(n)].join('')})], true),c);
+var to_html__2 = (function (n,c){return cljs.core.apply.cljs$core$IFn$_invoke$arity$3(cljs.core.conj,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$32,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$33,[cljs.core.str("branch open "),cljs.core.str(n)].join('')], true)], true),c);
 });
-var to_html__3 = (function (n,n__$1,c){
-return cljs.core.PersistentVector.fromArray(["\uFDD0'div",cljs.core.ObjMap.fromObject(["\uFDD0'class"],{"\uFDD0'class":[cljs.core.str("branch folded")].join('')})], true);
+var to_html__3 = (function (n,n__$1,c){return cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$32,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$33,[cljs.core.str("branch folded")].join('')], true)], true);
 });
 to_html = function(n,n__$1,c){
 switch(arguments.length){
@@ -42,23 +35,20 @@ return to_html__3.call(this,n,n__$1,c);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-to_html.cljs$lang$arity$0 = to_html__0;
-to_html.cljs$lang$arity$1 = to_html__1;
-to_html.cljs$lang$arity$2 = to_html__2;
-to_html.cljs$lang$arity$3 = to_html__3;
+to_html.cljs$core$IFn$_invoke$arity$0 = to_html__0;
+to_html.cljs$core$IFn$_invoke$arity$1 = to_html__1;
+to_html.cljs$core$IFn$_invoke$arity$2 = to_html__2;
+to_html.cljs$core$IFn$_invoke$arity$3 = to_html__3;
 return to_html;
 })()
 ;
-iiiiioiooooo.core.structure.selector = (function selector(p){
-return [cljs.core.str("#root > li:first-child "),cljs.core.str(cljs.core.apply.call(null,cljs.core.str,cljs.core.map.call(null,cljs.core.ObjMap.fromObject(["\uFDD0'down","\uFDD0'right"],{"\uFDD0'down":" > ul:first-child > li:first-child","\uFDD0'right":" + li"}),p)))].join('');
+iiiiioiooooo.core.structure.selector = (function selector(p){return [cljs.core.str("#root > li:first-child "),cljs.core.str(cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$35," > ul:first-child > li:first-child",cljs.core.constant$keyword$36," + li"], true),p)))].join('');
 });
 iiiiioiooooo.core.structure.replacement_selector = (function() {
 var replacement_selector = null;
-var replacement_selector__1 = (function (p){
-return replacement_selector.call(null,"#root > li:first-child ",cljs.core.apply.call(null,cljs.core.str,cljs.core.map.call(null,cljs.core.ObjMap.fromObject(["\uFDD0'down","\uFDD0'right"],{"\uFDD0'down":" > ul:first-child > li:first-child","\uFDD0'right":" + li"}),p)));
+var replacement_selector__1 = (function (p){return replacement_selector.cljs$core$IFn$_invoke$arity$2("#root > li:first-child ",cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$35," > ul:first-child > li:first-child",cljs.core.constant$keyword$36," + li"], true),p)));
 });
-var replacement_selector__2 = (function (s,ps){
-return [cljs.core.str(s),cljs.core.str(((cljs.core._EQ_.call(null,ps,""))?"> ul:first-child":ps))].join('');
+var replacement_selector__2 = (function (s,ps){return [cljs.core.str(s),cljs.core.str(((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(ps,""))?"> ul:first-child":ps))].join('');
 });
 replacement_selector = function(s,ps){
 switch(arguments.length){
@@ -69,26 +59,25 @@ return replacement_selector__2.call(this,s,ps);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-replacement_selector.cljs$lang$arity$1 = replacement_selector__1;
-replacement_selector.cljs$lang$arity$2 = replacement_selector__2;
+replacement_selector.cljs$core$IFn$_invoke$arity$1 = replacement_selector__1;
+replacement_selector.cljs$core$IFn$_invoke$arity$2 = replacement_selector__2;
 return replacement_selector;
 })()
 ;
-iiiiioiooooo.core.structure.type_str = (function type_str(b){
-if(cljs.core.list_QMARK_.call(null,b))
-{return "\uFDD0'list";
+iiiiioiooooo.core.structure.type_str = (function type_str(b){if(cljs.core.list_QMARK_(b))
+{return cljs.core.constant$keyword$37;
 } else
-{if(cljs.core.symbol_QMARK_.call(null,b))
+{if((b instanceof cljs.core.Symbol))
 {return [cljs.core.str(b)].join('');
 } else
-{if(cljs.core.vector_QMARK_.call(null,b))
-{return "\uFDD0'vector";
+{if(cljs.core.vector_QMARK_(b))
+{return cljs.core.constant$keyword$38;
 } else
-{if(cljs.core.map_QMARK_.call(null,b))
-{return "\uFDD0'map";
+{if(cljs.core.map_QMARK_(b))
+{return cljs.core.constant$keyword$39;
 } else
-{if("\uFDD0'default")
-{return "\uFDD0'unknown";
+{if(cljs.core.constant$keyword$40)
+{return cljs.core.constant$keyword$41;
 } else
 {return null;
 }
@@ -97,81 +86,65 @@ if(cljs.core.list_QMARK_.call(null,b))
 }
 }
 });
-iiiiioiooooo.core.structure.translate = (function translate(maxx,maxy,f,p){
-return cljs.core.reduce.call(null,(function (r,c){
-if((maxy > 0))
-{return cljs.core.conj.call(null,r,(cljs.core.truth_((function (){var and__3941__auto__ = c;
-if(cljs.core.truth_(and__3941__auto__))
-{return clojure.zip.branch_QMARK_.call(null,c);
+iiiiioiooooo.core.structure.translate = (function translate(maxx,maxy,f,p){return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (r,c){if((maxy > 0))
+{return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(r,(cljs.core.truth_((function (){var and__3941__auto__ = c;if(cljs.core.truth_(and__3941__auto__))
+{return clojure.zip.branch_QMARK_(c);
 } else
 {return and__3941__auto__;
 }
-})())?(cljs.core.truth_((function (){var and__3941__auto__ = (function (){var or__3943__auto__ = (cljs.core.meta.call(null,clojure.zip.node.call(null,c)) == null);
-if(or__3943__auto__)
+})())?(cljs.core.truth_((function (){var and__3941__auto__ = (function (){var or__3943__auto__ = (cljs.core.meta(clojure.zip.node(c)) == null);if(or__3943__auto__)
 {return or__3943__auto__;
 } else
-{return (new cljs.core.Keyword("\uFDD0'open")).call(null,cljs.core.meta.call(null,clojure.zip.node.call(null,c)));
+{return cljs.core.constant$keyword$34.call(null,cljs.core.meta(clojure.zip.node(c)));
 }
-})();
-if(cljs.core.truth_(and__3941__auto__))
-{return cljs.core.not.call(null,(new cljs.core.Keyword("\uFDD0'zip/make-node")).call(null,cljs.core.meta.call(null,clojure.zip.node.call(null,c))));
+})();if(cljs.core.truth_(and__3941__auto__))
+{return cljs.core.not(cljs.core.constant$keyword$20.call(null,cljs.core.meta(clojure.zip.node(c))));
 } else
 {return and__3941__auto__;
 }
-})())?f.call(null,iiiiioiooooo.core.structure.type_str.call(null,clojure.zip.node.call(null,clojure.zip.down.call(null,c))),translate.call(null,maxx,(maxy - 1),f,clojure.zip.down.call(null,c))):f.call(null,iiiiioiooooo.core.structure.type_str.call(null,clojure.zip.node.call(null,clojure.zip.down.call(null,c))),null,null)):f.call(null,clojure.zip.node.call(null,c))));
+})())?(f.cljs$core$IFn$_invoke$arity$2 ? f.cljs$core$IFn$_invoke$arity$2(iiiiioiooooo.core.structure.type_str(clojure.zip.node(clojure.zip.down(c))),translate(maxx,(maxy - 1),f,clojure.zip.down(c))) : f.call(null,iiiiioiooooo.core.structure.type_str(clojure.zip.node(clojure.zip.down(c))),translate(maxx,(maxy - 1),f,clojure.zip.down(c)))):(f.cljs$core$IFn$_invoke$arity$3 ? f.cljs$core$IFn$_invoke$arity$3(iiiiioiooooo.core.structure.type_str(clojure.zip.node(clojure.zip.down(c))),null,null) : f.call(null,iiiiioiooooo.core.structure.type_str(clojure.zip.node(clojure.zip.down(c))),null,null))):(f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(clojure.zip.node(c)) : f.call(null,clojure.zip.node(c)))));
 } else
 {return r;
 }
-}),cljs.core.PersistentVector.EMPTY,cljs.core.take.call(null,maxx,cljs.core.take_while.call(null,cljs.core.identity,cljs.core.iterate.call(null,clojure.zip.right,p))));
+}),cljs.core.PersistentVector.EMPTY,cljs.core.take(maxx,cljs.core.take_while(cljs.core.identity,cljs.core.iterate(clojure.zip.right,p))));
 });
-iiiiioiooooo.core.structure.seq_map_zip = (function seq_map_zip(x){
-return clojure.zip.zipper.call(null,(function (n){
-var or__3943__auto__ = cljs.core.seq_QMARK_.call(null,n);
-if(or__3943__auto__)
+iiiiioiooooo.core.structure.seq_map_zip = (function seq_map_zip(x){return clojure.zip.zipper((function (n){var or__3943__auto__ = cljs.core.seq_QMARK_(n);if(or__3943__auto__)
 {return or__3943__auto__;
 } else
-{var or__3943__auto____$1 = cljs.core.map_QMARK_.call(null,n);
-if(or__3943__auto____$1)
+{var or__3943__auto____$1 = cljs.core.map_QMARK_(n);if(or__3943__auto____$1)
 {return or__3943__auto____$1;
 } else
-{return cljs.core.vector_QMARK_.call(null,n);
+{return cljs.core.vector_QMARK_(n);
 }
 }
-}),(function (b){
-if(cljs.core.map_QMARK_.call(null,b))
-{return cljs.core.seq.call(null,b);
+}),(function (b){if(cljs.core.map_QMARK_(b))
+{return cljs.core.seq(b);
 } else
 {return b;
 }
-}),(function (node,children){
-return cljs.core.with_meta.call(null,children,cljs.core.merge.call(null,(function (){var or__3943__auto__ = cljs.core.meta.call(null,node);
-if(cljs.core.truth_(or__3943__auto__))
+}),(function (node,children){return cljs.core.with_meta(children,cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([(function (){var or__3943__auto__ = cljs.core.meta(node);if(cljs.core.truth_(or__3943__auto__))
 {return or__3943__auto__;
 } else
-{return cljs.core.ObjMap.EMPTY;
+{return cljs.core.PersistentArrayMap.EMPTY;
 }
-})(),cljs.core.ObjMap.fromObject(["\uFDD0'open"],{"\uFDD0'open":true})));
+})(),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,true], true)], 0)));
 }),x);
 });
 iiiiioiooooo.core.structure.path = (function() {
 var path = null;
-var path__2 = (function (c,t){
-return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),cljs.core.PersistentVector.EMPTY,c);
+var path__2 = (function (c,t){return path.cljs$core$IFn$_invoke$arity$5(t,clojure.zip.up(t),clojure.zip.left(t),cljs.core.PersistentVector.EMPTY,c);
 });
-var path__3 = (function (t,p,c){
-return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),p,c);
+var path__3 = (function (t,p,c){return path.cljs$core$IFn$_invoke$arity$5(t,clojure.zip.up(t),clojure.zip.left(t),p,c);
 });
-var path__5 = (function (t,u,l,p,c){
-if((function (){var or__3943__auto__ = (u == null);
-if(or__3943__auto__)
+var path__5 = (function (t,u,l,p,c){if((function (){var or__3943__auto__ = (u == null);if(or__3943__auto__)
 {return or__3943__auto__;
 } else
-{return cljs.core._EQ_.call(null,clojure.zip.node.call(null,t),clojure.zip.node.call(null,c));
+{return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(clojure.zip.node(t),clojure.zip.node(c));
 }
 })())
 {return p;
 } else
-{return path.call(null,(cljs.core.truth_(l)?l:u),cljs.core.cons.call(null,(cljs.core.truth_(l)?"\uFDD0'right":"\uFDD0'down"),p),c);
+{return path.cljs$core$IFn$_invoke$arity$3((cljs.core.truth_(l)?l:u),cljs.core.cons((cljs.core.truth_(l)?cljs.core.constant$keyword$36:cljs.core.constant$keyword$35),p),c);
 }
 });
 path = function(t,u,l,p,c){
@@ -185,20 +158,18 @@ return path__5.call(this,t,u,l,p,c);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-path.cljs$lang$arity$2 = path__2;
-path.cljs$lang$arity$3 = path__3;
-path.cljs$lang$arity$5 = path__5;
+path.cljs$core$IFn$_invoke$arity$2 = path__2;
+path.cljs$core$IFn$_invoke$arity$3 = path__3;
+path.cljs$core$IFn$_invoke$arity$5 = path__5;
 return path;
 })()
 ;
 iiiiioiooooo.core.structure.top = (function() {
 var top = null;
-var top__1 = (function (z){
-return top.call(null,z,clojure.zip.up.call(null,z));
+var top__1 = (function (z){return top.cljs$core$IFn$_invoke$arity$2(z,clojure.zip.up(z));
 });
-var top__2 = (function (z,up){
-if(cljs.core.truth_(up))
-{return top.call(null,up);
+var top__2 = (function (z,up){if(cljs.core.truth_(up))
+{return top.cljs$core$IFn$_invoke$arity$1(up);
 } else
 {return z;
 }
@@ -212,52 +183,41 @@ return top__2.call(this,z,up);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-top.cljs$lang$arity$1 = top__1;
-top.cljs$lang$arity$2 = top__2;
+top.cljs$core$IFn$_invoke$arity$1 = top__1;
+top.cljs$core$IFn$_invoke$arity$2 = top__2;
 return top;
 })()
 ;
-iiiiioiooooo.core.structure.nodes = (function nodes(n){
-return cljs.core.take_while.call(null,cljs.core.complement.call(null,clojure.zip.end_QMARK_),cljs.core.iterate.call(null,clojure.zip.next,n));
+iiiiioiooooo.core.structure.nodes = (function nodes(n){return cljs.core.take_while(cljs.core.complement(clojure.zip.end_QMARK_),cljs.core.iterate(clojure.zip.next,n));
 });
-iiiiioiooooo.core.structure.climb = (function climb(p){
-if(cljs.core.truth_(clojure.zip.branch_QMARK_.call(null,p)))
-{return cljs.core.map.call(null,climb,cljs.core.take_while.call(null,cljs.core.complement.call(null,cljs.core.nil_QMARK_),cljs.core.iterate.call(null,clojure.zip.right,clojure.zip.down.call(null,p))));
+iiiiioiooooo.core.structure.climb = (function climb(p){if(cljs.core.truth_(clojure.zip.branch_QMARK_(p)))
+{return cljs.core.map.cljs$core$IFn$_invoke$arity$2(climb,cljs.core.take_while(cljs.core.complement(cljs.core.nil_QMARK_),cljs.core.iterate(clojure.zip.right,clojure.zip.down(p))));
 } else
-{return clojure.zip.node.call(null,p);
+{return clojure.zip.node(p);
 }
 });
-iiiiioiooooo.core.structure.push_history = (function push_history(x,h){
-return iiiiioiooooo.core.structure.top.call(null,(cljs.core.truth_(x)?clojure.zip.append_child.call(null,h,cljs.core.with_meta.call(null,x,cljs.core.merge.call(null,cljs.core.meta.call(null,x),cljs.core.ObjMap.fromObject(["\uFDD0'open","\uFDD0'version"],{"\uFDD0'open":false,"\uFDD0'version":(cljs.core.count.call(null,h) + 1)})))):h));
+iiiiioiooooo.core.structure.push_history = (function push_history(x,h){return iiiiioiooooo.core.structure.top.cljs$core$IFn$_invoke$arity$1((cljs.core.truth_(x)?clojure.zip.append_child(h,cljs.core.with_meta(x,cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.meta(x),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,false,cljs.core.constant$keyword$42,(cljs.core.count(h) + 1)], true)], 0)))):h));
 });
-iiiiioiooooo.core.structure.kop = (function kop(x){
-return cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'keypath"], true),(function (p){
-return cljs.core.subvec.call(null,p,0,(cljs.core.count.call(null,p) - 1));
+iiiiioiooooo.core.structure.kop = (function kop(x){return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$43], true),(function (p){return cljs.core.subvec.cljs$core$IFn$_invoke$arity$3(p,0,(cljs.core.count(p) - 1));
 }));
 });
-iiiiioiooooo.core.structure.safe = (function safe(s,x){
-return cljs.core.assoc.call(null,x,"\uFDD0'keypath",cljs.core.PersistentVector.fromArray(["\uFDD0'keymap"], true));
+iiiiioiooooo.core.structure.safe = (function safe(s,x){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(x,cljs.core.constant$keyword$43,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$44], true));
 });
-iiiiioiooooo.core.structure.nop = (function nop(s,x){
-return x;
+iiiiioiooooo.core.structure.nop = (function nop(s,x){return x;
 });
-iiiiioiooooo.core.structure.descendents = (function descendents(loc){
-return cljs.core.mapcat.call(null,(function (r){
-if(cljs.core.truth_(clojure.zip.branch_QMARK_.call(null,r)))
-{return descendents.call(null,r);
+iiiiioiooooo.core.structure.descendents = (function descendents(loc){return cljs.core.mapcat.cljs$core$IFn$_invoke$arity$2((function (r){if(cljs.core.truth_(clojure.zip.branch_QMARK_(r)))
+{return descendents(r);
 } else
 {return cljs.core.PersistentVector.fromArray([r], true);
 }
-}),cljs.core.take_while.call(null,cljs.core.identity,cljs.core.iterate.call(null,clojure.zip.right,(cljs.core.truth_(clojure.zip.branch_QMARK_.call(null,loc))?clojure.zip.down.call(null,loc):loc))));
+}),cljs.core.take_while(cljs.core.identity,cljs.core.iterate(clojure.zip.right,(cljs.core.truth_(clojure.zip.branch_QMARK_(loc))?clojure.zip.down(loc):loc))));
 });
 iiiiioiooooo.core.structure.maybe_open = (function() {
 var maybe_open = null;
-var maybe_open__1 = (function (loc){
-return maybe_open.call(null,loc,cljs.core.meta.call(null,clojure.zip.node.call(null,loc)));
+var maybe_open__1 = (function (loc){return maybe_open.cljs$core$IFn$_invoke$arity$2(loc,cljs.core.meta(clojure.zip.node(loc)));
 });
-var maybe_open__2 = (function (loc,meta){
-if(cljs.core.truth_(meta))
-{return clojure.zip.replace.call(null,loc,cljs.core.with_meta.call(null,clojure.zip.node.call(null,loc),cljs.core.update_in.call(null,meta,cljs.core.PersistentVector.fromArray(["\uFDD0'open"], true),cljs.core.not)));
+var maybe_open__2 = (function (loc,meta){if(cljs.core.truth_(meta))
+{return clojure.zip.replace(loc,cljs.core.with_meta(clojure.zip.node(loc),cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(meta,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$34], true),cljs.core.not)));
 } else
 {return loc;
 }
@@ -271,91 +231,73 @@ return maybe_open__2.call(this,loc,meta);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-maybe_open.cljs$lang$arity$1 = maybe_open__1;
-maybe_open.cljs$lang$arity$2 = maybe_open__2;
+maybe_open.cljs$core$IFn$_invoke$arity$1 = maybe_open__1;
+maybe_open.cljs$core$IFn$_invoke$arity$2 = maybe_open__2;
 return maybe_open;
 })()
 ;
-iiiiioiooooo.core.structure.maybe_open_fn = (function maybe_open_fn(loc){
-if(cljs.core._EQ_.call(null,clojure.zip.node.call(null,clojure.zip.next.call(null,loc)),(new cljs.core.Symbol(null,"defn"))))
-{return cljs.core.last.call(null,cljs.core.map.call(null,iiiiioiooooo.core.structure.maybe_open,cljs.core.take.call(null,3,cljs.core.reverse.call(null,iiiiioiooooo.core.structure.descendents.call(null,loc)))));
+iiiiioiooooo.core.structure.maybe_open_fn = (function maybe_open_fn(loc){if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(clojure.zip.node(clojure.zip.next(loc)),new cljs.core.Symbol(null,"defn","defn",-1637452094,null)))
+{return cljs.core.last(cljs.core.map.cljs$core$IFn$_invoke$arity$2(iiiiioiooooo.core.structure.maybe_open,cljs.core.take(3,cljs.core.reverse(iiiiioiooooo.core.structure.descendents(loc)))));
 } else
 {return loc;
 }
 });
-iiiiioiooooo.core.structure.carefull = (function carefull(f){
-return (function (x){
-var temp__4090__auto__ = f.call(null,x);
-if(cljs.core.truth_(temp__4090__auto__))
-{var nx = temp__4090__auto__;
-return nx;
+iiiiioiooooo.core.structure.carefull = (function carefull(f){return (function (x){var temp__4090__auto__ = (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(x) : f.call(null,x));if(cljs.core.truth_(temp__4090__auto__))
+{var nx = temp__4090__auto__;return nx;
 } else
 {return x;
 }
 });
 });
-iiiiioiooooo.core.structure.stop_at_closed = (function stop_at_closed(f){
-return (function (x){
-if(cljs.core.truth_((function (){var or__3943__auto__ = (cljs.core.meta.call(null,clojure.zip.node.call(null,x)) == null);
-if(or__3943__auto__)
+iiiiioiooooo.core.structure.stop_at_closed = (function stop_at_closed(f){return (function (x){if(cljs.core.truth_((function (){var or__3943__auto__ = (cljs.core.meta(clojure.zip.node(x)) == null);if(or__3943__auto__)
 {return or__3943__auto__;
 } else
-{return (new cljs.core.Keyword("\uFDD0'open")).call(null,cljs.core.meta.call(null,clojure.zip.node.call(null,x)));
+{return cljs.core.constant$keyword$34.call(null,cljs.core.meta(clojure.zip.node(x)));
 }
 })()))
-{return f.call(null,x);
+{return (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(x) : f.call(null,x));
 } else
 {return x;
 }
 });
 });
-iiiiioiooooo.core.structure.forward_zipper = (function forward_zipper(f){
-return (function (loc){
-if(cljs.core.truth_((function (){var and__3941__auto__ = loc;
-if(cljs.core.truth_(and__3941__auto__))
-{return cljs.core.contains_QMARK_.call(null,cljs.core.meta.call(null,clojure.zip.node.call(null,loc)),"\uFDD0'zip/branch?");
+iiiiioiooooo.core.structure.forward_zipper = (function forward_zipper(f){return (function (loc){if(cljs.core.truth_((function (){var and__3941__auto__ = loc;if(cljs.core.truth_(and__3941__auto__))
+{return cljs.core.contains_QMARK_(cljs.core.meta(clojure.zip.node(loc)),cljs.core.constant$keyword$22);
 } else
 {return and__3941__auto__;
 }
 })()))
-{return f.call(null,clojure.zip.node.call(null,loc));
+{return (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(clojure.zip.node(loc)) : f.call(null,clojure.zip.node(loc)));
 } else
-{return f.call(null,loc);
+{return (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(loc) : f.call(null,loc));
 }
 });
 });
-iiiiioiooooo.core.structure.forward_to_zipper = (function forward_to_zipper(f){
-return (function (x){
-if(cljs.core.truth_((function (){var and__3941__auto__ = x;
-if(cljs.core.truth_(and__3941__auto__))
-{return cljs.core.contains_QMARK_.call(null,cljs.core.meta.call(null,clojure.zip.node.call(null,x)),"\uFDD0'zip/branch?");
+iiiiioiooooo.core.structure.forward_to_zipper = (function forward_to_zipper(f){return (function (x){if(cljs.core.truth_((function (){var and__3941__auto__ = x;if(cljs.core.truth_(and__3941__auto__))
+{return cljs.core.contains_QMARK_(cljs.core.meta(clojure.zip.node(x)),cljs.core.constant$keyword$22);
 } else
 {return and__3941__auto__;
 }
 })()))
-{return f.call(null,clojure.zip.node.call(null,x));
+{return (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(clojure.zip.node(x)) : f.call(null,clojure.zip.node(x)));
 } else
-{return f.call(null,x);
+{return (f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(x) : f.call(null,x));
 }
 });
 });
-iiiiioiooooo.core.structure.maybe_select = (function maybe_select(x,y){
-if(cljs.core._EQ_.call(null,cljs.core.meta.call(null,clojure.zip.node.call(null,(new cljs.core.Keyword("\uFDD0'focus")).call(null,x))),cljs.core.meta.call(null,clojure.zip.node.call(null,(new cljs.core.Keyword("\uFDD0'focus")).call(null,y)))))
-{return cljs.core.assoc.call(null,x,"\uFDD0'action","\uFDD0'select");
+iiiiioiooooo.core.structure.maybe_select = (function maybe_select(x,y){if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.meta(clojure.zip.node(cljs.core.constant$keyword$45.call(null,x))),cljs.core.meta(clojure.zip.node(cljs.core.constant$keyword$45.call(null,y)))))
+{return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(x,cljs.core.constant$keyword$46,cljs.core.constant$keyword$47);
 } else
-{return cljs.core.assoc.call(null,x,"\uFDD0'action","\uFDD0'modify","\uFDD0'modified",(new cljs.core.Keyword("\uFDD0'focus")).call(null,x));
+{return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(x,cljs.core.constant$keyword$46,cljs.core.constant$keyword$48,cljs.core.array_seq([cljs.core.constant$keyword$49,cljs.core.constant$keyword$45.call(null,x)], 0));
 }
 });
-iiiiioiooooo.core.structure.selected = (function selected(s,f){
-return cljs.core.assoc.call(null,cljs.core.update_in.call(null,s,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),iiiiioiooooo.core.structure.carefull.call(null,iiiiioiooooo.core.structure.forward_zipper.call(null,f))),"\uFDD0'action","\uFDD0'select");
+iiiiioiooooo.core.structure.selected = (function selected(s,f){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(s,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),iiiiioiooooo.core.structure.carefull(iiiiioiooooo.core.structure.forward_zipper(f))),cljs.core.constant$keyword$46,cljs.core.constant$keyword$47);
 });
 iiiiioiooooo.core.structure.modified = (function() {
 var modified = null;
-var modified__1 = (function (x){
-return cljs.core.assoc.call(null,x,"\uFDD0'modified",(new cljs.core.Keyword("\uFDD0'focus")).call(null,x));
+var modified__1 = (function (x){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(x,cljs.core.constant$keyword$49,cljs.core.constant$keyword$45.call(null,x));
 });
-var modified__2 = (function (s,f){
-return modified.call(null,cljs.core.assoc.call(null,cljs.core.update_in.call(null,s,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),iiiiioiooooo.core.structure.carefull.call(null,iiiiioiooooo.core.structure.forward_zipper.call(null,f))),"\uFDD0'action","\uFDD0'modify"));
+var modified__2 = (function (s,f){return modified.cljs$core$IFn$_invoke$arity$1(cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(s,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),iiiiioiooooo.core.structure.carefull(iiiiioiooooo.core.structure.forward_zipper(f))),cljs.core.constant$keyword$46,cljs.core.constant$keyword$48));
 });
 modified = function(s,f){
 switch(arguments.length){
@@ -366,18 +308,18 @@ return modified__2.call(this,s,f);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-modified.cljs$lang$arity$1 = modified__1;
-modified.cljs$lang$arity$2 = modified__2;
+modified.cljs$core$IFn$_invoke$arity$1 = modified__1;
+modified.cljs$core$IFn$_invoke$arity$2 = modified__2;
 return modified;
 })()
 ;
+iiiiioiooooo.core.structure.resolve = (function resolve(x){return x;
+});
 iiiiioiooooo.core.structure.apply_selected = (function() {
 var apply_selected = null;
-var apply_selected__2 = (function (h,x){
-return apply_selected.call(null,h,x,clojure.zip.node.call(null,cljs.core.first.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x))),cljs.core.PersistentVector.fromArray([cljs.core.list.call(null,clojure.zip.node.call(null,cljs.core.first.call(null,cljs.core.rest.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x)))),cljs.core.map.call(null,clojure.zip.node,cljs.core.rest.call(null,cljs.core.rest.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x))))),cljs.core.apply.call(null,cljs.core.resolve.call(null,clojure.zip.node.call(null,cljs.core.first.call(null,cljs.core.rest.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x))))),cljs.core.map.call(null,clojure.zip.node,cljs.core.rest.call(null,cljs.core.rest.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x))))),cljs.core.resolve.call(null,clojure.zip.node.call(null,cljs.core.first.call(null,cljs.core.rest.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x)))))], true));
+var apply_selected__2 = (function (h,x){return apply_selected.cljs$core$IFn$_invoke$arity$4(h,x,clojure.zip.node(cljs.core.first(cljs.core.constant$keyword$50.call(null,x))),cljs.core.PersistentVector.fromArray([cljs.core.list.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([clojure.zip.node(cljs.core.first(cljs.core.rest(cljs.core.constant$keyword$50.call(null,x)))),cljs.core.map.cljs$core$IFn$_invoke$arity$2(clojure.zip.node,cljs.core.rest(cljs.core.rest(cljs.core.constant$keyword$50.call(null,x))))], 0)),cljs.core.apply.cljs$core$IFn$_invoke$arity$2(iiiiioiooooo.core.structure.resolve(clojure.zip.node(cljs.core.first(cljs.core.rest(cljs.core.constant$keyword$50.call(null,x))))),cljs.core.map.cljs$core$IFn$_invoke$arity$2(clojure.zip.node,cljs.core.rest(cljs.core.rest(cljs.core.constant$keyword$50.call(null,x))))),iiiiioiooooo.core.structure.resolve(clojure.zip.node(cljs.core.first(cljs.core.rest(cljs.core.constant$keyword$50.call(null,x)))))], true));
 });
-var apply_selected__4 = (function (h,x,rl,r){
-return cljs.core.assoc.call(null,x,"\uFDD0'result",r,"\uFDD0'modified",cljs.core.first.call(null,(new cljs.core.Keyword("\uFDD0'selected")).call(null,x)));
+var apply_selected__4 = (function (h,x,rl,r){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(x,cljs.core.constant$keyword$51,r,cljs.core.array_seq([cljs.core.constant$keyword$49,cljs.core.first(cljs.core.constant$keyword$50.call(null,x))], 0));
 });
 apply_selected = function(h,x,rl,r){
 switch(arguments.length){
@@ -388,99 +330,68 @@ return apply_selected__4.call(this,h,x,rl,r);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-apply_selected.cljs$lang$arity$2 = apply_selected__2;
-apply_selected.cljs$lang$arity$4 = apply_selected__4;
+apply_selected.cljs$core$IFn$_invoke$arity$2 = apply_selected__2;
+apply_selected.cljs$core$IFn$_invoke$arity$4 = apply_selected__4;
 return apply_selected;
 })()
 ;
-iiiiioiooooo.core.structure.left = (function left(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.left);
+iiiiioiooooo.core.structure.left = (function left(s,x){return iiiiioiooooo.core.structure.selected(x,clojure.zip.left);
 });
-iiiiioiooooo.core.structure.right = (function right(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.right);
+iiiiioiooooo.core.structure.right = (function right(s,x){return iiiiioiooooo.core.structure.selected(x,clojure.zip.right);
 });
-iiiiioiooooo.core.structure.out = (function out(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.up);
+iiiiioiooooo.core.structure.out = (function out(s,x){return iiiiioiooooo.core.structure.selected(x,clojure.zip.up);
 });
-iiiiioiooooo.core.structure.in$ = (function in$(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.stop_at_closed.call(null,clojure.zip.down));
+iiiiioiooooo.core.structure.in$ = (function in$(s,x){return iiiiioiooooo.core.structure.selected(x,iiiiioiooooo.core.structure.stop_at_closed(clojure.zip.down));
 });
-iiiiioiooooo.core.structure.depth_first_next = (function depth_first_next(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.stop_at_closed.call(null,clojure.zip.next));
+iiiiioiooooo.core.structure.depth_first_next = (function depth_first_next(s,x){return iiiiioiooooo.core.structure.selected(x,iiiiioiooooo.core.structure.stop_at_closed(clojure.zip.next));
 });
-iiiiioiooooo.core.structure.depth_first_previous = (function depth_first_previous(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.prev);
+iiiiioiooooo.core.structure.depth_first_previous = (function depth_first_previous(s,x){return iiiiioiooooo.core.structure.selected(x,clojure.zip.prev);
 });
-iiiiioiooooo.core.structure.expand = (function expand(s,x){
-return iiiiioiooooo.core.structure.maybe_select.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),iiiiioiooooo.core.structure.carefull.call(null,iiiiioiooooo.core.structure.maybe_open)),x);
+iiiiioiooooo.core.structure.expand = (function expand(s,x){return iiiiioiooooo.core.structure.maybe_select(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),iiiiioiooooo.core.structure.carefull(iiiiioiooooo.core.structure.maybe_open)),x);
 });
-iiiiioiooooo.core.structure.delete$ = (function delete$(s,x){
-return iiiiioiooooo.core.structure.modified.call(null,x,clojure.zip.remove);
+iiiiioiooooo.core.structure.delete$ = (function delete$(s,x){return iiiiioiooooo.core.structure.modified.cljs$core$IFn$_invoke$arity$2(x,clojure.zip.remove);
 });
-iiiiioiooooo.core.structure.insert_left = (function insert_left(s,x){
-return iiiiioiooooo.core.structure.modified.call(null,x,(function (c){
-return clojure.zip.insert_left.call(null,c,"node");
+iiiiioiooooo.core.structure.insert_left = (function insert_left(s,x){return iiiiioiooooo.core.structure.modified.cljs$core$IFn$_invoke$arity$2(x,(function (c){return clojure.zip.insert_left(c,"node");
 }));
 });
-iiiiioiooooo.core.structure.insert_right = (function insert_right(s,x){
-return iiiiioiooooo.core.structure.modified.call(null,x,(function (c){
-return clojure.zip.insert_right.call(null,c,"node");
+iiiiioiooooo.core.structure.insert_right = (function insert_right(s,x){return iiiiioiooooo.core.structure.modified.cljs$core$IFn$_invoke$arity$2(x,(function (c){return clojure.zip.insert_right(c,"node");
 }));
 });
-iiiiioiooooo.core.structure.rightmost = (function rightmost(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.rightmost);
+iiiiioiooooo.core.structure.rightmost = (function rightmost(s,x){return iiiiioiooooo.core.structure.selected(x,clojure.zip.rightmost);
 });
-iiiiioiooooo.core.structure.leftmost = (function leftmost(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.leftmost);
+iiiiioiooooo.core.structure.leftmost = (function leftmost(s,x){return iiiiioiooooo.core.structure.selected(x,clojure.zip.leftmost);
 });
-iiiiioiooooo.core.structure.add_keybinding = (function add_keybinding(x,path,f){
-return cljs.core.assoc_in.call(null,x,cljs.core.cons.call(null,"\uFDD0'keymap",path),f);
+iiiiioiooooo.core.structure.add_keybinding = (function add_keybinding(x,path,f){return cljs.core.assoc_in(x,cljs.core.cons(cljs.core.constant$keyword$44,path),f);
 });
-iiiiioiooooo.core.structure.root = (function root(s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.top);
+iiiiioiooooo.core.structure.root = (function root(s,x){return iiiiioiooooo.core.structure.selected(x,iiiiioiooooo.core.structure.top);
 });
-iiiiioiooooo.core.structure.replace_parent = (function replace_parent(s,x){
-return cljs.core.assoc.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),(function (n){
-return clojure.zip.replace.call(null,clojure.zip.up.call(null,n),clojure.zip.node.call(null,n));
-})),"\uFDD0'action","\uFDD0'modify","\uFDD0'modified",clojure.zip.up.call(null,(new cljs.core.Keyword("\uFDD0'focus")).call(null,x)));
+iiiiioiooooo.core.structure.replace_parent = (function replace_parent(s,x){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),(function (n){return clojure.zip.replace(clojure.zip.up(n),clojure.zip.node(n));
+})),cljs.core.constant$keyword$46,cljs.core.constant$keyword$48,cljs.core.array_seq([cljs.core.constant$keyword$49,clojure.zip.up(cljs.core.constant$keyword$45.call(null,x))], 0));
 });
-iiiiioiooooo.core.structure.split_into_children = (function split_into_children(s,x){
-return cljs.core.assoc.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),(function (n){
-return clojure.zip.replace.call(null,n,clojure.zip.make_node.call(null,n,clojure.zip.node.call(null,n),clojure.zip.children.call(null,clojure.zip.vector_zip.call(null,cljs.core.vec.call(null,cljs.core.name.call(null,clojure.zip.node.call(null,n)))))));
-})),"\uFDD0'action","\uFDD0'modify");
+iiiiioiooooo.core.structure.split_into_children = (function split_into_children(s,x){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),(function (n){return clojure.zip.replace(n,clojure.zip.make_node(n,clojure.zip.node(n),clojure.zip.children(clojure.zip.vector_zip(cljs.core.vec(cljs.core.name(clojure.zip.node(n)))))));
+})),cljs.core.constant$keyword$46,cljs.core.constant$keyword$48);
 });
-iiiiioiooooo.core.structure.fuse_into_parent = (function fuse_into_parent(s,x){
-return cljs.core.assoc.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),(function (n){
-return clojure.zip.replace.call(null,n,cljs.core.symbol.call(null,cljs.core.apply.call(null,cljs.core.str,clojure.zip.children.call(null,n))));
-})),"\uFDD0'action","\uFDD0'modify");
+iiiiioiooooo.core.structure.fuse_into_parent = (function fuse_into_parent(s,x){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),(function (n){return clojure.zip.replace(n,cljs.core.symbol.cljs$core$IFn$_invoke$arity$1(cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.str,clojure.zip.children(n))));
+})),cljs.core.constant$keyword$46,cljs.core.constant$keyword$48);
 });
-iiiiioiooooo.core.structure.home = (function home(s,x){
-return cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'focus"], true),iiiiioiooooo.core.structure.top);
+iiiiioiooooo.core.structure.home = (function home(s,x){return cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$45], true),iiiiioiooooo.core.structure.top);
 });
-iiiiioiooooo.core.structure.hfn = (function hfn(s,x){
-return cljs.core.assoc.call(null,x,"\uFDD0'focus",s);
+iiiiioiooooo.core.structure.hfn = (function hfn(s,x){return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(x,cljs.core.constant$keyword$45,s);
 });
-iiiiioiooooo.core.structure.next_at = (function next_at(i,c){
-return (function (loc){
-var or__3943__auto__ = loc;
-if(cljs.core.truth_(or__3943__auto__))
+iiiiioiooooo.core.structure.next_at = (function next_at(i,c){return (function (loc){var or__3943__auto__ = loc;if(cljs.core.truth_(or__3943__auto__))
 {return or__3943__auto__;
 } else
-{return cljs.core.first.call(null,cljs.core.filter.call(null,(function (l){
-return cljs.core._EQ_.call(null,c,cljs.core.nth.call(null,clojure.zip.node.call(null,l),i));
-}),cljs.core.iterate.call(null,clojure.zip.right,loc)));
+{return cljs.core.first(cljs.core.filter((function (l){return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(c,cljs.core.nth.cljs$core$IFn$_invoke$arity$2(clojure.zip.node(l),i));
+}),cljs.core.iterate(clojure.zip.right,loc)));
 }
 });
 });
 iiiiioiooooo.core.structure.find_first = (function() {
 var find_first = null;
-var find_first__1 = (function (thing){
-return (function (s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,cljs.core.partial.call(null,find_first,thing));
+var find_first__1 = (function (thing){return (function (s,x){return iiiiioiooooo.core.structure.selected(x,cljs.core.partial.cljs$core$IFn$_invoke$arity$2(find_first,thing));
 });
 });
-var find_first__2 = (function (x,loc){
-return cljs.core.first.call(null,cljs.core.filter.call(null,cljs.core.comp.call(null,cljs.core.partial.call(null,cljs.core._EQ_,x),clojure.zip.node),iiiiioiooooo.core.structure.nodes.call(null,loc)));
+var find_first__2 = (function (x,loc){return cljs.core.first(cljs.core.filter(cljs.core.comp.cljs$core$IFn$_invoke$arity$2(cljs.core.partial.cljs$core$IFn$_invoke$arity$2(cljs.core._EQ_,x),clojure.zip.node),iiiiioiooooo.core.structure.nodes(loc)));
 });
 find_first = function(x,loc){
 switch(arguments.length){
@@ -491,53 +402,39 @@ return find_first__2.call(this,x,loc);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-find_first.cljs$lang$arity$1 = find_first__1;
-find_first.cljs$lang$arity$2 = find_first__2;
+find_first.cljs$core$IFn$_invoke$arity$1 = find_first__1;
+find_first.cljs$core$IFn$_invoke$arity$2 = find_first__2;
 return find_first;
 })()
 ;
-iiiiioiooooo.core.structure.next_starting_with = (function next_starting_with(c){
-return (function (s,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.next_at.call(null,(cljs.core.count.call(null,(new cljs.core.Keyword("\uFDD0'keypath")).call(null,x)) - 1),c));
+iiiiioiooooo.core.structure.next_starting_with = (function next_starting_with(c){return (function (s,x){return iiiiioiooooo.core.structure.selected(x,iiiiioiooooo.core.structure.next_at((cljs.core.count(cljs.core.constant$keyword$43.call(null,x)) - 1),c));
 });
 });
-iiiiioiooooo.core.structure.keyup = (function keyup(s,x){
-return iiiiioiooooo.core.structure.push_history.call(null,(function (){var or__3943__auto__ = cljs.core.get_in.call(null,x,cljs.core.conj.call(null,(new cljs.core.Keyword("\uFDD0'keypath")).call(null,x),(new cljs.core.Keyword("\uFDD0'key")).call(null,x)),iiiiioiooooo.core.structure.nop).call(null,s,iiiiioiooooo.core.structure.kop.call(null,x));
-if(cljs.core.truth_(or__3943__auto__))
+iiiiioiooooo.core.structure.keyup = (function keyup(s,x){return iiiiioiooooo.core.structure.push_history((function (){var or__3943__auto__ = cljs.core.get_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(cljs.core.constant$keyword$43.call(null,x),cljs.core.constant$keyword$52.call(null,x)),iiiiioiooooo.core.structure.nop).call(null,s,iiiiioiooooo.core.structure.kop(x));if(cljs.core.truth_(or__3943__auto__))
 {return or__3943__auto__;
 } else
 {return s;
 }
 })(),s);
 });
-iiiiioiooooo.core.structure.latest_state = (function latest_state(history){
-return clojure.zip.node.call(null,clojure.zip.rightmost.call(null,clojure.zip.down.call(null,iiiiioiooooo.core.structure.top.call(null,history))));
+iiiiioiooooo.core.structure.latest_state = (function latest_state(history){return clojure.zip.node(clojure.zip.rightmost(clojure.zip.down(iiiiioiooooo.core.structure.top.cljs$core$IFn$_invoke$arity$1(history))));
 });
-iiiiioiooooo.core.structure.focus_on_latest = (function focus_on_latest(h,x){
-return iiiiioiooooo.core.structure.selected.call(null,x,(function (loc){
-return clojure.zip.rightmost.call(null,clojure.zip.down.call(null,iiiiioiooooo.core.structure.top.call(null,h)));
+iiiiioiooooo.core.structure.focus_on_latest = (function focus_on_latest(h,x){return iiiiioiooooo.core.structure.selected(x,(function (loc){return clojure.zip.rightmost(clojure.zip.down(iiiiioiooooo.core.structure.top.cljs$core$IFn$_invoke$arity$1(h)));
 }));
 });
-iiiiioiooooo.core.structure.default_keymap = (function default_keymap(){
-return cljs.core.ObjMap.fromObject(["\uFDD0'backspace","\uFDD0'default","\uFDD0'alt","\uFDD0'tab","\uFDD0'0","\uFDD0'ctrl","\uFDD0'h","\uFDD0'shift","\uFDD0'space","\uFDD0'right","\uFDD0'left","\uFDD0'down","\uFDD0'up"],{"\uFDD0'backspace":cljs.core.ObjMap.fromObject(["\uFDD0'backspace"],{"\uFDD0'backspace":iiiiioiooooo.core.structure.delete$}),"\uFDD0'default":iiiiioiooooo.core.structure.nop,"\uFDD0'alt":cljs.core.ObjMap.fromObject(["\uFDD0'left","\uFDD0'right","\uFDD0'up","\uFDD0'down","\uFDD0'alt"],{"\uFDD0'left":cljs.core.ObjMap.fromObject(["\uFDD0'left"],{"\uFDD0'left":iiiiioiooooo.core.structure.left}),"\uFDD0'right":cljs.core.ObjMap.fromObject(["\uFDD0'right"],{"\uFDD0'right":iiiiioiooooo.core.structure.right}),"\uFDD0'up":cljs.core.ObjMap.fromObject(["\uFDD0'up"],{"\uFDD0'up":iiiiioiooooo.core.structure.fuse_into_parent}),"\uFDD0'down":cljs.core.ObjMap.fromObject(["\uFDD0'down"],{"\uFDD0'down":iiiiioiooooo.core.structure.split_into_children}),"\uFDD0'alt":iiiiioiooooo.core.structure.nop}),"\uFDD0'tab":cljs.core.ObjMap.fromObject(["\uFDD0'tab"],{"\uFDD0'tab":iiiiioiooooo.core.structure.hfn}),"\uFDD0'0":cljs.core.ObjMap.fromObject(["\uFDD0'0"],{"\uFDD0'0":iiiiioiooooo.core.structure.home}),"\uFDD0'ctrl":cljs.core.ObjMap.fromObject(["\uFDD0'left","\uFDD0'right","\uFDD0'alt","\uFDD0'up","\uFDD0'ctrl"],{"\uFDD0'left":cljs.core.ObjMap.fromObject(["\uFDD0'left"],{"\uFDD0'left":iiiiioiooooo.core.structure.insert_left}),"\uFDD0'right":cljs.core.ObjMap.fromObject(["\uFDD0'right"],{"\uFDD0'right":iiiiioiooooo.core.structure.insert_right}),"\uFDD0'alt":cljs.core.ObjMap.fromObject(["\uFDD0'right","\uFDD0'left","\uFDD0'up","\uFDD0'alt"],{"\uFDD0'right":cljs.core.ObjMap.fromObject(["\uFDD0'right"],{"\uFDD0'right":iiiiioiooooo.core.structure.rightmost}),"\uFDD0'left":cljs.core.ObjMap.fromObject(["\uFDD0'left"],{"\uFDD0'left":iiiiioiooooo.core.structure.leftmost}),"\uFDD0'up":cljs.core.ObjMap.fromObject(["\uFDD0'up"],{"\uFDD0'up":iiiiioiooooo.core.structure.root}),"\uFDD0'alt":iiiiioiooooo.core.structure.nop}),"\uFDD0'up":cljs.core.ObjMap.fromObject(["\uFDD0'up"],{"\uFDD0'up":iiiiioiooooo.core.structure.replace_parent}),"\uFDD0'ctrl":iiiiioiooooo.core.structure.nop}),"\uFDD0'h":cljs.core.ObjMap.fromObject(["\uFDD0'h"],{"\uFDD0'h":iiiiioiooooo.core.structure.hfn}),"\uFDD0'shift":cljs.core.ObjMap.fromObject(["\uFDD0'shift"],{"\uFDD0'shift":iiiiioiooooo.core.structure.nop}),"\uFDD0'space":cljs.core.ObjMap.fromObject(["\uFDD0'space"],{"\uFDD0'space":iiiiioiooooo.core.structure.expand}),"\uFDD0'right":cljs.core.ObjMap.fromObject(["\uFDD0'right","\uFDD0'space"],{"\uFDD0'right":iiiiioiooooo.core.structure.depth_first_next,"\uFDD0'space":cljs.core.ObjMap.fromObject(["\uFDD0'space"],{"\uFDD0'space":iiiiioiooooo.core.structure.depth_first_next})}),"\uFDD0'left":cljs.core.ObjMap.fromObject(["\uFDD0'left"],{"\uFDD0'left":iiiiioiooooo.core.structure.depth_first_previous}),"\uFDD0'down":cljs.core.ObjMap.fromObject(["\uFDD0'down"],{"\uFDD0'down":iiiiioiooooo.core.structure.in$}),"\uFDD0'up":cljs.core.ObjMap.fromObject(["\uFDD0'up"],{"\uFDD0'up":iiiiioiooooo.core.structure.out})});
+iiiiioiooooo.core.structure.default_keymap = (function default_keymap(){return cljs.core.PersistentHashMap.fromArrays([cljs.core.constant$keyword$53,cljs.core.constant$keyword$40,cljs.core.constant$keyword$54,cljs.core.constant$keyword$55,cljs.core.constant$keyword$56,cljs.core.constant$keyword$57,cljs.core.constant$keyword$58,cljs.core.constant$keyword$59,cljs.core.constant$keyword$60,cljs.core.constant$keyword$36,cljs.core.constant$keyword$61,cljs.core.constant$keyword$35,cljs.core.constant$keyword$62],[cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$53,iiiiioiooooo.core.structure.delete$], true),iiiiioiooooo.core.structure.nop,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$61,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$61,iiiiioiooooo.core.structure.left], true),cljs.core.constant$keyword$36,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$36,iiiiioiooooo.core.structure.right], true),cljs.core.constant$keyword$62,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$62,iiiiioiooooo.core.structure.fuse_into_parent], true),cljs.core.constant$keyword$35,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$35,iiiiioiooooo.core.structure.split_into_children], true),cljs.core.constant$keyword$54,iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$55,iiiiioiooooo.core.structure.hfn], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$56,iiiiioiooooo.core.structure.home], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$61,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$61,iiiiioiooooo.core.structure.insert_left], true),cljs.core.constant$keyword$36,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$36,iiiiioiooooo.core.structure.insert_right], true),cljs.core.constant$keyword$54,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$36,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$36,iiiiioiooooo.core.structure.rightmost], true),cljs.core.constant$keyword$61,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$61,iiiiioiooooo.core.structure.leftmost], true),cljs.core.constant$keyword$62,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$62,iiiiioiooooo.core.structure.root], true),cljs.core.constant$keyword$54,iiiiioiooooo.core.structure.nop], true),cljs.core.constant$keyword$62,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$62,iiiiioiooooo.core.structure.replace_parent], true),cljs.core.constant$keyword$57,iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$58,iiiiioiooooo.core.structure.hfn], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$59,iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$60,iiiiioiooooo.core.structure.expand], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$36,iiiiioiooooo.core.structure.depth_first_next,cljs.core.constant$keyword$60,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$60,iiiiioiooooo.core.structure.depth_first_next], true)], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$61,iiiiioiooooo.core.structure.depth_first_previous], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$35,iiiiioiooooo.core.structure.in$], true),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$62,iiiiioiooooo.core.structure.out], true)]);
 });
 iiiiioiooooo.core.structure.default_state = (function() {
 var default_state = null;
-var default_state__0 = (function (){
-return default_state.call(null,iiiiioiooooo.core.structure.seq_map_zip.call(null,cljs.core.PersistentVector.fromArray([cljs.core.with_meta.call(null,cljs.core.ObjMap.fromObject(["\uFDD0'qwe","\uFDD0'help","\uFDD0'context","\uFDD0'namespaces","\uFDD0'test","\uFDD0'test1","\uFDD0'test3","\uFDD0'action","\uFDD0'test2","\uFDD0'focus","\uFDD0'keydown","\uFDD0'keymap","\uFDD0'keyup","\uFDD0'keypath","\uFDD0'selected"],{"\uFDD0'qwe":0,"\uFDD0'help":cljs.core.PersistentVector.fromArray(["iiiiioiooooo Clojure structure editor (barely functioning sketch of)","This is an experiment in making a functional code editor.","https://www.youtube.com/watch?v=2Op3QLzMgSY&feature=player_detailpage#t=2077s","Lecture 1A | MIT 6.001 Structure and Interpretation, 1986 - 35m25s","\n          The idea here is to manipulate code\n          at the expression level, not at the text level.\n          This is very primitive right now,\n          it doesn't do much yet, just testing ideas, everything will change, or it will be abandoned.\n          Works best in Chrome, keyboard-only! doesn't work on mobile browsers.\n          Plan: SVG view,\n          make as front-end for Session REPL. What can you do now ? Navigate the code and do basic editing.\n          "], true),"\uFDD0'context":"poi","\uFDD0'namespaces":cljs.core.ObjMap.fromObject(["\uFDD0'clojure.core"],{"\uFDD0'clojure.core":cljs.core.ObjMap.fromObject(["\uFDD0'c","\uFDD0'inc","\uFDD0'dec"],{"\uFDD0'c":cljs.core.ObjMap.fromObject(["\uFDD0'o"],{"\uFDD0'o":cljs.core.ObjMap.fromObject(["\uFDD0'n"],{"\uFDD0'n":cljs.core.ObjMap.fromObject(["\uFDD0's","\uFDD0'c","\uFDD0'j"],{"\uFDD0's":"\uFDD0'cons","\uFDD0'c":"\uFDD0'juxt","\uFDD0'j":"\uFDD0'conj"})})}),"\uFDD0'inc":cljs.core.inc,"\uFDD0'dec":cljs.core.dec})}),"\uFDD0'test":cljs.core.with_meta.call(null,cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"+")),1,3),cljs.core.hash_map("\uFDD0'line",357,"\uFDD0'column",29)),cljs.core.ObjMap.fromObject(["\uFDD0'open"],{"\uFDD0'open":true})),"\uFDD0'test1":cljs.core.with_meta.call(null,cljs.core.with_meta(cljs.core.list(cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"fn")),cljs.core.vec([(new cljs.core.Symbol(null,"x"))]),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"list")),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"rest")),(new cljs.core.Symbol(null,"x"))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",45)),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"cons")),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"read-string")),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"first")),(new cljs.core.Symbol(null,"x"))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",73))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",60)),cljs.core.vec([(new cljs.core.Symbol(null,"x"))])),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",54))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",39))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",31)),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.vec(["quote",(new cljs.core.Symbol(null,"fn")),cljs.core.vec([(new cljs.core.Symbol(null,"x"))]),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"list")),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"rest")),(new cljs.core.Symbol(null,"x"))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",120)),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"cons")),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"read-string")),cljs.core.with_meta(cljs.core.list((new cljs.core.Symbol(null,"first")),(new cljs.core.Symbol(null,"x"))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",148))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",135)),cljs.core.vec([(new cljs.core.Symbol(null,"x"))])),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",129))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",114))])),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",91))),cljs.core.hash_map("\uFDD0'line",360,"\uFDD0'column",30)),cljs.core.ObjMap.fromObject(["\uFDD0'open"],{"\uFDD0'open":true})),"\uFDD0'test3":cljs.core.with_meta.call(null,iiiiioiooooo.core.test.test_exp3.call(null),cljs.core.ObjMap.fromObject(["\uFDD0'open"],{"\uFDD0'open":true})),"\uFDD0'action":"\uFDD0'select","\uFDD0'test2":cljs.core.with_meta.call(null,iiiiioiooooo.core.test.test_exp.call(null),cljs.core.ObjMap.fromObject(["\uFDD0'open"],{"\uFDD0'open":true})),"\uFDD0'focus":"hi","\uFDD0'keydown":cljs.core.ObjMap.fromObject(["\uFDD0'default"],{"\uFDD0'default":(function keydown(s,x){
-return iiiiioiooooo.core.structure.push_history.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray(["\uFDD0'keypath"], true),(function (kp){
-return cljs.core.conj.call(null,kp,(new cljs.core.Keyword("\uFDD0'key")).call(null,x));
+var default_state__0 = (function (){return default_state.cljs$core$IFn$_invoke$arity$1(iiiiioiooooo.core.structure.seq_map_zip(cljs.core.PersistentVector.fromArray([cljs.core.with_meta(cljs.core.PersistentHashMap.fromArrays([cljs.core.constant$keyword$63,cljs.core.constant$keyword$64,cljs.core.constant$keyword$65,cljs.core.constant$keyword$66,cljs.core.constant$keyword$67,cljs.core.constant$keyword$68,cljs.core.constant$keyword$69,cljs.core.constant$keyword$46,cljs.core.constant$keyword$70,cljs.core.constant$keyword$45,cljs.core.constant$keyword$71,cljs.core.constant$keyword$44,cljs.core.constant$keyword$72,cljs.core.constant$keyword$43,cljs.core.constant$keyword$50],[0,cljs.core.PersistentVector.fromArray(["iiiiioiooooo Clojure structure editor (barely functioning sketch of)","This is an experiment in making a functional code editor.","https://www.youtube.com/watch?v=2Op3QLzMgSY&feature=player_detailpage#t=2077s","Lecture 1A | MIT 6.001 Structure and Interpretation, 1986 - 35m25s","\n          The idea here is to manipulate code\n          at the expression level, not at the text level.\n          This is very primitive right now,\n          it doesn't do much yet, just testing ideas, everything will change, or it will be abandoned.\n          Works best in Chrome, keyboard-only! doesn't work on mobile browsers.\n          Plan: SVG view,\n          make as front-end for Session REPL. What can you do now ? Navigate the code and do basic editing.\n          "], true),"poi",cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$73,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$74,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$77,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$78,cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$79,cljs.core.constant$keyword$81,cljs.core.constant$keyword$74,cljs.core.constant$keyword$82,cljs.core.constant$keyword$80,cljs.core.constant$keyword$83], true)], true)], true),cljs.core.constant$keyword$75,cljs.core.inc,cljs.core.constant$keyword$76,cljs.core.dec], true)], true),cljs.core.with_meta(cljs.core.list(new cljs.core.Symbol(null,"+","+",-1640531484,null),1,3),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,true], true)),cljs.core.with_meta(cljs.core.list(cljs.core.list(new cljs.core.Symbol(null,"fn","fn",-1640528255,null),cljs.core.PersistentVector.fromArray([new cljs.core.Symbol(null,"x","x",-1640531407,null)], true),cljs.core.list(new cljs.core.Symbol(null,"list","list",-1637209513,null),cljs.core.list(new cljs.core.Symbol(null,"rest","rest",-1637034611,null),new cljs.core.Symbol(null,"x","x",-1640531407,null)),cljs.core.list(new cljs.core.Symbol(null,"cons","cons",-1637472022,null),cljs.core.list(new cljs.core.Symbol(null,"read-string","read-string",641340897,null),cljs.core.list(new cljs.core.Symbol(null,"first","first",-1543091095,null),new cljs.core.Symbol(null,"x","x",-1640531407,null))),cljs.core.PersistentVector.fromArray([new cljs.core.Symbol(null,"x","x",-1640531407,null)], true)))),cljs.core.list(new cljs.core.Symbol(null,"quote","quote",-1532577739,null),cljs.core.PersistentVector.fromArray(["quote",new cljs.core.Symbol(null,"fn","fn",-1640528255,null),cljs.core.PersistentVector.fromArray([new cljs.core.Symbol(null,"x","x",-1640531407,null)], true),cljs.core.list(new cljs.core.Symbol(null,"list","list",-1637209513,null),cljs.core.list(new cljs.core.Symbol(null,"rest","rest",-1637034611,null),new cljs.core.Symbol(null,"x","x",-1640531407,null)),cljs.core.list(new cljs.core.Symbol(null,"cons","cons",-1637472022,null),cljs.core.list(new cljs.core.Symbol(null,"read-string","read-string",641340897,null),cljs.core.list(new cljs.core.Symbol(null,"first","first",-1543091095,null),new cljs.core.Symbol(null,"x","x",-1640531407,null))),cljs.core.PersistentVector.fromArray([new cljs.core.Symbol(null,"x","x",-1640531407,null)], true)))], true))),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,true], true)),cljs.core.with_meta(iiiiioiooooo.core.test.test_exp3(),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,true], true)),cljs.core.constant$keyword$47,cljs.core.with_meta(iiiiioiooooo.core.test.test_exp(),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,true], true)),"hi",cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$40,(function keydown(s,x){return iiiiioiooooo.core.structure.push_history(cljs.core.update_in.cljs$core$IFn$_invoke$arity$3(x,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$43], true),(function (kp){return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(kp,cljs.core.constant$keyword$52.call(null,x));
 })),s);
-})}),"\uFDD0'keymap":iiiiioiooooo.core.structure.default_keymap.call(null),"\uFDD0'keyup":cljs.core.ObjMap.fromObject(["\uFDD0'esc","\uFDD0'default"],{"\uFDD0'esc":iiiiioiooooo.core.structure.safe,"\uFDD0'default":iiiiioiooooo.core.structure.keyup}),"\uFDD0'keypath":cljs.core.PersistentVector.fromArray(["\uFDD0'keymap"], true),"\uFDD0'selected":cljs.core.PersistentVector.fromArray([7], true)}),cljs.core.ObjMap.fromObject(["\uFDD0'open"],{"\uFDD0'open":true}))], true)));
+})], true),iiiiioiooooo.core.structure.default_keymap(),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$84,iiiiioiooooo.core.structure.safe,cljs.core.constant$keyword$40,iiiiioiooooo.core.structure.keyup], true),cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$44], true),cljs.core.PersistentVector.fromArray([7], true)]),cljs.core.PersistentArrayMap.fromArray([cljs.core.constant$keyword$34,true], true))], true)));
 });
-var default_state__1 = (function (h){
-return default_state.call(null,iiiiioiooooo.core.structure.latest_state.call(null,h),h);
+var default_state__1 = (function (h){return default_state.cljs$core$IFn$_invoke$arity$2(iiiiioiooooo.core.structure.latest_state(h),h);
 });
-var default_state__2 = (function (s,h){
-return default_state.call(null,iiiiioiooooo.core.structure.push_history.call(null,cljs.core.assoc.call(null,s,"\uFDD0'context",clojure.zip.up.call(null,iiiiioiooooo.core.structure.find_first.call(null,"\uFDD0'test1",h)),"\uFDD0'focus",clojure.zip.up.call(null,clojure.zip.rightmost.call(null,clojure.zip.down.call(null,h))),"\uFDD0'selected",cljs.core.PersistentVector.fromArray([3,4], true),"\uFDD0'qwe",1,"\uFDD0'poi","qwe"),h),iiiiioiooooo.core.structure.latest_state.call(null,h),null);
+var default_state__2 = (function (s,h){return default_state.cljs$core$IFn$_invoke$arity$3(iiiiioiooooo.core.structure.push_history(cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(s,cljs.core.constant$keyword$65,clojure.zip.up(iiiiioiooooo.core.structure.find_first.cljs$core$IFn$_invoke$arity$2(cljs.core.constant$keyword$68,h)),cljs.core.array_seq([cljs.core.constant$keyword$45,clojure.zip.up(clojure.zip.rightmost(clojure.zip.down(h))),cljs.core.constant$keyword$50,cljs.core.PersistentVector.fromArray([3,4], true),cljs.core.constant$keyword$63,1,cljs.core.constant$keyword$85,"qwe"], 0)),h),iiiiioiooooo.core.structure.latest_state(h),null);
 });
-var default_state__3 = (function (h,latest,w){
-return iiiiioiooooo.core.structure.push_history.call(null,cljs.core.assoc.call(null,iiiiioiooooo.core.structure.latest_state.call(null,h),"\uFDD0'focus",clojure.zip.next.call(null,clojure.zip.next.call(null,(new cljs.core.Keyword("\uFDD0'context")).call(null,iiiiioiooooo.core.structure.latest_state.call(null,h)))),"\uFDD0'selected",cljs.core.PersistentVector.fromArray([clojure.zip.next.call(null,clojure.zip.next.call(null,clojure.zip.next.call(null,clojure.zip.next.call(null,(new cljs.core.Keyword("\uFDD0'context")).call(null,iiiiioiooooo.core.structure.latest_state.call(null,h)))))),clojure.zip.next.call(null,clojure.zip.next.call(null,clojure.zip.next.call(null,clojure.zip.next.call(null,(new cljs.core.Keyword("\uFDD0'context")).call(null,iiiiioiooooo.core.structure.latest_state.call(null,h)))))),clojure.zip.right.call(null,clojure.zip.right.call(null,clojure.zip.down.call(null,clojure.zip.right.call(null,clojure.zip.down.call(null,clojure.zip.right.call(null,clojure.zip.down.call(null,(new cljs.core.Keyword("\uFDD0'context")).call(null,iiiiioiooooo.core.structure.latest_state.call(null,h))))))))),clojure.zip.right.call(null,clojure.zip.right.call(null,clojure.zip.right.call(null,clojure.zip.down.call(null,clojure.zip.right.call(null,clojure.zip.down.call(null,clojure.zip.right.call(null,clojure.zip.down.call(null,(new cljs.core.Keyword("\uFDD0'context")).call(null,iiiiioiooooo.core.structure.latest_state.call(null,h))))))))))], true),"\uFDD0'qwe",2,"\uFDD0'wer","arse"),h);
+var default_state__3 = (function (h,latest,w){return iiiiioiooooo.core.structure.push_history(cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(iiiiioiooooo.core.structure.latest_state(h),cljs.core.constant$keyword$45,clojure.zip.next(clojure.zip.next(cljs.core.constant$keyword$65.call(null,iiiiioiooooo.core.structure.latest_state(h)))),cljs.core.array_seq([cljs.core.constant$keyword$50,cljs.core.PersistentVector.fromArray([clojure.zip.next(clojure.zip.next(clojure.zip.next(clojure.zip.next(cljs.core.constant$keyword$65.call(null,iiiiioiooooo.core.structure.latest_state(h)))))),clojure.zip.next(clojure.zip.next(clojure.zip.next(clojure.zip.next(cljs.core.constant$keyword$65.call(null,iiiiioiooooo.core.structure.latest_state(h)))))),clojure.zip.right(clojure.zip.right(clojure.zip.down(clojure.zip.right(clojure.zip.down(clojure.zip.right(clojure.zip.down(cljs.core.constant$keyword$65.call(null,iiiiioiooooo.core.structure.latest_state(h))))))))),clojure.zip.right(clojure.zip.right(clojure.zip.right(clojure.zip.down(clojure.zip.right(clojure.zip.down(clojure.zip.right(clojure.zip.down(cljs.core.constant$keyword$65.call(null,iiiiioiooooo.core.structure.latest_state(h))))))))))], true),cljs.core.constant$keyword$63,2,cljs.core.constant$keyword$86,"arse"], 0)),h);
 });
 default_state = function(h,latest,w){
 switch(arguments.length){
@@ -552,30 +449,26 @@ return default_state__3.call(this,h,latest,w);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-default_state.cljs$lang$arity$0 = default_state__0;
-default_state.cljs$lang$arity$1 = default_state__1;
-default_state.cljs$lang$arity$2 = default_state__2;
-default_state.cljs$lang$arity$3 = default_state__3;
+default_state.cljs$core$IFn$_invoke$arity$0 = default_state__0;
+default_state.cljs$core$IFn$_invoke$arity$1 = default_state__1;
+default_state.cljs$core$IFn$_invoke$arity$2 = default_state__2;
+default_state.cljs$core$IFn$_invoke$arity$3 = default_state__3;
 return default_state;
 })()
 ;
-iiiiioiooooo.core.structure.fn_for_event = (function fn_for_event(s,e){
-if(cljs.core._EQ_.call(null,e,cljs.core.select_keys.call(null,s,cljs.core.keys.call(null,e))))
+iiiiioiooooo.core.structure.fn_for_event = (function fn_for_event(s,e){if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(e,cljs.core.select_keys(s,cljs.core.keys(e))))
 {return cljs.core.identity;
 } else
-{return cljs.core.get_in.call(null,s,cljs.core.PersistentVector.fromArray([(new cljs.core.Keyword("\uFDD0'event")).call(null,e),(new cljs.core.Keyword("\uFDD0'key")).call(null,e)], true),cljs.core.get_in.call(null,s,cljs.core.PersistentVector.fromArray([(new cljs.core.Keyword("\uFDD0'event")).call(null,e),"\uFDD0'default"], true),cljs.core.identity));
+{return cljs.core.get_in.cljs$core$IFn$_invoke$arity$3(s,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$87.call(null,e),cljs.core.constant$keyword$52.call(null,e)], true),cljs.core.get_in.cljs$core$IFn$_invoke$arity$3(s,cljs.core.PersistentVector.fromArray([cljs.core.constant$keyword$87.call(null,e),cljs.core.constant$keyword$40], true),cljs.core.identity));
 }
 });
 iiiiioiooooo.core.structure.update = (function() {
 var update = null;
-var update__2 = (function (s,e){
-return update.call(null,s,iiiiioiooooo.core.structure.latest_state.call(null,s),e);
+var update__2 = (function (s,e){return update.cljs$core$IFn$_invoke$arity$3(s,iiiiioiooooo.core.structure.latest_state(s),e);
 });
-var update__3 = (function (s,x,e){
-return update.call(null,s,cljs.core.merge.call(null,x,e),e,iiiiioiooooo.core.structure.fn_for_event.call(null,x,e));
+var update__3 = (function (s,x,e){return update.cljs$core$IFn$_invoke$arity$4(s,cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([x,e], 0)),e,iiiiioiooooo.core.structure.fn_for_event(x,e));
 });
-var update__4 = (function (s,x,e,f){
-return f.call(null,s,x);
+var update__4 = (function (s,x,e,f){return (f.cljs$core$IFn$_invoke$arity$2 ? f.cljs$core$IFn$_invoke$arity$2(s,x) : f.call(null,s,x));
 });
 update = function(s,x,e,f){
 switch(arguments.length){
@@ -588,60 +481,20 @@ return update__4.call(this,s,x,e,f);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-update.cljs$lang$arity$2 = update__2;
-update.cljs$lang$arity$3 = update__3;
-update.cljs$lang$arity$4 = update__4;
+update.cljs$core$IFn$_invoke$arity$2 = update__2;
+update.cljs$core$IFn$_invoke$arity$3 = update__3;
+update.cljs$core$IFn$_invoke$arity$4 = update__4;
 return update;
 })()
 ;
-iiiiioiooooo.core.structure.maybe = (function maybe(f,x){
-var or__3943__auto__ = (function (){try{return f.call(null,iiiiioiooooo.core.structure.s,iiiiioiooooo.core.structure.latest_state.call(null,iiiiioiooooo.core.structure.s));
-}catch (e2798){if(cljs.core.instance_QMARK_.call(null,iiiiioiooooo.core.structure.error,e2798))
-{var x__$1 = e2798;
-return null;
-} else
-{if("\uFDD0'else")
-{throw e2798;
-} else
-{return null;
-}
-}
-}})();
-if(cljs.core.truth_(or__3943__auto__))
+iiiiioiooooo.core.structure.maybe = (function maybe(f,x){var or__3943__auto__ = (f.cljs$core$IFn$_invoke$arity$2 ? f.cljs$core$IFn$_invoke$arity$2(x,iiiiioiooooo.core.structure.latest_state(x)) : f.call(null,x,iiiiioiooooo.core.structure.latest_state(x)));if(cljs.core.truth_(or__3943__auto__))
 {return or__3943__auto__;
 } else
 {return x;
 }
 });
-iiiiioiooooo.core.structure.update_with = (function update_with(s,f){
-return iiiiioiooooo.core.structure.push_history.call(null,iiiiioiooooo.core.structure.maybe.call(null,f,s),s);
+iiiiioiooooo.core.structure.update_with = (function update_with(s,f){return iiiiioiooooo.core.structure.push_history(iiiiioiooooo.core.structure.maybe(f,s),s);
 });
-iiiiioiooooo.core.structure.update_BANG_ = (function update_BANG_(state,e){
-return cljs.core.swap_BANG_.call(null,state,(function (s){
-return iiiiioiooooo.core.structure.update.call(null,s,e);
+iiiiioiooooo.core.structure.update_BANG_ = (function update_BANG_(state,e){return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$2(state,(function (s){return iiiiioiooooo.core.structure.update.cljs$core$IFn$_invoke$arity$2(s,e);
 }));
 });
-
-// Analyzer namespace snapshot:
-cljs.core.swap_BANG_.call(null,cljs.core.namespaces,cljs.core.update_in,cljs.core.PersistentVector.fromArray([(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure"))], true),(function (old){
-return cljs.core.deep_merge_with.call(null,(function() { 
-var G__2799__delegate = function (m){
-return cljs.core.first.call(null,m);
-};
-var G__2799 = function (var_args){
-var m = null;
-if (goog.isDef(var_args)) {
-  m = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0),0);
-} 
-return G__2799__delegate.call(this, m);
-};
-G__2799.cljs$lang$maxFixedArity = 0;
-G__2799.cljs$lang$applyTo = (function (arglist__2800){
-var m = cljs.core.seq(arglist__2800);;
-return G__2799__delegate(m);
-});
-G__2799.cljs$lang$arity$variadic = G__2799__delegate;
-return G__2799;
-})()
-,cljs.core.hash_map("\uFDD0'defs",cljs.core.hash_map((new cljs.core.Symbol(null,"latest-state")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"history"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"history")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/latest-state")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",251,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"fuse-into-parent")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/fuse-into-parent")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",218,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"next-at")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"i")),(new cljs.core.Symbol(null,"c"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"i")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/next-at")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",227,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"carefull")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/carefull")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",140,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"update-with")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/update-with")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",411,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"translate")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"maxx")),(new cljs.core.Symbol(null,"maxy")),(new cljs.core.Symbol(null,"f")),(new cljs.core.Symbol(null,"p"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"maxx")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"maxy")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/translate")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",4,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",46,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"out")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/out")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",182,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"modified")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"f"))]),cljs.core.vec([(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/modified")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",155,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"update")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"e"))]),cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"e"))]),cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"e")),(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"e")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"e")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"e")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/update")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",4,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",401,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"nop")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/nop")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",115,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"insert-left")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/insert-left")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",194,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"selected")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/selected")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",153,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"expand")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/expand")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",190,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"apply-selected")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"h")),(new cljs.core.Symbol(null,"x"))]),cljs.core.vec([(new cljs.core.Symbol(null,"h")),(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"rl")),(new cljs.core.Symbol(null,"r"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"rl")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"r")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/apply-selected")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",4,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",160,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"path")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"c")),(new cljs.core.Symbol(null,"t"))]),cljs.core.vec([(new cljs.core.Symbol(null,"t")),(new cljs.core.Symbol(null,"p")),(new cljs.core.Symbol(null,"c"))]),cljs.core.vec([(new cljs.core.Symbol(null,"t")),(new cljs.core.Symbol(null,"u")),(new cljs.core.Symbol(null,"l")),(new cljs.core.Symbol(null,"p")),(new cljs.core.Symbol(null,"c"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"t")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"t")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"t")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"u")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"l")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/path")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",5,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",76,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"add-keybinding")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"path")),(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"path")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/add-keybinding")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",3,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",202,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"in")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/in")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",184,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"delete")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/delete")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",192,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"default-keymap")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/default-keymap")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",0,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",257,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"seq-map-zip")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/seq-map-zip")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",69,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"/")),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"cljs.core//"))),(new cljs.core.Symbol(null,"maybe-open-fn")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"loc"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"loc")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/maybe-open-fn")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",133,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"selector")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"p"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/selector")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",21,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"home")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/home")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",222,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"update!")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"state")),(new cljs.core.Symbol(null,"e"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"state")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"e")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/update!")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",415,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"descendents")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"loc"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"loc")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/descendents")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",117,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"push-history")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"h"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/push-history")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",107,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"kop")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/kop")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",111,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"leftmost")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/leftmost")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",200,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"safe")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/safe")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",113,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"replace-parent")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/replace-parent")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",206,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"maybe-open")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"loc")),(new cljs.core.Symbol(null,"meta"))]),cljs.core.vec([(new cljs.core.Symbol(null,"loc"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"loc")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"meta")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"loc")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/maybe-open")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",123,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"insert-right")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/insert-right")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",196,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"climb")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"p"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/climb")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",95,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"root")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/root")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",204,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"nodes")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"n"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"n")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/nodes")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",92,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"forward-to-zipper")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/forward-to-zipper")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",148,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"hfn")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/hfn")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",225,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"make-id")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"h"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/make-id")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",12,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"to-html")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"n"))]),cljs.core.vec([(new cljs.core.Symbol(null,"n")),(new cljs.core.Symbol(null,"c"))]),cljs.core.vec([(new cljs.core.Symbol(null,"n")),(new cljs.core.Symbol(null,"n")),(new cljs.core.Symbol(null,"c"))]),cljs.core.vec([]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"n")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"n")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"n")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"n")),"\uFDD0'tag",null,"\uFDD0'shadow",cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"n")),"\uFDD0'tag",null,"\uFDD0'shadow",null)),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/to-html")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",3,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",14,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"peek-first")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"p"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/peek-first")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",10,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"next-starting-with")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"c"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"c")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/next-starting-with")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",240,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"split-into-children")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/split-into-children")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",211,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"depth-first-previous")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/depth-first-previous")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",188,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"forward-zipper")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/forward-zipper")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",145,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"maybe-select")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"y"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"y")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/maybe-select")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",150,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"focus-on-latest")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"h")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/focus-on-latest")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",255,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"top")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"z"))]),cljs.core.vec([(new cljs.core.Symbol(null,"z")),(new cljs.core.Symbol(null,"up"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"z")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"z")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"up")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/top")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",87,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"maybe")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"f")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/maybe")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",407,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"fn-for-event")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"e"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"e")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/fn-for-event")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",394,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"stop-at-closed")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"f"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"f")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/stop-at-closed")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",142,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"find-first")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"thing"))]),cljs.core.vec([(new cljs.core.Symbol(null,"x")),(new cljs.core.Symbol(null,"loc"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"thing")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"loc")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/find-first")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",234,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"right")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/right")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",180,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"depth-first-next")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/depth-first-next")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",186,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"keyup")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/keyup")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",244,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"replacement-selector")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"p"))]),cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"ps"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"p")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"ps")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/replacement-selector")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",25,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"left")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/left")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",178,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"type-str")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"b"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"b")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/type-str")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",1,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",36,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"rightmost")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"x"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"x")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/rightmost")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",2,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",198,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs"),(new cljs.core.Symbol(null,"default-state")),cljs.core.hash_map("\uFDD0'arglists",cljs.core.list((new cljs.core.Symbol(null,"quote")),cljs.core.list(cljs.core.vec([]),cljs.core.vec([(new cljs.core.Symbol(null,"h"))]),cljs.core.vec([(new cljs.core.Symbol(null,"s")),(new cljs.core.Symbol(null,"h"))]),cljs.core.vec([(new cljs.core.Symbol(null,"h")),(new cljs.core.Symbol(null,"latest")),(new cljs.core.Symbol(null,"w"))]))),"\uFDD0'method-params",cljs.core.list(cljs.core.vec([]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"s")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null)]),cljs.core.vec([cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"h")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"latest")),"\uFDD0'tag",null,"\uFDD0'shadow",null),cljs.core.hash_map("\uFDD0'name",(new cljs.core.Symbol(null,"w")),"\uFDD0'tag",null,"\uFDD0'shadow",null)])),"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure/default-state")),"\uFDD0'protocol-impl",null,"\uFDD0'max-fixed-arity",3,"\uFDD0'protocol-inline",null,"\uFDD0'variadic",false,"\uFDD0'line",299,"\uFDD0'fn-var",true,"\uFDD0'file","/Users/onto/projects/morse/srccljs/iiiiioiooooo/core/structure.cljs")),"\uFDD0'imports",null,"\uFDD0'uses-macros",null,"\uFDD0'requires",cljs.core.hash_map((new cljs.core.Symbol(null,"test")),(new cljs.core.Symbol(null,"iiiiioiooooo.core.test")),(new cljs.core.Symbol(null,"zip")),(new cljs.core.Symbol(null,"clojure.zip"))),"\uFDD0'uses",null,"\uFDD0'excludes",cljs.core.set([]),"\uFDD0'doc",null,"\uFDD0'name",(new cljs.core.Symbol(null,"iiiiioiooooo.core.structure"))),old);
-}));

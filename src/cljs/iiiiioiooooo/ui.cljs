@@ -6,9 +6,9 @@
     [goog.events.KeyHandler]
     [goog.events.KeyCodes]
     [clojure.zip :as zip]
-    [cljs.analyzer :as ana]
-    [cljs.compiler :as compiler]
-    [cljs.reader :as reader]
+    ;[cljs.analyzer :as ana]
+    ;[cljs.compiler :as compiler]
+    ;[cljs.reader :as reader]
     [dommy.core :as dommy]
     ;[cljs-web-audio.core :as audio]
     ;[cljs-web-audio.core-test :as at]
@@ -340,14 +340,9 @@ numbers
             (fn [l] ;hmm, should this be returning a zipper (see forward-zipper)
               (log "evaluating! " (str (zip/node l)))
               (zip/insert-right l
-                (js/eval
-                  (compiler/emit-str
-                    (ana/analyze
-                      (assoc (ana/empty-env) :context :expr)
-                       (zip/node l)
-                    )
-                  )
-                ))))
+                "qwe"
+                ;(js/eval (compiler/emit-str (ana/analyze (assoc (ana/empty-env) :context :expr) (zip/node l))))
+                )))
           )
         )
      s)
@@ -362,30 +357,20 @@ numbers
           (fn [s x] (log "meta: " (str (meta (zip/node (:focus x))))) x)) s)))
 )
 
-(defn test-eval []
-(js/eval
-                  (compiler/emit-str
-                    (ana/analyze
-                      (assoc (ana/empty-env) :context :expr)
-                       (+ 1 2 3)
-                    )
-                  )
-                )
-)
-
 ;#root>li:first-child >ul:first-child>li:first-child + li >ul:first-child>li:first-child + li >ul:first-child>li:first-child
 
 (defn make-ui
   ([e] (make-ui e (atom (add-eval (add-info (structure/default-state))))))
   ([e state]
     (log "make ui")
-    (log "eval: " (test-eval))
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
     (update-element! (:context (structure/latest-state @state)))
     (add-watch state :update-display (fn [k r o n] (display-with-latest (structure/latest-state n))))
   )
 )
+
+(log "huhhh")
 
 (set! (.-onload js/window) make-ui)
 

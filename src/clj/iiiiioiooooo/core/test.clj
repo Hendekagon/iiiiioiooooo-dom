@@ -236,7 +236,7 @@ ontos-MacBook-Air:clojurescript onto$ cp ./iiiiioiooooo.js ~/projects/morse/publ
  without moving"
   {:added "1.0"}
   [loc item]
-    (let [[node {l :l :as path}] loc]http://www.freeger.com/projects/contextad/chrome.html
+    (let [[node {l :l :as path}] loc]
       (if (nil? path)
         (throw (new Exception "Insert at top"))
         (with-meta [node (assoc path :l (conj l item) :changed? true)] (meta loc)))))

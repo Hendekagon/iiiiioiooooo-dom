@@ -157,6 +157,8 @@
   ([x] (assoc x :modified (:focus x)))
 )
 
+(defn resolve [x] x) ; for below - delete - cljs-incljs
+
 (defn apply-selected
   ([h x]
     (apply-selected h x (zip/node (first (:selected x)))
@@ -405,7 +407,7 @@
 )
 
 (defn maybe [f x]
-  (or (try (f s (latest-state s)) (catch error x)) x)
+  (or (f x (latest-state x)) x)
 )
 
 (defn update-with [s f]

@@ -9,35 +9,24 @@
     ;[aleph "0.3.0-beta14"]
     ;[cljs-web-audio "0.1.0-SNAPSHOT"]
     [compojure "1.1.1"]
+    [org.clojure/clojurescript "0.0-1889"]
   ]
-  :plugins [[lein-cljsbuild "0.2.8"]]
+  :plugins [[lein-cljsbuild "0.3.3"]]
   :source-paths ["./src/clj"]
   :cljsbuild
-  {
+  {:builds
+   [{:source-paths ["./src/cljs"],
+     :id "dev",
+     :compiler
+     {:pretty-print true,
+      :output-dir "./public/js/"
+      :output-to "./public/js/iiiiioiooooo.js",
+      :incremental true,
+      :crossover-path "cljs",
+      :source-map "main.js.map"
+      :optimizations :advanced}
+      }],
    :crossovers [iiiiioiooooo.core]
-   :builds {:dev
-            {
-              :source-path "./src/cljs"
-              :compiler
-              {
-                :incremental true
-                :crossover-path "cljs"
-                ;:output-dir "./public/js/"
-                :output-to "./public/js/iiiiioiooooo.js"  ; default: main.js in current directory
-                :optimizations :whitespace
-                :pretty-print true
-                          }
-            }
-            }
-   }
+  }
 :jvm-opts ["-Xms256m" "-Xmx1g"]
 )
-
-;TypeError: node.webkitMatchesSelector is not a function
-;Break On This Error]
-
-;return node.webkitMatchesSelector(selector)
-
-;c2.dom.matches_selector_QMARK_ = function matches_selector_QMARK_(node, selector) {
-;  return node.webkitMatchesSelector(selector)
-;  };

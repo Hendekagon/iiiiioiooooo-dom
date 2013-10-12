@@ -5,8 +5,6 @@
 )
 
 
-(defmacro r [x]
-  `~x
-  )
+;(defmacro r [x] `~x)
 
-(defmacro add-context [s] `(assoc (second ~s) :context (zip/node (zip/down (zip/vector-zip [(zip/seq-zip (seq ~s))])))))
+;(defmacro add-context [s] `(assoc (second ~s) :context (zip/node (zip/down (zip/vector-zip [(zip/seq-zip (seq ~s))])))))
