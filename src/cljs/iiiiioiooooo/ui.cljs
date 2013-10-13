@@ -10,6 +10,7 @@
     ;[cljs.compiler :as compiler]
     ;[cljs.reader :as reader]
     [dommy.core :as dommy]
+    [dommy.template :as template]
     ;[cljs-web-audio.core :as audio]
     ;[cljs-web-audio.core-test :as at]
   )
@@ -185,7 +186,7 @@ numbers
 
 (defn log
   ([m] (.log js/console m))
-  ([& m] (.log js/console m))
+  ;([& m] (.log js/console m))
   ([m1 m2] (.log js/console m1 m2))
   ([m1 m2 m3] (.log js/console m1 m2 m3))
   ([m1 m2 m3 m4] (.log js/console m1 m2 m3 m4))
@@ -213,17 +214,20 @@ numbers
   )
 )
 
+;(extend-protocol template/PElement js/SVGElement (-elem [this] this))
+
 (defn to-svg
   ([n]
     [:g {:class "leaf"}
-      [:circle {:x 0 :y 0 :r 16}]
-      [:text {:fill "red"} (str n)]
+      [:circle {:cx 0 :cy 0 :r 16}]
+      [:text {:fill "red" :x 0 :y 0} (str n)]
     ]
   )
   ([n c]
-    (apply conj [:g {:class "branch"}] c)
+    (apply conj [:g {:class "branch" :transform "translate(20,20)"}] c)
   )
-  ([] [:g {:class "sexp"}])
+  ([n oiuoi c] [:g {:class (str "branch folded " n) }])
+  ([] [:g {:class "sexp" :transform "translate(20,20)"}])
 )
 
 (defn to-html
@@ -233,23 +237,20 @@ numbers
   ([] [:div {:class "sexp"}])
 )
 
-
-
 (defn make-id [p]
   (str "n" (if (zip/branch? p) (hash p) (hash (zip/node p))))
 )
 
 (defn maybe [f x] (if x (f x) x))
 
-
 (defn selector [p]
-  (str "#root > div:first-child " (apply str (map  {:down " > div:first-child " :right " + div"} p)))
+  (str "#root > g:first-child " (apply str (map  {:down " > g:first-child " :right " + g"} p)))
 )
 
 (defn replacement-selector
   ([p]
-    (replacement-selector "#root > div:first-child "
-      (apply str (map  {:down " > div:first-child " :right " + div"} p)))
+    (replacement-selector "#root > g:first-child "
+      (apply str (map  {:down " > g:first-child " :right " + g"} p)))
   )
   ([s ps]
     (log ">>> " ps)
@@ -272,7 +273,7 @@ numbers
         ;[:svg {:width "100%" :height "100%" :viewbox "0 0 2000 1000"}
           ;[:rect {:x 0 :y 0 :width 100 :height 100 :fill "red"}]
             ;[:circle {:x 100 :y 100 :r 100 :fill "red"}]
-          (first (structure/translate 64 64 to-html s))
+          (first (structure/translate 64 64 to-svg s))
             ;(structure/translate 64 64 to-svg state)
           ;]
          ;)

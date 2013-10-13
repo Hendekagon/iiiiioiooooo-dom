@@ -359,7 +359,11 @@
           :test (with-meta '(+ 1 3) {:open true})
           :test2 (with-meta (test/test-exp) {:open true})
           :test3 (with-meta (test/test-exp3) {:open true})
-          :test1 (with-meta '((fn [x] (list (rest x) (cons (read-string (first x)) [x]))) (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])) {:open true})
+          :test1
+            (with-meta
+              '((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
+                (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])
+                ) {:open true})
          }
           {:open true}
        )

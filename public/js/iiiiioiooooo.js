@@ -6498,4 +6498,4 @@ var Bj = function() {
 rj.c("huhhh");
 window.onload = Bj;
 
-//@ sourceMappingURL=main.js.map
+//@ sourceMappingURL=./public/js/main.js.map
