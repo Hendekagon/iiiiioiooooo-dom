@@ -1,5 +1,5 @@
 (ns dommy.core
-  "Core DOM manipulaiton function
+  "Core DOM manipulation functions
 
    Many of these functions take something which is node-like. Node-like
    refers to the result of calling `dommy.template/->node-like` on the object. For
@@ -7,7 +7,7 @@
    passed nested data structure it converts to a fresh DOM node. It falls back to the PElement
    protocol (see dommy.template) so is extensible."
   (:use-macros
-   [dommy.macros :only [sel]])
+   [dommy.macros :only [sel sel1]])
   (:require
    [clojure.string :as str]
    [dommy.utils :as utils]
@@ -27,12 +27,14 @@
 (def style-str attrs/style-str)
 (def style attrs/style)
 (def remove-attr! attrs/remove-attr!)
+(def toggle-attr! attrs/toggle-attr!)
 (def attr attrs/attr)
 (def hidden? attrs/hidden?)
 (def toggle! attrs/toggle!)
 (def hide! attrs/hide!)
 (def show! attrs/show!)
 (def bounding-client-rect attrs/bounding-client-rect)
+(def scroll-into-view attrs/scroll-into-view)
 (def dissoc-in utils/dissoc-in)
 (def ->Array utils/->Array)
 
@@ -53,8 +55,7 @@
     elem))
 
 (defn text [elem]
-  (let [elem (template/->node-like elem)]
-    (or (.-textContent elem) (.-innerText elem))))
+  (or (.-textContent elem) (.-innerText elem)))
 
 (defn value [elem]
   (-> elem template/->node-like .-value))
@@ -83,8 +84,9 @@
   "prepend `child` to `parent`, both node-like
    return ->node-like projection of `parent`"
   ([parent child]
-     (doto (template/->node-like parent)
-       (.insertBefore (template/->node-like child)
+     (let [parent (template/->node-like parent)]
+       (.insertBefore parent
+                      (template/->node-like child)
                       (.-firstChild parent))))
 
   ([parent child & more-children]
@@ -138,10 +140,29 @@
     (doto (.-parentNode elem)
       (.removeChild elem))))
 
+(defn clear!
+  "clears all children from `elem`"
+  [elem]
+  (set! (.-innerHTML (template/->node-like elem)) ""))
+
 (defn selector [data]
   (cond
    (coll? data) (clojure.string/join " " (map selector data))
    (or (string? data) (keyword? data)) (name data)))
+
+(defn selector-map [template key-selectors-map]
+  (let [container (dommy.template/->node-like template)]
+    (assert (not (contains? key-selectors-map :container)))
+    (->>  key-selectors-map
+          (map (fn [[k v]]
+                 [k
+                  (if (:live (meta v))
+                    (reify
+                      IDeref
+                      (-deref [this] (sel container v)))
+                    (sel1 container v))]))
+          (into {})
+          (merge {:container container}))))
 
 (defn ancestor-nodes
   "a lazy seq of the ancestors of `node`"
@@ -155,22 +176,22 @@
    time of this `matches-pred` call (may return outdated results
    if you fuck with the DOM)"
   ([base selector]
-   (let [matches (sel (template/->node-like base) selector)]
-     (fn [elem]
-       (-> matches (.indexOf elem) (>= 0)))))
+     (let [matches (sel (template/->node-like base) selector)]
+       (fn [elem]
+         (-> matches (.indexOf elem) (>= 0)))))
   ([selector]
-   (matches-pred js/document selector)))
+     (matches-pred js/document selector)))
 
 (defn closest
   "closest ancestor of `node` (up to `base`, if provided)
    that matches `selector`"
   ([base elem selector]
-   (let [base (template/->node-like base)
-         elem (template/->node-like elem)]
-     (->> (ancestor-nodes elem)
-          (take-while #(not (identical? % base)))
-          (filter (matches-pred base selector))
-          first)))
+     (let [base (template/->node-like base)
+           elem (template/->node-like elem)]
+       (->> (ancestor-nodes elem)
+            (take-while #(not (identical? % base)))
+            (filter (matches-pred base selector))
+            first)))
   ([elem selector]
      (first (filter (matches-pred selector) (ancestor-nodes (template/->node-like elem))))))
 
@@ -206,9 +227,10 @@
   "fires f if event.target is found with `selector`"
   [elem selector f]
   (fn [event]
-    (when-let [selected-target (closest (template/->node-like elem) (.-target event) selector)]
-      (set! (.-selectedTarget event) selected-target)
-      (f event))))
+    (let [selected-target (closest (template/->node-like elem) (.-target event) selector)]
+      (when (and selected-target (not (attr selected-target :disabled)))
+        (set! (.-selectedTarget event) selected-target)
+        (f event)))))
 
 (defn- event-listeners
   "Returns a nested map of event listeners on `nodes`"

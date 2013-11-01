@@ -6,6 +6,7 @@
     [goog.events.KeyHandler]
     [goog.events.KeyCodes]
     [clojure.zip :as zip]
+    [cljs.core.match]
     ;[cljs.analyzer :as ana]
     ;[cljs.compiler :as compiler]
     ;[cljs.reader :as reader]
@@ -15,6 +16,7 @@
     ;[cljs-web-audio.core-test :as at]
   )
   (:use-macros [dommy.macros :only [sel sel1 node]])
+    (:require-macros [cljs.core.match.macros :refer [match]])
 )
 
 (def mouse (atom [0 0]))
@@ -218,16 +220,23 @@ numbers
 
 (defn to-svg
   ([n]
-    [:g {:class "leaf"}
-      [:circle {:cx 0 :cy 0 :r 16}]
-      [:text {:fill "red" :x 0 :y 0} (str n)]
+    [:g {:class "leaf" :transform "translate(0,0) scale(0.9)"}
+      [:circle {:stroke "blue"
+      :stroke-width 20 :fill "none"
+      :x 0 :y 0 :r 100
+      }]
     ]
   )
   ([n c]
-    (apply conj [:g {:class "branch" :transform "translate(20,20)"}] c)
+    (apply
+      conj
+      [:g {:class "branch"
+      :transform "translate(50,100) scale(0.9) "
+      }]
+      c)
   )
   ([n oiuoi c] [:g {:class (str "branch folded " n) }])
-  ([] [:g {:class "sexp" :transform "translate(20,20)"}])
+  ([] [:g {:class "sexp" :transform "translate(50,50) scale(0.5)"}])
 )
 
 (defn to-html
@@ -240,62 +249,55 @@ numbers
 (defn make-id [p]
   (str "n" (if (zip/branch? p) (hash p) (hash (zip/node p))))
 )
-
 (defn maybe [f x] (if x (f x) x))
 
 (defn selector [p]
-  (str "#root > g:first-child " (apply str (map  {:down " > g:first-child " :right " + g"} p)))
+  (str "#root > div:first-child " (apply str (map  {:down " > div:first-child " :right " + div"} p)))
 )
 
 (defn replacement-selector
   ([p]
-    (replacement-selector "#root > g:first-child "
-      (apply str (map  {:down " > g:first-child " :right " + g"} p)))
+    (replacement-selector "#root > div:first-child "
+      (apply str (map  {:down " > div:first-child " :right " + div"} p)))
   )
   ([s ps]
-    (log ">>> " ps)
+    ;(log ">>> rsel " ps)
     (str s ps))
 )
 
-(defn update-element!
-  ([context] (update-element! context context))
-  ([context s]
-    ;(log (structure/translate 64 64 to-svg state))
-    (log "replace: " (replacement-selector (structure/path context s)))
-   ; (log (str "::: " (apply str (take 1 (structure/translate 64 64 to-html s)))))
-   ; (log "  ::::: " (apply str (take 64  (str (zip/node s)))))
-      (dommy/replace!
-        (sel1 ;"#root > div:first-child "
-          (replacement-selector (structure/path context s))
-        )
-        ;(to-tree (structure/top ((:context-fn s) s)) ((:context-fn s) s))
-        ;(build-svg
-        ;[:svg {:width "100%" :height "100%" :viewbox "0 0 2000 1000"}
-          ;[:rect {:x 0 :y 0 :width 100 :height 100 :fill "red"}]
-            ;[:circle {:x 100 :y 100 :r 100 :fill "red"}]
-          (first (structure/translate 64 64 to-svg s))
-            ;(structure/translate 64 64 to-svg state)
-          ;]
-         ;)
-         ;(sel1 "#root>li:first-child>ul:first-child")
-         ;[:p "he"]
-         )
-   s)
+(defn set-attrs! [s a]
+  (doseq [e s] (apply (partial dommy/set-attr! e) a))
 )
 
+(defn update-element!
+  ([context] (update-element! context context context))
+  ([context new old]
+    (log "  replace: " (apply str (take 16 (str old))))
+    (log "  replace " (sel1 (replacement-selector (structure/path context old))))
+    ;(log "  with " (first (structure/translate 64 64 to-html s)))
+    (log "  with " (apply str (take 16 (str new))))
+      (dommy/replace!
+        (sel1 ;"#root > div:first-child "
+          (replacement-selector (structure/path context old))
+        )
+          (first (structure/translate 64 64 to-html new))
+         )
+
+   s)
+)
 
 (defn select-state
   ([s] (select-state s (map (comp selector (partial structure/path (:context s))) (:selected s))))
   ([s paths] (select-state s paths (sel paths) (sel1 (selector (structure/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    (log "selectors: " paths selections)
+    (log "  focus: " focus)
     (log "  node: " (apply str (take 64 (str (zip/node (:focus s))))) (str (meta (zip/node (:focus s)))))
-    ;(log (sel1 (str "#" (structure/make-id (hash (zip/node (:context s)))))))
     (last (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     (last (map (fn [q] (dommy/remove-class! q "selected-parent")) (sel ".selected-parent")))
     (doseq [selection selections]
         (cond selection (dommy/add-class! selection "selected"))
     )
+    ;(set-attrs! selections [:transform "translate(40,70) scale(1.5)"])
     (cond focus (dommy/add-class! focus "selected"))
   )
 )
@@ -319,8 +321,13 @@ numbers
   {
     :select select-state
     :modify (fn [s]
-                (log "modified: " (zip/node (:modified s)) (str (structure/path (:context s) (:modified s))))
-               (update-element! (:context s) (if (:modified s) (:modified s) (:context s)))
+                (log "  modifying " (apply str (take 16 (str (:modified s)))))
+               ;(log "modified: " (zip/node (:modified s)) (str (structure/path (:context s) (:modified s))))
+               (update-element!
+                (:context s)
+                (:focus s)
+                (if (:modified s) (:modified s) (:focus s))
+               )
                (select-state s)
             )
   }

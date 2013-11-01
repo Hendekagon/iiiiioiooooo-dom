@@ -1,42 +1,45 @@
 goog.provide('clojure.browser.event');
 goog.require('cljs.core');
 goog.require('goog.events.EventType');
+goog.require('goog.events.EventType');
+goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events');
+goog.require('goog.events');
 clojure.browser.event.EventType = {};
-clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__3941__auto__ = this$;if(and__3941__auto__)
+clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__2950__auto__ = this$;if(and__2950__auto__)
 {return this$.clojure$browser$event$EventType$event_types$arity$1;
 } else
-{return and__3941__auto__;
+{return and__2950__auto__;
 }
 })())
 {return this$.clojure$browser$event$EventType$event_types$arity$1(this$);
 } else
-{var x__3430__auto__ = (((this$ == null))?null:this$);return (function (){var or__3943__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__3430__auto__)]);if(or__3943__auto__)
-{return or__3943__auto__;
+{var x__3554__auto__ = (((this$ == null))?null:this$);return (function (){var or__2959__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__3554__auto__)]);if(or__2959__auto__)
+{return or__2959__auto__;
 } else
-{var or__3943__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__3943__auto____$1)
-{return or__3943__auto____$1;
+{var or__2959__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__2959__auto____$1)
+{return or__2959__auto____$1;
 } else
-{throw cljs.core.missing_protocol("EventType.event-types",this$);
+{throw cljs.core.missing_protocol.call(null,"EventType.event-types",this$);
 }
 }
 })().call(null,this$);
 }
 });
 Element.prototype.clojure$browser$event$EventType$ = true;
-Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){return cljs.core.into(cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$2((function (p__5332){var vec__5333 = p__5332;var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__5333,0,null);var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__5333,1,null);return cljs.core.PersistentVector.fromArray([cljs.core.keyword.cljs$core$IFn$_invoke$arity$1(k.toLowerCase()),v], true);
-}),cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(goog.events.EventType)], 0))));
+Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__8251){var vec__8252 = p__8251;var k = cljs.core.nth.call(null,vec__8252,0,null);var v = cljs.core.nth.call(null,vec__8252,1,null);return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null,k.toLowerCase()),v], true);
+}),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 goog.events.EventTarget.prototype.clojure$browser$event$EventType$ = true;
-goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){return cljs.core.into(cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$2((function (p__5334){var vec__5335 = p__5334;var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__5335,0,null);var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__5335,1,null);return cljs.core.PersistentVector.fromArray([cljs.core.keyword.cljs$core$IFn$_invoke$arity$1(k.toLowerCase()),v], true);
-}),cljs.core.merge.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.js__GT_clj.cljs$core$IFn$_invoke$arity$1(goog.events.EventType)], 0))));
+goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__8253){var vec__8254 = p__8253;var k = cljs.core.nth.call(null,vec__8254,0,null);var v = cljs.core.nth.call(null,vec__8254,1,null);return cljs.core.PersistentVector.fromArray([cljs.core.keyword.call(null,k.toLowerCase()),v], true);
+}),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 clojure.browser.event.listen = (function() {
 var listen = null;
-var listen__3 = (function (src,type,fn){return listen.cljs$core$IFn$_invoke$arity$4(src,type,fn,false);
+var listen__3 = (function (src,type,fn){return listen.call(null,src,type,fn,false);
 });
-var listen__4 = (function (src,type,fn,capture_QMARK_){return goog.events.listen(src,cljs.core.get.cljs$core$IFn$_invoke$arity$3(clojure.browser.event.event_types(src),type,type),fn,capture_QMARK_);
+var listen__4 = (function (src,type,fn,capture_QMARK_){return goog.events.listen(src,cljs.core.get.call(null,clojure.browser.event.event_types.call(null,src),type,type),fn,capture_QMARK_);
 });
 listen = function(src,type,fn,capture_QMARK_){
 switch(arguments.length){
@@ -54,9 +57,9 @@ return listen;
 ;
 clojure.browser.event.listen_once = (function() {
 var listen_once = null;
-var listen_once__3 = (function (src,type,fn){return listen_once.cljs$core$IFn$_invoke$arity$4(src,type,fn,false);
+var listen_once__3 = (function (src,type,fn){return listen_once.call(null,src,type,fn,false);
 });
-var listen_once__4 = (function (src,type,fn,capture_QMARK_){return goog.events.listenOnce(src,cljs.core.get.cljs$core$IFn$_invoke$arity$3(clojure.browser.event.event_types(src),type,type),fn,capture_QMARK_);
+var listen_once__4 = (function (src,type,fn,capture_QMARK_){return goog.events.listenOnce(src,cljs.core.get.call(null,clojure.browser.event.event_types.call(null,src),type,type),fn,capture_QMARK_);
 });
 listen_once = function(src,type,fn,capture_QMARK_){
 switch(arguments.length){
@@ -74,9 +77,9 @@ return listen_once;
 ;
 clojure.browser.event.unlisten = (function() {
 var unlisten = null;
-var unlisten__3 = (function (src,type,fn){return unlisten.cljs$core$IFn$_invoke$arity$4(src,type,fn,false);
+var unlisten__3 = (function (src,type,fn){return unlisten.call(null,src,type,fn,false);
 });
-var unlisten__4 = (function (src,type,fn,capture_QMARK_){return goog.events.unlisten(src,cljs.core.get.cljs$core$IFn$_invoke$arity$3(clojure.browser.event.event_types(src),type,type),fn,capture_QMARK_);
+var unlisten__4 = (function (src,type,fn,capture_QMARK_){return goog.events.unlisten(src,cljs.core.get.call(null,clojure.browser.event.event_types.call(null,src),type,type),fn,capture_QMARK_);
 });
 unlisten = function(src,type,fn,capture_QMARK_){
 switch(arguments.length){
@@ -112,3 +115,5 @@ clojure.browser.event.has_listener = (function has_listener(obj,opt_type,opt_cap
 });
 clojure.browser.event.remove_all = (function remove_all(opt_obj,opt_type,opt_capt){return null;
 });
+
+//@ sourceMappingURL=event.js.map

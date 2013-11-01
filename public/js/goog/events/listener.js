@@ -17,28 +17,32 @@
  * @see ../demos/events.html
  */
 
-
-/**
- * Namespace for events
- */
 goog.provide('goog.events.Listener');
+
+goog.require('goog.events.ListenableKey');
 
 
 
 /**
  * Simple class that stores information about a listener
+ * @implements {goog.events.ListenableKey}
  * @constructor
  */
 goog.events.Listener = function() {
+  if (goog.events.Listener.ENABLE_MONITORING) {
+    this.creationStack = new Error().stack;
+  }
 };
 
 
 /**
- * Counter used to create a unique key
- * @type {number}
- * @private
+ * @define {boolean} Whether to enable the monitoring of the
+ *     goog.events.Listener instances. Switching on the monitoring is only
+ *     recommended for debugging because it has a significant impact on
+ *     performance and memory usage. If switched off, the monitoring code
+ *     compiles down to 0 bytes.
  */
-goog.events.Listener.counter_ = 0;
+goog.events.Listener.ENABLE_MONITORING = false;
 
 
 /**
@@ -65,7 +69,7 @@ goog.events.Listener.prototype.proxy;
 
 /**
  * Object or node that callback is listening to
- * @type {Object|goog.events.EventTarget}
+ * @type {Object|goog.events.Listenable|goog.events.EventTarget}
  */
 goog.events.Listener.prototype.src;
 
@@ -94,6 +98,7 @@ goog.events.Listener.prototype.handler;
 /**
  * The key of the listener.
  * @type {number}
+ * @override
  */
 goog.events.Listener.prototype.key = 0;
 
@@ -110,6 +115,14 @@ goog.events.Listener.prototype.removed = false;
  * @type {boolean}
  */
 goog.events.Listener.prototype.callOnce = false;
+
+
+/**
+ * If monitoring the goog.events.Listener instances is enabled, stores the
+ * creation stack trace of the Disposable instance.
+ * @type {string}
+ */
+goog.events.Listener.prototype.creationStack;
 
 
 /**
@@ -142,7 +155,7 @@ goog.events.Listener.prototype.init = function(listener, proxy, src, type,
   this.capture = !!capture;
   this.handler = opt_handler;
   this.callOnce = false;
-  this.key = ++goog.events.Listener.counter_;
+  this.key = goog.events.ListenableKey.reserveKey();
   this.removed = false;
 };
 

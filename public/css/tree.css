@@ -54,10 +54,18 @@ padding-left:0.5em;
 //.branch:before{content:"(";color:silver; font-size:1.1em;}
 //.branch:after{content:")"; color:silver; font-size:1.1em;}
 //.branch:after{content:")"; color:silver; font-size:1.1em; position: relative; float:right;}
+circle
+{
+    fill: rgba(100,100,250,0.3);
+}
 .selected
 {
     background-color:rgba(100,100,250,1.0);
     color: rgba(255,230, 210,1.0);
+}
+g.selected>circle
+{
+    fill: rgba(100,100,250,1.0);
 }
 .branch.selected
 {

@@ -43,6 +43,7 @@
   )
 )
 
+; this could be done much better with core.match
 (defn translate
   ([maxx maxy f p]
     (reduce
@@ -153,7 +154,14 @@
 (defn selected [s f] (assoc (update-in s [:focus] (carefull (forward-zipper f))) :action :select))
 
 (defn modified
-  ([s f] (modified (assoc (update-in s [:focus] (carefull (forward-zipper f))) :action :modify)))
+  ([s f]
+    ;(modified
+      (assoc
+        (update-in s [:focus] (carefull (forward-zipper f)))
+        :action :modify
+        :modified (:focus s)
+      ))
+      ;)
   ([x] (assoc x :modified (:focus x)))
 )
 
