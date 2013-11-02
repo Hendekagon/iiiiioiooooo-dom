@@ -171,6 +171,10 @@ numbers
 (def keycode-to-keyword-up (zipmap (keys keycode-to-keyword) (map (fn [k] (keyword (str (name k) "-up"))) (vals keycode-to-keyword))))
 (def keycode-to-keyword-down (zipmap (keys keycode-to-keyword) (map (fn [k] (keyword (str (name k) "-down"))) (vals keycode-to-keyword))))
 
+(def f partial)
+
+(def k comp)
+
 (defn is-modifier [keycode] (#{16 17 18 91 93 20} keycode))
 
 (def isnt-modifier (complement is-modifier))
@@ -252,13 +256,13 @@ numbers
 (defn maybe [f x] (if x (f x) x))
 
 (defn selector [p]
-  (str "#root > div:first-child " (apply str (map  {:down " > div:first-child " :right " + div"} p)))
+  (str "#root > div:first-child " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
 )
 
 (defn replacement-selector
   ([p]
     (replacement-selector "#root > div:first-child "
-      (apply str (map  {:down " > div:first-child " :right " + div"} p)))
+      (apply str (map  {:v " > div:first-child " :> " + div"} p)))
   )
   ([s ps]
     ;(log ">>> rsel " ps)
@@ -266,7 +270,7 @@ numbers
 )
 
 (defn set-attrs! [s a]
-  (doseq [e s] (apply (partial dommy/set-attr! e) a))
+  (doseq [e s] (apply (f dommy/set-attr! e) a))
 )
 
 (defn update-element!
@@ -280,17 +284,20 @@ numbers
         (sel1 ;"#root > div:first-child "
           (replacement-selector (structure/path context old))
         )
-          (first (structure/translate 64 64 to-html new))
-         )
-
+        (first (structure/translate 64 64 to-html new))
+      )
    s)
 )
 
-(defn select-state
-  ([s] (select-state s (map (comp selector (partial structure/path (:context s))) (:selected s))))
-  ([s paths] (select-state s paths (sel paths) (sel1 (selector (structure/path (:context s) (:focus s))))))
+(defn select-state!
+  ([s] (select-state! s (map (comp selector (partial structure/path (:context s))) (:selected s))))
+  ([s paths]
+    (log "  focus path: " (str (structure/path (:context s) (:focus s))))
+    (log "  context   : " (str (structure/path (:context s))))
+    (log "focus seltor " (selector (structure/path (:context s) (:focus s))))
+    (select-state! s paths (sel paths) (sel1 (selector (structure/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    (log "  focus: " focus)
+    (log "  focus elem: " focus)
     (log "  node: " (apply str (take 64 (str (zip/node (:focus s))))) (str (meta (zip/node (:focus s)))))
     (last (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     (last (map (fn [q] (dommy/remove-class! q "selected-parent")) (sel ".selected-parent")))
@@ -302,33 +309,22 @@ numbers
   )
 )
 
-
-;event.initKeyEvent (type, bubbles, cancelable, viewArg,
-;                     ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg,
-;                     keyCodeArg, charCodeArg)
-(defn keydown [state e]
-  ;(.log  js/console "kd> " (.-keyCode e))
-  (. e preventDefault)
-  (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
-  ;(log (str (:keymap @state)))
-)
-
-(defn keyup [state e]
-  (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
-)
-
 (def update-ui-fn
   {
-    :select select-state
+    :select select-state!
     :modify (fn [s]
-                (log "  modifying " (apply str (take 16 (str (:modified s)))))
+                (log "  --- modified --- " (:x s) (apply str (take 16 (str (:modified s)))))
+                (log "  context pathhhh: " (str (structure/path (:context s))))
+                (log "  focus pathhhh: " (str (structure/path (:context s) (:focus s))))
+                (log "  mod   pathhhh: " (str (structure/path (:context s) (:modified s))))
+                (log "    focus " (apply str (take 16 (str (:focus s)))))
                ;(log "modified: " (zip/node (:modified s)) (str (structure/path (:context s) (:modified s))))
                (update-element!
                 (:context s)
                 (:focus s)
                 (if (:modified s) (:modified s) (:focus s))
                )
-               (select-state s)
+               (select-state! s)
             )
   }
 )
@@ -367,6 +363,20 @@ numbers
 
 ;#root>li:first-child >ul:first-child>li:first-child + li >ul:first-child>li:first-child + li >ul:first-child>li:first-child
 
+;event.initKeyEvent (type, bubbles, cancelable, viewArg,
+;                     ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg,
+;                     keyCodeArg, charCodeArg)
+(defn keydown [state e]
+  ;(.log  js/console "kd> " (.-keyCode e))
+  (. e preventDefault)
+  (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
+  ;(log (str (:keymap @state)))
+)
+
+(defn keyup [state e]
+  (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
+)
+
 (defn make-ui
   ([e] (make-ui e (atom (add-eval (add-info (structure/default-state))))))
   ([e state]
@@ -380,5 +390,6 @@ numbers
 
 (log "huhhh")
 
-(set! (.-onload js/window) make-ui)
+;(set! (.-onload js/window) make-ui)
 
+(make-ui nil)

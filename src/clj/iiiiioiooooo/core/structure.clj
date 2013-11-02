@@ -75,12 +75,13 @@
     x))
 
 (defn path
+  ([t] (path (top t) t))
   ([c t] (path t (zip/up t) (zip/left t) [] c))
   ([t p c] (path t (zip/up t) (zip/left t) p c))
   ([t u l p c]
     (if (or (nil? u) (= (zip/node t) (zip/node c)))
       p
-      (path (if l l u) (cons (if l :right :down) p) c)
+      (path (if l l u) (cons (if l :> :v) p) c)
     )
   )
 )
@@ -154,19 +155,17 @@
 (defn selected [s f] (assoc (update-in s [:focus] (carefull (forward-zipper f))) :action :select))
 
 (defn modified
-  ([s f]
-    ;(modified
-      (assoc
-        (update-in s [:focus] (carefull (forward-zipper f)))
-        :action :modify
-        :modified (:focus s)
-      ))
-      ;)
-  ([x] (assoc x :modified (:focus x)))
+  ([s f] (modified s f (:focus s)))
+  ([s f m]
+    (assoc
+      (update-in s [:focus] (carefull (forward-zipper f))
+      )
+      :modified m :action :modify :x (inc (or (:x s) 0))))
 )
 
-(defn resolve [x] x) ; for below - delete - cljs-incljs
+;(defn resolve [x] x) ; for below - delete - cljs-incljs
 
+"
 (defn apply-selected
   ([h x]
     (apply-selected h x (zip/node (first (:selected x)))
@@ -184,6 +183,7 @@
     (assoc x :result r :modified (first (:selected x)))
   )
 )
+"
 
 (defn left ^{:doc "previous"} [s x] (selected x zip/left))
 
@@ -201,9 +201,9 @@
 
 (defn delete ^{:doc "delete"} [s x] (modified x zip/remove))
 
-(defn insert-left ^{:doc "insert left"} [s x] (modified x (fn [c] (zip/insert-left c "node"))))
+(defn insert-left ^{:doc "insert left"} [s x] (modified x (fn [c] (zip/insert-left c "+"))))
 
-(defn insert-right ^{:doc "insert right"} [s x]  (modified x (fn [c] (zip/insert-right c "node"))))
+(defn insert-right ^{:doc "insert right"} [s x]  (modified x (fn [c] (zip/insert-right c "+"))))
 
 (defn rightmost ^{:doc "last"} [s x] (selected x zip/rightmost))
 
@@ -214,8 +214,14 @@
 (defn root ^{:doc "root"} [s x] (selected x top))
 
 (defn replace-parent ^{:doc "replace parent with child"} [s x]
-  (assoc (update-in x [:focus] (fn [n] (zip/replace (zip/up n) (zip/node n))))
-    :action :modify :modified (zip/up (:focus x)))
+  (modified x
+    (fn [n]
+      (zip/replace n "qwe")
+      ;(zip/prev (zip/next n))
+    )
+
+    ;(zip/up (:focus x))
+  )
 )
 
 (defn split-into-children ^{:doc "split into children"} [s x]
@@ -231,7 +237,6 @@
 
 (defn home [s x] (update-in x [:focus] top))
 
-
 (defn hfn ^{:doc "history switch"} [s x] (assoc x :focus s))
 
 (defn next-at [i c]
@@ -240,17 +245,16 @@
   )
 )
 
-
 (defn find-first ^{:doc "makes :focus of the current state the first thing found at thing"}
   ([thing] (fn [s x] (selected x (partial find-first thing))))
   ([x loc] (first (filter (comp (partial = x) zip/node) (nodes loc))))
 )
 
-
 (defn next-starting-with [c]
   (fn [s x] (selected x (next-at (dec (count (:keypath x))) c)))
 )
 
+; this happens for *every* key that's released: e.g. alt-e would result in 2 of these, 1 for alt, 1 for e
 (defn keyup [s x]
   (push-history
     (or
@@ -266,12 +270,14 @@
 
 (defn default-keymap []
   {
+    :i {:i (fn [s x] (modified x (comp zip/prev zip/next)))}
     :alt
     {
       :left {:left left}
       :right {:right right}
-      :up {:up fuse-into-parent}
+      :up {:up replace-parent}
       :down {:down split-into-children}
+      :i {:i (fn [s x] (modified x identity))}
       :alt nop
     }
     :up {:up out}
@@ -292,7 +298,7 @@
         :up {:up root}
         :alt nop
       }
-      :up {:up replace-parent}
+      :up {:up fuse-into-parent}
       :ctrl nop
     }
     :shift {:shift nop}

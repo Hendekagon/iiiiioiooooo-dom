@@ -126,6 +126,8 @@ iiiiioiooooo.core.structure.seq_map_zip = (function seq_map_zip(x){return clojur
 });
 iiiiioiooooo.core.structure.path = (function() {
 var path = null;
+var path__1 = (function (t){return path.call(null,iiiiioiooooo.core.structure.top.call(null,t),t);
+});
 var path__2 = (function (c,t){return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),cljs.core.PersistentVector.EMPTY,c);
 });
 var path__3 = (function (t,p,c){return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),p,c);
@@ -133,11 +135,13 @@ var path__3 = (function (t,p,c){return path.call(null,t,clojure.zip.up.call(null
 var path__5 = (function (t,u,l,p,c){if(((u == null)) || (cljs.core._EQ_.call(null,clojure.zip.node.call(null,t),clojure.zip.node.call(null,c))))
 {return p;
 } else
-{return path.call(null,(cljs.core.truth_(l)?l:u),cljs.core.cons.call(null,(cljs.core.truth_(l)?new cljs.core.Keyword(null,"right","right",1122416014):new cljs.core.Keyword(null,"down","down",1016993812)),p),c);
+{return path.call(null,(cljs.core.truth_(l)?l:u),cljs.core.cons.call(null,(cljs.core.truth_(l)?new cljs.core.Keyword(null,">",">",1013904304):new cljs.core.Keyword(null,"v","v",1013904360)),p),c);
 }
 });
 path = function(t,u,l,p,c){
 switch(arguments.length){
+case 1:
+return path__1.call(this,t);
 case 2:
 return path__2.call(this,t,u);
 case 3:
@@ -147,6 +151,7 @@ return path__5.call(this,t,u,l,p,c);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
+path.cljs$core$IFn$_invoke$arity$1 = path__1;
 path.cljs$core$IFn$_invoke$arity$2 = path__2;
 path.cljs$core$IFn$_invoke$arity$3 = path__3;
 path.cljs$core$IFn$_invoke$arity$5 = path__5;
@@ -284,44 +289,27 @@ iiiiioiooooo.core.structure.selected = (function selected(s,f){return cljs.core.
 });
 iiiiioiooooo.core.structure.modified = (function() {
 var modified = null;
-var modified__1 = (function (x){return cljs.core.assoc.call(null,x,new cljs.core.Keyword(null,"modified","modified",4693358139),new cljs.core.Keyword(null,"focus","focus",1111509066).cljs$core$IFn$_invoke$arity$1(x));
+var modified__2 = (function (s,f){return modified.call(null,s,f,new cljs.core.Keyword(null,"focus","focus",1111509066).cljs$core$IFn$_invoke$arity$1(s));
 });
-var modified__2 = (function (s,f){return cljs.core.assoc.call(null,cljs.core.update_in.call(null,s,cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null,"focus","focus",1111509066)], true),iiiiioiooooo.core.structure.carefull.call(null,iiiiioiooooo.core.structure.forward_zipper.call(null,f))),new cljs.core.Keyword(null,"action","action",3885920680),new cljs.core.Keyword(null,"modify","modify",4240075820),new cljs.core.Keyword(null,"modified","modified",4693358139),new cljs.core.Keyword(null,"focus","focus",1111509066).cljs$core$IFn$_invoke$arity$1(s));
+var modified__3 = (function (s,f,m){return cljs.core.assoc.call(null,cljs.core.update_in.call(null,s,cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null,"focus","focus",1111509066)], true),iiiiioiooooo.core.structure.carefull.call(null,iiiiioiooooo.core.structure.forward_zipper.call(null,f))),new cljs.core.Keyword(null,"modified","modified",4693358139),m,new cljs.core.Keyword(null,"action","action",3885920680),new cljs.core.Keyword(null,"modify","modify",4240075820),new cljs.core.Keyword(null,"x","x",1013904362),((function (){var or__2959__auto__ = new cljs.core.Keyword(null,"x","x",1013904362).cljs$core$IFn$_invoke$arity$1(s);if(cljs.core.truth_(or__2959__auto__))
+{return or__2959__auto__;
+} else
+{return 0;
+}
+})() + 1));
 });
-modified = function(s,f){
+modified = function(s,f,m){
 switch(arguments.length){
-case 1:
-return modified__1.call(this,s);
 case 2:
 return modified__2.call(this,s,f);
+case 3:
+return modified__3.call(this,s,f,m);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-modified.cljs$core$IFn$_invoke$arity$1 = modified__1;
 modified.cljs$core$IFn$_invoke$arity$2 = modified__2;
+modified.cljs$core$IFn$_invoke$arity$3 = modified__3;
 return modified;
-})()
-;
-iiiiioiooooo.core.structure.resolve = (function resolve(x){return x;
-});
-iiiiioiooooo.core.structure.apply_selected = (function() {
-var apply_selected = null;
-var apply_selected__2 = (function (h,x){return apply_selected.call(null,h,x,clojure.zip.node.call(null,cljs.core.first.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x))),cljs.core.PersistentVector.fromArray([cljs.core.list.call(null,clojure.zip.node.call(null,cljs.core.first.call(null,cljs.core.rest.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x)))),cljs.core.map.call(null,clojure.zip.node,cljs.core.rest.call(null,cljs.core.rest.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x))))),cljs.core.apply.call(null,iiiiioiooooo.core.structure.resolve.call(null,clojure.zip.node.call(null,cljs.core.first.call(null,cljs.core.rest.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x))))),cljs.core.map.call(null,clojure.zip.node,cljs.core.rest.call(null,cljs.core.rest.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x))))),iiiiioiooooo.core.structure.resolve.call(null,clojure.zip.node.call(null,cljs.core.first.call(null,cljs.core.rest.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x)))))], true));
-});
-var apply_selected__4 = (function (h,x,rl,r){return cljs.core.assoc.call(null,x,new cljs.core.Keyword(null,"result","result",4374444943),r,new cljs.core.Keyword(null,"modified","modified",4693358139),cljs.core.first.call(null,new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(x)));
-});
-apply_selected = function(h,x,rl,r){
-switch(arguments.length){
-case 2:
-return apply_selected__2.call(this,h,x);
-case 4:
-return apply_selected__4.call(this,h,x,rl,r);
-}
-throw(new Error('Invalid arity: ' + arguments.length));
-};
-apply_selected.cljs$core$IFn$_invoke$arity$2 = apply_selected__2;
-apply_selected.cljs$core$IFn$_invoke$arity$4 = apply_selected__4;
-return apply_selected;
 })()
 ;
 iiiiioiooooo.core.structure.left = (function left(s,x){return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.left);
@@ -340,10 +328,10 @@ iiiiioiooooo.core.structure.expand = (function expand(s,x){return iiiiioiooooo.c
 });
 iiiiioiooooo.core.structure.delete$ = (function delete$(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,clojure.zip.remove);
 });
-iiiiioiooooo.core.structure.insert_left = (function insert_left(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (c){return clojure.zip.insert_left.call(null,c,"node");
+iiiiioiooooo.core.structure.insert_left = (function insert_left(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (c){return clojure.zip.insert_left.call(null,c,"+");
 }));
 });
-iiiiioiooooo.core.structure.insert_right = (function insert_right(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (c){return clojure.zip.insert_right.call(null,c,"node");
+iiiiioiooooo.core.structure.insert_right = (function insert_right(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (c){return clojure.zip.insert_right.call(null,c,"+");
 }));
 });
 iiiiioiooooo.core.structure.rightmost = (function rightmost(s,x){return iiiiioiooooo.core.structure.selected.call(null,x,clojure.zip.rightmost);
@@ -354,8 +342,8 @@ iiiiioiooooo.core.structure.add_keybinding = (function add_keybinding(x,path,f){
 });
 iiiiioiooooo.core.structure.root = (function root(s,x){return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.top);
 });
-iiiiioiooooo.core.structure.replace_parent = (function replace_parent(s,x){return cljs.core.assoc.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null,"focus","focus",1111509066)], true),(function (n){return clojure.zip.replace.call(null,clojure.zip.up.call(null,n),clojure.zip.node.call(null,n));
-})),new cljs.core.Keyword(null,"action","action",3885920680),new cljs.core.Keyword(null,"modify","modify",4240075820),new cljs.core.Keyword(null,"modified","modified",4693358139),clojure.zip.up.call(null,new cljs.core.Keyword(null,"focus","focus",1111509066).cljs$core$IFn$_invoke$arity$1(x)));
+iiiiioiooooo.core.structure.replace_parent = (function replace_parent(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (n){return clojure.zip.replace.call(null,n,"qwe");
+}));
 });
 iiiiioiooooo.core.structure.split_into_children = (function split_into_children(s,x){return cljs.core.assoc.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null,"focus","focus",1111509066)], true),(function (n){return clojure.zip.replace.call(null,n,clojure.zip.make_node.call(null,n,clojure.zip.node.call(null,n),clojure.zip.children.call(null,clojure.zip.vector_zip.call(null,cljs.core.vec.call(null,cljs.core.name.call(null,clojure.zip.node.call(null,n)))))));
 })),new cljs.core.Keyword(null,"action","action",3885920680),new cljs.core.Keyword(null,"modify","modify",4240075820));
@@ -411,7 +399,9 @@ iiiiioiooooo.core.structure.latest_state = (function latest_state(history){retur
 iiiiioiooooo.core.structure.focus_on_latest = (function focus_on_latest(h,x){return iiiiioiooooo.core.structure.selected.call(null,x,(function (loc){return clojure.zip.rightmost.call(null,clojure.zip.down.call(null,iiiiioiooooo.core.structure.top.call(null,h)));
 }));
 });
-iiiiioiooooo.core.structure.default_keymap = (function default_keymap(){return cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null,"backspace","backspace",2367412209),new cljs.core.Keyword(null,"default","default",2558708147),new cljs.core.Keyword(null,"alt","alt",1014000923),new cljs.core.Keyword(null,"tab","tab",1014018823),new cljs.core.Keyword(null,"0","0",1013904290),new cljs.core.Keyword(null,"ctrl","ctrl",1016968669),new cljs.core.Keyword(null,"h","h",1013904346),new cljs.core.Keyword(null,"shift","shift",1123311604),new cljs.core.Keyword(null,"space","space",1123542136),new cljs.core.Keyword(null,"right","right",1122416014),new cljs.core.Keyword(null,"left","left",1017222009),new cljs.core.Keyword(null,"down","down",1016993812),new cljs.core.Keyword(null,"up","up",1013907981)],[cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"backspace","backspace",2367412209),iiiiioiooooo.core.structure.delete$], true),iiiiioiooooo.core.structure.nop,cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.left], true),new cljs.core.Keyword(null,"right","right",1122416014),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.right], true),new cljs.core.Keyword(null,"up","up",1013907981),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.fuse_into_parent], true),new cljs.core.Keyword(null,"down","down",1016993812),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"down","down",1016993812),iiiiioiooooo.core.structure.split_into_children], true),new cljs.core.Keyword(null,"alt","alt",1014000923),iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"tab","tab",1014018823),iiiiioiooooo.core.structure.hfn], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"0","0",1013904290),iiiiioiooooo.core.structure.home], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.insert_left], true),new cljs.core.Keyword(null,"right","right",1122416014),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.insert_right], true),new cljs.core.Keyword(null,"alt","alt",1014000923),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.rightmost], true),new cljs.core.Keyword(null,"left","left",1017222009),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.leftmost], true),new cljs.core.Keyword(null,"up","up",1013907981),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.root], true),new cljs.core.Keyword(null,"alt","alt",1014000923),iiiiioiooooo.core.structure.nop], true),new cljs.core.Keyword(null,"up","up",1013907981),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.replace_parent], true),new cljs.core.Keyword(null,"ctrl","ctrl",1016968669),iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"h","h",1013904346),iiiiioiooooo.core.structure.hfn], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"shift","shift",1123311604),iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"space","space",1123542136),iiiiioiooooo.core.structure.expand], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.depth_first_next,new cljs.core.Keyword(null,"space","space",1123542136),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"space","space",1123542136),iiiiioiooooo.core.structure.depth_first_next], true)], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.depth_first_previous], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"down","down",1016993812),iiiiioiooooo.core.structure.in$], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.out], true)]);
+iiiiioiooooo.core.structure.default_keymap = (function default_keymap(){return cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null,"backspace","backspace",2367412209),new cljs.core.Keyword(null,"default","default",2558708147),new cljs.core.Keyword(null,"alt","alt",1014000923),new cljs.core.Keyword(null,"tab","tab",1014018823),new cljs.core.Keyword(null,"0","0",1013904290),new cljs.core.Keyword(null,"ctrl","ctrl",1016968669),new cljs.core.Keyword(null,"i","i",1013904347),new cljs.core.Keyword(null,"h","h",1013904346),new cljs.core.Keyword(null,"shift","shift",1123311604),new cljs.core.Keyword(null,"space","space",1123542136),new cljs.core.Keyword(null,"right","right",1122416014),new cljs.core.Keyword(null,"left","left",1017222009),new cljs.core.Keyword(null,"down","down",1016993812),new cljs.core.Keyword(null,"up","up",1013907981)],[cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"backspace","backspace",2367412209),iiiiioiooooo.core.structure.delete$], true),iiiiioiooooo.core.structure.nop,cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.left], true),new cljs.core.Keyword(null,"right","right",1122416014),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.right], true),new cljs.core.Keyword(null,"up","up",1013907981),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.replace_parent], true),new cljs.core.Keyword(null,"down","down",1016993812),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"down","down",1016993812),iiiiioiooooo.core.structure.split_into_children], true),new cljs.core.Keyword(null,"i","i",1013904347),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"i","i",1013904347),(function (s,x){return iiiiioiooooo.core.structure.modified.call(null,x,cljs.core.identity);
+})], true),new cljs.core.Keyword(null,"alt","alt",1014000923),iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"tab","tab",1014018823),iiiiioiooooo.core.structure.hfn], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"0","0",1013904290),iiiiioiooooo.core.structure.home], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.insert_left], true),new cljs.core.Keyword(null,"right","right",1122416014),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.insert_right], true),new cljs.core.Keyword(null,"alt","alt",1014000923),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.rightmost], true),new cljs.core.Keyword(null,"left","left",1017222009),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.leftmost], true),new cljs.core.Keyword(null,"up","up",1013907981),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.root], true),new cljs.core.Keyword(null,"alt","alt",1014000923),iiiiioiooooo.core.structure.nop], true),new cljs.core.Keyword(null,"up","up",1013907981),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.fuse_into_parent], true),new cljs.core.Keyword(null,"ctrl","ctrl",1016968669),iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"i","i",1013904347),(function (s,x){return iiiiioiooooo.core.structure.modified.call(null,x,cljs.core.comp.call(null,clojure.zip.prev,clojure.zip.next));
+})], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"h","h",1013904346),iiiiioiooooo.core.structure.hfn], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"shift","shift",1123311604),iiiiioiooooo.core.structure.nop], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"space","space",1123542136),iiiiioiooooo.core.structure.expand], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"right","right",1122416014),iiiiioiooooo.core.structure.depth_first_next,new cljs.core.Keyword(null,"space","space",1123542136),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"space","space",1123542136),iiiiioiooooo.core.structure.depth_first_next], true)], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"left","left",1017222009),iiiiioiooooo.core.structure.depth_first_previous], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"down","down",1016993812),iiiiioiooooo.core.structure.in$], true),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"up","up",1013907981),iiiiioiooooo.core.structure.out], true)]);
 });
 iiiiioiooooo.core.structure.default_state = (function() {
 var default_state = null;
