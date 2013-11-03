@@ -256,12 +256,12 @@ numbers
 (defn maybe [f x] (if x (f x) x))
 
 (defn selector [p]
-  (str "#root > div:first-child " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
+  (str "#root " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
 )
 
 (defn replacement-selector
   ([p]
-    (replacement-selector "#root > div:first-child "
+    (replacement-selector "#root "
       (apply str (map  {:v " > div:first-child " :> " + div"} p)))
   )
   ([s ps]
@@ -276,29 +276,20 @@ numbers
 (defn update-element!
   ([context] (update-element! context context context))
   ([context new old]
-    (log "  replace: " (apply str (take 16 (str old))))
-    (log "  replace " (sel1 (replacement-selector (structure/path context old))))
-    ;(log "  with " (first (structure/translate 64 64 to-html s)))
-    (log "  with " (apply str (take 16 (str new))))
       (dommy/replace!
         (sel1 ;"#root > div:first-child "
           (replacement-selector (structure/path context old))
         )
         (first (structure/translate 64 64 to-html new))
       )
-   s)
+   new)
 )
 
 (defn select-state!
   ([s] (select-state! s (map (comp selector (partial structure/path (:context s))) (:selected s))))
   ([s paths]
-    (log "  focus path: " (str (structure/path (:context s) (:focus s))))
-    (log "  context   : " (str (structure/path (:context s))))
-    (log "focus seltor " (selector (structure/path (:context s) (:focus s))))
     (select-state! s paths (sel paths) (sel1 (selector (structure/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    (log "  focus elem: " focus)
-    (log "  node: " (apply str (take 64 (str (zip/node (:focus s))))) (str (meta (zip/node (:focus s)))))
     (last (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     (last (map (fn [q] (dommy/remove-class! q "selected-parent")) (sel ".selected-parent")))
     (doseq [selection selections]
@@ -313,12 +304,6 @@ numbers
   {
     :select select-state!
     :modify (fn [s]
-                (log "  --- modified --- " (:x s) (apply str (take 16 (str (:modified s)))))
-                (log "  context pathhhh: " (str (structure/path (:context s))))
-                (log "  focus pathhhh: " (str (structure/path (:context s) (:focus s))))
-                (log "  mod   pathhhh: " (str (structure/path (:context s) (:modified s))))
-                (log "    focus " (apply str (take 16 (str (:focus s)))))
-               ;(log "modified: " (zip/node (:modified s)) (str (structure/path (:context s) (:modified s))))
                (update-element!
                 (:context s)
                 (:focus s)
@@ -367,15 +352,17 @@ numbers
 ;                     ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg,
 ;                     keyCodeArg, charCodeArg)
 (defn keydown [state e]
-  ;(.log  js/console "kd> " (.-keyCode e))
+  ;(.log  js/console "kd> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
   (. e preventDefault)
   (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
   ;(log (str (:keymap @state)))
 )
 
 (defn keyup [state e]
+  ;(.log  js/console "ku> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
   (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
 )
+
 
 (defn make-ui
   ([e] (make-ui e (atom (add-eval (add-info (structure/default-state))))))
@@ -384,7 +371,9 @@ numbers
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
     (update-element! (:context (structure/latest-state @state)))
-    (add-watch state :update-display (fn [k r o n] (display-with-latest (structure/latest-state n))))
+    (add-watch state :update-display
+      (fn [k r o n]
+      (display-with-latest (structure/latest-state n))))
   )
 )
 

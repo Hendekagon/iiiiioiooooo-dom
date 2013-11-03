@@ -74,21 +74,22 @@
     (fn [node children] (with-meta children (merge (or (meta node) {}) {:open true}))) ; return new branch of given children
     x))
 
+(defn top
+  ([z]  (top z (zip/up z)))
+  ([z up] (if up (top up) z))
+)
+
+; this while thing is just awefull!
 (defn path
   ([t] (path (top t) t))
   ([c t] (path t (zip/up t) (zip/left t) [] c))
   ([t p c] (path t (zip/up t) (zip/left t) p c))
   ([t u l p c]
-    (if (or (nil? u) (= (zip/node t) (zip/node c)))
-      p
+   (if (or (nil? u) (= (zip/node (zip/next t)) (zip/node (zip/next c))))
+      (if (and t (= (zip/node (zip/next t)) (zip/node (zip/next c)))) (cons :v p) p)
       (path (if l l u) (cons (if l :> :v) p) c)
     )
   )
-)
-
-(defn top
-  ([z]  (top z (zip/up z)))
-  ([z up] (if up (top up) z))
 )
 
 (defn nodes [n] (take-while (complement zip/end?) (iterate zip/next n)))
@@ -215,12 +216,10 @@
 
 (defn replace-parent ^{:doc "replace parent with child"} [s x]
   (modified x
-    (fn [n]
-      (zip/replace n "qwe")
-      ;(zip/prev (zip/next n))
+    (fn [l]
+      (zip/replace (zip/up l) (zip/node l))
     )
-
-    ;(zip/up (:focus x))
+    (zip/up (:focus x))
   )
 )
 
@@ -255,12 +254,16 @@
 )
 
 ; this happens for *every* key that's released: e.g. alt-e would result in 2 of these, 1 for alt, 1 for e
-(defn keyup [s x]
-  (push-history
-    (or
-      ((get-in x (conj (:keypath x) (:key x)) nop) s (kop x))
-       s)
-       s))
+(defn keyup
+  ([s x] (keyup s x (get-in x (conj (:keypath x) (:key x)) nop)))
+  ([s x f]
+    (push-history
+      (or
+        (f s (assoc (kop x) :op (str f)))
+         s)
+         s)
+  )
+)
 
 (defn latest-state [history]
   (-> history top zip/down zip/rightmost zip/node)
@@ -388,9 +391,9 @@
    ([h]
     (default-state (latest-state h) h)
    )
-   ([s h]
+   ([s h] ; s isa map, h isa zip location of the history
     (default-state (push-history (assoc s
-      :context (zip/up (find-first :test1 h))
+      :context (zip/up (find-first :test1 h)) ;(zip/down h)
       :focus (zip/up (zip/rightmost (zip/down h)))
       :selected [3 4]
       :qwe 1 :poi "qwe") h) (latest-state h) nil)

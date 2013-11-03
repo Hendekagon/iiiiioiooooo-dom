@@ -124,40 +124,6 @@ iiiiioiooooo.core.structure.seq_map_zip = (function seq_map_zip(x){return clojur
 })(),cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"open","open",1017321916),true], true)));
 }),x);
 });
-iiiiioiooooo.core.structure.path = (function() {
-var path = null;
-var path__1 = (function (t){return path.call(null,iiiiioiooooo.core.structure.top.call(null,t),t);
-});
-var path__2 = (function (c,t){return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),cljs.core.PersistentVector.EMPTY,c);
-});
-var path__3 = (function (t,p,c){return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),p,c);
-});
-var path__5 = (function (t,u,l,p,c){if(((u == null)) || (cljs.core._EQ_.call(null,clojure.zip.node.call(null,t),clojure.zip.node.call(null,c))))
-{return p;
-} else
-{return path.call(null,(cljs.core.truth_(l)?l:u),cljs.core.cons.call(null,(cljs.core.truth_(l)?new cljs.core.Keyword(null,">",">",1013904304):new cljs.core.Keyword(null,"v","v",1013904360)),p),c);
-}
-});
-path = function(t,u,l,p,c){
-switch(arguments.length){
-case 1:
-return path__1.call(this,t);
-case 2:
-return path__2.call(this,t,u);
-case 3:
-return path__3.call(this,t,u,l);
-case 5:
-return path__5.call(this,t,u,l,p,c);
-}
-throw(new Error('Invalid arity: ' + arguments.length));
-};
-path.cljs$core$IFn$_invoke$arity$1 = path__1;
-path.cljs$core$IFn$_invoke$arity$2 = path__2;
-path.cljs$core$IFn$_invoke$arity$3 = path__3;
-path.cljs$core$IFn$_invoke$arity$5 = path__5;
-return path;
-})()
-;
 iiiiioiooooo.core.structure.top = (function() {
 var top = null;
 var top__1 = (function (z){return top.call(null,z,clojure.zip.up.call(null,z));
@@ -180,6 +146,49 @@ throw(new Error('Invalid arity: ' + arguments.length));
 top.cljs$core$IFn$_invoke$arity$1 = top__1;
 top.cljs$core$IFn$_invoke$arity$2 = top__2;
 return top;
+})()
+;
+iiiiioiooooo.core.structure.path = (function() {
+var path = null;
+var path__1 = (function (t){return path.call(null,iiiiioiooooo.core.structure.top.call(null,t),t);
+});
+var path__2 = (function (c,t){return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),cljs.core.PersistentVector.EMPTY,c);
+});
+var path__3 = (function (t,p,c){return path.call(null,t,clojure.zip.up.call(null,t),clojure.zip.left.call(null,t),p,c);
+});
+var path__5 = (function (t,u,l,p,c){if(((u == null)) || (cljs.core._EQ_.call(null,clojure.zip.node.call(null,clojure.zip.next.call(null,t)),clojure.zip.node.call(null,clojure.zip.next.call(null,c)))))
+{if(cljs.core.truth_((function (){var and__2950__auto__ = t;if(cljs.core.truth_(and__2950__auto__))
+{return cljs.core._EQ_.call(null,clojure.zip.node.call(null,clojure.zip.next.call(null,t)),clojure.zip.node.call(null,clojure.zip.next.call(null,c)));
+} else
+{return and__2950__auto__;
+}
+})()))
+{return cljs.core.cons.call(null,new cljs.core.Keyword(null,"v","v",1013904360),p);
+} else
+{return p;
+}
+} else
+{return path.call(null,(cljs.core.truth_(l)?l:u),cljs.core.cons.call(null,(cljs.core.truth_(l)?new cljs.core.Keyword(null,">",">",1013904304):new cljs.core.Keyword(null,"v","v",1013904360)),p),c);
+}
+});
+path = function(t,u,l,p,c){
+switch(arguments.length){
+case 1:
+return path__1.call(this,t);
+case 2:
+return path__2.call(this,t,u);
+case 3:
+return path__3.call(this,t,u,l);
+case 5:
+return path__5.call(this,t,u,l,p,c);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+path.cljs$core$IFn$_invoke$arity$1 = path__1;
+path.cljs$core$IFn$_invoke$arity$2 = path__2;
+path.cljs$core$IFn$_invoke$arity$3 = path__3;
+path.cljs$core$IFn$_invoke$arity$5 = path__5;
+return path;
 })()
 ;
 iiiiioiooooo.core.structure.nodes = (function nodes(n){return cljs.core.take_while.call(null,cljs.core.complement.call(null,clojure.zip.end_QMARK_),cljs.core.iterate.call(null,clojure.zip.next,n));
@@ -342,8 +351,8 @@ iiiiioiooooo.core.structure.add_keybinding = (function add_keybinding(x,path,f){
 });
 iiiiioiooooo.core.structure.root = (function root(s,x){return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.top);
 });
-iiiiioiooooo.core.structure.replace_parent = (function replace_parent(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (n){return clojure.zip.replace.call(null,n,"qwe");
-}));
+iiiiioiooooo.core.structure.replace_parent = (function replace_parent(s,x){return iiiiioiooooo.core.structure.modified.call(null,x,(function (l){return clojure.zip.replace.call(null,clojure.zip.up.call(null,l),clojure.zip.node.call(null,l));
+}),clojure.zip.up.call(null,new cljs.core.Keyword(null,"focus","focus",1111509066).cljs$core$IFn$_invoke$arity$1(x)));
 });
 iiiiioiooooo.core.structure.split_into_children = (function split_into_children(s,x){return cljs.core.assoc.call(null,cljs.core.update_in.call(null,x,cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null,"focus","focus",1111509066)], true),(function (n){return clojure.zip.replace.call(null,n,clojure.zip.make_node.call(null,n,clojure.zip.node.call(null,n),clojure.zip.children.call(null,clojure.zip.vector_zip.call(null,cljs.core.vec.call(null,cljs.core.name.call(null,clojure.zip.node.call(null,n)))))));
 })),new cljs.core.Keyword(null,"action","action",3885920680),new cljs.core.Keyword(null,"modify","modify",4240075820));
@@ -387,13 +396,31 @@ return find_first;
 iiiiioiooooo.core.structure.next_starting_with = (function next_starting_with(c){return (function (s,x){return iiiiioiooooo.core.structure.selected.call(null,x,iiiiioiooooo.core.structure.next_at.call(null,(cljs.core.count.call(null,new cljs.core.Keyword(null,"keypath","keypath",4494241398).cljs$core$IFn$_invoke$arity$1(x)) - 1),c));
 });
 });
-iiiiioiooooo.core.structure.keyup = (function keyup(s,x){return iiiiioiooooo.core.structure.push_history.call(null,(function (){var or__2959__auto__ = cljs.core.get_in.call(null,x,cljs.core.conj.call(null,new cljs.core.Keyword(null,"keypath","keypath",4494241398).cljs$core$IFn$_invoke$arity$1(x),new cljs.core.Keyword(null,"key","key",1014010321).cljs$core$IFn$_invoke$arity$1(x)),iiiiioiooooo.core.structure.nop).call(null,s,iiiiioiooooo.core.structure.kop.call(null,x));if(cljs.core.truth_(or__2959__auto__))
+iiiiioiooooo.core.structure.keyup = (function() {
+var keyup = null;
+var keyup__2 = (function (s,x){return keyup.call(null,s,x,cljs.core.get_in.call(null,x,cljs.core.conj.call(null,new cljs.core.Keyword(null,"keypath","keypath",4494241398).cljs$core$IFn$_invoke$arity$1(x),new cljs.core.Keyword(null,"key","key",1014010321).cljs$core$IFn$_invoke$arity$1(x)),iiiiioiooooo.core.structure.nop));
+});
+var keyup__3 = (function (s,x,f){return iiiiioiooooo.core.structure.push_history.call(null,(function (){var or__2959__auto__ = f.call(null,s,cljs.core.assoc.call(null,iiiiioiooooo.core.structure.kop.call(null,x),new cljs.core.Keyword(null,"op","op",1013907795),[cljs.core.str(f)].join('')));if(cljs.core.truth_(or__2959__auto__))
 {return or__2959__auto__;
 } else
 {return s;
 }
 })(),s);
 });
+keyup = function(s,x,f){
+switch(arguments.length){
+case 2:
+return keyup__2.call(this,s,x);
+case 3:
+return keyup__3.call(this,s,x,f);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+keyup.cljs$core$IFn$_invoke$arity$2 = keyup__2;
+keyup.cljs$core$IFn$_invoke$arity$3 = keyup__3;
+return keyup;
+})()
+;
 iiiiioiooooo.core.structure.latest_state = (function latest_state(history){return clojure.zip.node.call(null,clojure.zip.rightmost.call(null,clojure.zip.down.call(null,iiiiioiooooo.core.structure.top.call(null,history))));
 });
 iiiiioiooooo.core.structure.focus_on_latest = (function focus_on_latest(h,x){return iiiiioiooooo.core.structure.selected.call(null,x,(function (loc){return clojure.zip.rightmost.call(null,clojure.zip.down.call(null,iiiiioiooooo.core.structure.top.call(null,h)));
