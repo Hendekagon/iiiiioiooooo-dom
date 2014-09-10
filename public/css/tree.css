@@ -99,16 +99,25 @@ display:block;
 {
     background-color: red;
 }
- .string
+.string
 {
-color: rgba(255,200,150,1.0);
+color: rgba(255,200,80,1.0);
 //display: block;
 //width: 31%;
-font-style: italic;
+font-style: plain;
 font-family: sans-serif;
 font-size: 0.8em;
 }
 .fn
 {
-
+	color: rgba(255,255, 255,1.0);
+}
+.keyword
+{
+	color: rgba(255,100, 250,1.0);
+}
+.quote
+{
+font-style: italic;
+color: rgba(255,230, 250,1.0);
 }

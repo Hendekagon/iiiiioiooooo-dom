@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: prismatic/dommy:0.1.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/prismatic/dommy/0.1.3-SNAPSHOT/dommy-0.1.3-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

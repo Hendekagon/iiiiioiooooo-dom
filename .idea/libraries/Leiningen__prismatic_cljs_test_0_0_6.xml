@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Leiningen: prismatic/cljs-test:0.0.6">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/prismatic/cljs-test/0.0.6/cljs-test-0.0.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
