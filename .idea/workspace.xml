@@ -1,7 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4191fb8b-d95b-4c3f-9263-6ace417e86df" name="Default" comment="" />
+    <list default="true" id="4191fb8b-d95b-4c3f-9263-6ace417e86df" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/goog/debug/errorhandlerweakdep.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/goog/events/eventwrapper.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/test.cljs" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/test.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/test.js.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/style.cljs" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/style.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/style.js.map" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/array/array.js" afterPath="$PROJECT_DIR$/public/js/goog/array/array.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/asserts/asserts.js" afterPath="$PROJECT_DIR$/public/js/goog/asserts/asserts.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/attrs.js.map" afterPath="$PROJECT_DIR$/public/js/dommy/attrs.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/attrs.js" afterPath="$PROJECT_DIR$/public/js/dommy/attrs.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/base.js" afterPath="$PROJECT_DIR$/public/js/goog/base.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/browserevent.js" afterPath="$PROJECT_DIR$/public/js/goog/events/browserevent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/browserfeature.js" afterPath="$PROJECT_DIR$/public/js/goog/events/browserfeature.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/cljs/core.js.map" afterPath="$PROJECT_DIR$/public/js/cljs/core.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/core.js.map" afterPath="$PROJECT_DIR$/public/js/dommy/core.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/cljs/core.js" afterPath="$PROJECT_DIR$/public/js/cljs/core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/core.js" afterPath="$PROJECT_DIR$/public/js/dommy/core.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/disposable/disposable.js" afterPath="$PROJECT_DIR$/public/js/goog/disposable/disposable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/debug/error.js" afterPath="$PROJECT_DIR$/public/js/goog/debug/error.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clojure/browser/event.js.map" afterPath="$PROJECT_DIR$/public/js/clojure/browser/event.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clojure/browser/event.js" afterPath="$PROJECT_DIR$/public/js/clojure/browser/event.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/event.js" afterPath="$PROJECT_DIR$/public/js/goog/events/event.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/events.js" afterPath="$PROJECT_DIR$/public/js/goog/events/events.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/eventtarget.js" afterPath="$PROJECT_DIR$/public/js/goog/events/eventtarget.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/eventtype.js" afterPath="$PROJECT_DIR$/public/js/goog/events/eventtype.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/disposable/idisposable.js" afterPath="$PROJECT_DIR$/public/js/goog/disposable/idisposable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo.js" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/keycodes.js" afterPath="$PROJECT_DIR$/public/js/goog/events/keycodes.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/keyhandler.js" afterPath="$PROJECT_DIR$/public/js/goog/events/keyhandler.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/listenable.js" afterPath="$PROJECT_DIR$/public/js/goog/events/listenable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/events/listener.js" afterPath="$PROJECT_DIR$/public/js/goog/events/listener.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/object/object.js" afterPath="$PROJECT_DIR$/public/js/goog/object/object.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.clj" afterPath="$PROJECT_DIR$/project.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clojure/string.js.map" afterPath="$PROJECT_DIR$/public/js/clojure/string.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clojure/string.js" afterPath="$PROJECT_DIR$/public/js/clojure/string.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/string/string.js" afterPath="$PROJECT_DIR$/public/js/goog/string/string.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/string/stringbuffer.js" afterPath="$PROJECT_DIR$/public/js/goog/string/stringbuffer.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" afterPath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/structure.cljs" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/structure.cljs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/structure.js.map" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/structure.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/structure.js" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo/core/structure.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/template.js.map" afterPath="$PROJECT_DIR$/public/js/dommy/template.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/template.js" afterPath="$PROJECT_DIR$/public/js/dommy/template.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/ui.cljs" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo/ui.cljs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/ui.js.map" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo/ui.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/iiiiioiooooo/ui.js" afterPath="$PROJECT_DIR$/public/js/iiiiioiooooo/ui.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/goog/useragent/useragent.js" afterPath="$PROJECT_DIR$/public/js/goog/useragent/useragent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/utils.js.map" afterPath="$PROJECT_DIR$/public/js/dommy/utils.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dommy/utils.js" afterPath="$PROJECT_DIR$/public/js/dommy/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clojure/zip.js.map" afterPath="$PROJECT_DIR$/public/js/clojure/zip.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/clojure/zip.js" afterPath="$PROJECT_DIR$/public/js/clojure/zip.js" />
+    </list>
     <ignored path="morse.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,29 +121,29 @@
       <file leaf-file-name="project.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="36" selection-start="260" selection-end="260" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="648">
+            <state line="5" column="34" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="648">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="structure.clj" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="structure.clj" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="22" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0" vertical-offset="9610" max-vertical-offset="10584">
-              <folding>
-                <marker date="1397801059000" expanded="true" signature="1463:1656" placeholder="(defn type-str ...)" />
-                <marker date="1397801059000" expanded="true" signature="15642:16393" placeholder="(defn update! ...)" />
-              </folding>
+            <state line="3" column="5" selection-start="75" selection-end="75" vertical-scroll-proportion="0.05544148" vertical-offset="0" max-vertical-offset="10656">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ui.cljs" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ui.cljs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="287" column="29" selection-start="6723" selection-end="6723" vertical-scroll-proportion="0.16837782" vertical-offset="5002" max-vertical-offset="6552">
+            <state line="287" column="29" selection-start="6723" selection-end="6723" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6552">
               <folding>
+                <marker date="1397806639000" expanded="true" signature="1234:1547" placeholder="(def alphabet ...)" />
+                <marker date="1397806639000" expanded="true" signature="3470:4042" placeholder="(defn add-eval ...)" />
+                <marker date="1397806639000" expanded="true" signature="4574:4863" placeholder="(defn keydown ...)" />
                 <marker date="1397806639000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
               </folding>
             </state>
@@ -121,11 +176,11 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/project.clj" />
         <option value="$PROJECT_DIR$/public/css/tree.css" />
-        <option value="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" />
         <option value="$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs" />
         <option value="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj" />
+        <option value="$PROJECT_DIR$/project.clj" />
+        <option value="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" />
       </list>
     </option>
   </component>
@@ -437,13 +492,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="36" selection-start="260" selection-end="260" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="648">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/tree.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="118" column="6" selection-start="1912" selection-end="1912" vertical-scroll-proportion="0.0" vertical-offset="1330" max-vertical-offset="2304">
@@ -458,22 +506,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
+    <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="22" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0" vertical-offset="9610" max-vertical-offset="10584">
+        <state line="287" column="29" selection-start="6723" selection-end="6723" vertical-scroll-proportion="0.0" vertical-offset="5002" max-vertical-offset="6552">
           <folding>
-            <marker date="1397801059000" expanded="true" signature="1463:1656" placeholder="(defn type-str ...)" />
-            <marker date="1397801059000" expanded="true" signature="15642:16393" placeholder="(defn update! ...)" />
+            <marker date="1397806639000" expanded="true" signature="1234:1547" placeholder="(def alphabet ...)" />
+            <marker date="1397806639000" expanded="true" signature="3470:4042" placeholder="(defn add-eval ...)" />
+            <marker date="1397806639000" expanded="true" signature="4574:4863" placeholder="(defn keydown ...)" />
+            <marker date="1397806639000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
+    <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="287" column="29" selection-start="6723" selection-end="6723" vertical-scroll-proportion="0.16837782" vertical-offset="5002" max-vertical-offset="6552">
-          <folding>
-            <marker date="1397806639000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
-          </folding>
+        <state line="5" column="34" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="5" selection-start="75" selection-end="75" vertical-scroll-proportion="0.05544148" vertical-offset="0" max-vertical-offset="10656">
+          <folding />
         </state>
       </provider>
     </entry>

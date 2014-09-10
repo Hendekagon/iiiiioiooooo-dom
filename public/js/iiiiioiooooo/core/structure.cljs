@@ -5,44 +5,51 @@
 (ns iiiiioiooooo.core.structure
   (:require
     [clojure.zip :as zip]
-    [iiiiioiooooo.core.test :as test]
+    ;[clojure.core.match :as m]
   )
 )
+
+; Box of Pencils, Box of Matches, Box of Tea
+
+; This is an experimental Structure Editor for Clojure.
+; It works by having a zipper on a map which has a focus, selection and context.
+; The context is a zipper which is the scope of what we see when we visualize the data we're editing.
+; The focus is a zipper which is what we're currently focussed to act on in the context.
+; All functions which modify the data structure via the focus in the context go through
+; a function to which they return what they've modified, so the UI can tell what's changed.
+; All the modifying functions live in the data structure (with the meta of the zipper),
+; so they can all be edited too, theoretically, although this will have to wait for
+; first-class environments before it really works.
+;
+; I'm sorry for all the dreadfully crap naming and inconsistent patterns in this code.
+; It's a product of evolution.
+; The most recent change was to get away from HTML and SVG for the GUI which I had before.
+; I decided I hated HTML too much, so switched to canvas, and now I'm moving to WebGL.
 
 (defn maybe [f x] (if x (f x) x))
 
+(defn -_
+  ([f _ x] (fn [y] (f y x)))
+  ([f x] (partial f x))
+)
+
+(def -+ comp)
+
+(def -- complement)
+
 (defn peek-first [p] (-> p (zip/down) (partial maybe zip/node) str))
 
-(defn make-id [h] (str "id" h))
-
-(defn to-html
-  ([n] (conj [:div {:class (str "leaf " (cond (fn? n) "fn ") (if (:open (meta n)) "open" "closed") )}] (str n)))
-  ([n c] (apply conj [:div {:class (str "branch open " n)}] c))
-  ([n n c] [:div {:class (str "branch folded")}])
-  ([] [:div {:class "branch "}])
-)
-
-(defn selector [p]
-  (str "#root > li:first-child " (apply str (map  {:down " > ul:first-child > li:first-child" :right " + li"} p)))
-)
-
-(defn replacement-selector
-  ([p]
-    (replacement-selector "#root > li:first-child "
-      (apply str (map  {:down " > ul:first-child > li:first-child" :right " + li"} p)))
-  )
-  ([s ps]
-    ;(log ">>> " ps)
-    (str s (if (= ps "")  "> ul:first-child" ps)))
-)
-
+(defn zipper? [l] (contains? (meta l) :zip/branch?))
 
 (defn type-str [b]
   (cond
     (list? b) :list
+    (number? b) :number
     (symbol? b) (str b)
+    (string? b) :string
     (vector? b) :vector
     (map? b) :map
+    (zipper? b) :zipper
     :default :unknown
   )
 )
@@ -71,12 +78,82 @@
   )
 )
 
-(defn seq-map-zip [x]
-  (zip/zipper
-    (fn [n] (or (seq? n) (map? n) (vector? n))) ; can have children ?
-    (fn [b] (if (map? b) (seq b) b))  ;return children of given node
-    (fn [node children] (with-meta children (merge (or (meta node) {}) {:open true}))) ; return new branch of given children
-    x))
+(defn zm [[[z1 m1] [m2 z2]]] [z1 (merge m1 (:* m2))])
+
+(defn nn [l]
+  (if (:map? (meta (zip/node l)))
+    (with-meta
+      (reduce
+        (fn [r [k v]] (assoc r k v))
+         {} (zip/node l))
+         (meta (zip/node l)))
+    (zip/node l)))
+
+(defn as
+  ([l] (as l :fn))
+  ;([l k] ((or (get-in (meta l) [:* k]) identity) l))
+  ([l r & k]
+    (with-meta
+    l
+    (assoc-in (meta l) [:* r]
+      (apply (or (get-in (meta l) [:* (first k)]) identity) (if (empty? (rest k)) [l] (map (-_ get-in (meta l)) (map (-_ conj [:*]) (rest k)))))))
+  )
+)
+
+(defn az
+([l & k]
+    (apply (or (get-in (meta l) [:* (first k)]) identity) (cons l (map (-_ get-in (meta l)) (map (-_ conj [:*]) (rest k)))))
+  )
+)
+
+(defn zpr
+  [branch? children make-node root]
+    ^{
+      :zip/branch? branch?
+      :zip/children children
+      :zip/make-node make-node
+      :*
+      {
+        :fn (fn [l] (zip/edit l inc))
+        :nn nn
+        :m map
+        :> zip/next
+        :< zip/prev
+        :V zip/down
+        :A zip/up
+        :+ (fn [l] (zip/edit l inc))
+        :- (fn [l] (zip/edit l dec))
+        :_+ zip/insert-right
+        :y (fn [l] (zip/replace (zip/up l) (nn l)))
+      }
+     }
+    [root nil])
+
+(defn put
+  ([loc] (put loc :fn))
+  ([loc k]
+    (with-meta loc (assoc-in (meta loc) [:* k] (nn loc)))
+    )
+)
+
+;user=> (-> (s/smz {:x 7 :y 9 :q (fn [l] (z/edit l (fn [x] (* x 9))))}) > (z/replace [:p 9]) > > (s/as) > > > > > > (s/put) < < < (s/as) s/top s/nn)
+
+
+(defn smz [x]
+  (zpr
+    (fn branch? [n] (or (seq? n) (map? n) (set? n) (vector? n))) ; can have children ?
+    (fn children [b]
+      (if (or (map? b) (set? b))
+        ;(map (comp (fn [n] (with-meta n {:map? (map? b)})) seq) (seq b))
+        (with-meta (seq b) {:map? true})
+        b)
+    )  ;return children of given node
+    (fn make-node [node children]
+      (with-meta children
+        (merge (or (meta node) {})
+          {:open true :map? (map? node) :set? (set? node)}))) ; make node
+    x)
+)
 
 (defn top
   ([z]  (top z (zip/up z)))
@@ -98,6 +175,26 @@
 
 (defn nodes [n] (take-while (complement zip/end?) (iterate zip/next n)))
 
+(defn ree [l]
+  (map (partial take 2) (take-while (comp (fn [n] (not (or (nil? n) (zip/end? n)))) last)
+    (iterate
+      (fn [[l i d r n]]
+        [n (if d :v (if r :> :A)) (zip/down n) (zip/right n) (if d d (if r r (zip/next l)))]
+      )
+      [l :_ (zip/down l) (zip/right l) (zip/next l)]
+    )))
+)
+
+(defn r* [l f]
+  (loop [l l i :_ d (zip/down l) r (zip/right l)]
+    (let [n (if d d (if r r (zip/next l)))]
+      ;(println d r)
+      (f l i)
+      (if (or (nil? n) (zip/end? n))
+        :end
+        (recur n (if d :v (if r :> :A)) (zip/down n) (zip/right n))
+      )))
+)
 
 (defn climb [p]
   (if
@@ -152,7 +249,8 @@
 (defn forward-zipper [f] (fn [loc]
   (if (and loc (contains? (meta (zip/node loc)) :zip/branch?)) (f (zip/node loc)) (f loc))) )
 
-(defn forward-to-zipper [f] (fn [x] (if (and x (contains? (meta (zip/node x)) :zip/branch?)) (f (zip/node x)) (f x))) )
+(defn forward-to-zipper [f] (fn [x]
+  (if (and x (contains? (meta (zip/node x)) :zip/branch?)) (f (zip/node x)) (f x))) )
 
 (defn maybe-select [x y] (if (= (meta (zip/node (:focus x))) (meta (zip/node (:focus y))))
   (assoc x :action :select) (assoc x :action :modify :modified (:focus x))))
@@ -168,27 +266,22 @@
       :modified m :action :modify :x (inc (or (:x s) 0))))
 )
 
-;(defn resolve [x] x) ; for below - delete - cljs-incljs
-
-"
+; [where-to-put-result fn args]
 (defn apply-selected
   ([h x]
-    (apply-selected h x (zip/node (first (:selected x)))
-      [
-        (list (zip/node (first (rest (:selected x)))) (map zip/node (rest (rest (:selected x)))))
-        (apply
-          (resolve (zip/node (first (rest (:selected x)))))
-          (map zip/node (rest (rest (:selected x))))
-          )
-        (resolve (zip/node (first (rest (:selected x)))))
-      ]
+    (apply-selected h x
+      (zip/node (first (:selected x)))
+      (list (zip/node (first (rest (:selected x)))) (map zip/node (rest (rest (:selected x)))))
+      (apply
+        (get x (zip/node (first (rest (:selected x)))) identity)
+        (map zip/node (rest (rest (:selected x))))
+      )
     )
   )
-  ([h x rl r]
-    (assoc x :result r :modified (first (:selected x)))
+  ([h x fn exp result]
+    (assoc x :modified result :fn-applied fn)
   )
 )
-"
 
 (defn left ^{:doc "previous"} [s x] (selected x zip/left))
 
@@ -215,6 +308,18 @@
 (defn leftmost ^{:doc "first"} [s x] (selected x zip/leftmost))
 
 (defn add-keybinding [x path f] (assoc-in x (cons :keymap path) f))
+
+(defn rotate< [s x] (update-in x [:rotation] (fn [r] (+ r 0.1))))
+
+(defn rotate> [s x] (update-in x [:rotation] (fn [r] (- r 0.1))))
+
+(defn tx- [s x] (update-in x [:translation 0] (fn [r] (- r 10))))
+
+(defn tx+ [s x] (update-in x [:translation 0] (fn [r] (+ r 10))))
+
+(defn ty- [s x] (update-in x [:translation 1] (fn [r] (- r 10))))
+
+(defn ty+ [s x] (update-in x [:translation 1] (fn [r] (+ r 10))))
 
 (defn root ^{:doc "root"} [s x] (selected x top))
 
@@ -287,6 +392,13 @@
       :i {:i (fn [s x] (modified x identity))}
       :alt nop
     }
+    :q {:q rotate>}
+    :w {:w rotate<}
+    :s {:s tx-}
+    :f {:f tx+}
+    :e {:e ty-}
+    :d {:d ty+}
+    :g {:g (fn [h s] (modified s (fn [l] (zip/edit l (fn [n] ( - n 10))))))}
     :up {:up out}
     :down {:down in}
     :right {:right depth-first-next
@@ -322,11 +434,13 @@
 (defn default-state
   ([]
     (default-state
-      (seq-map-zip
+      (smz
       [
         (with-meta
          {
           :keymap (default-keymap)
+          :rotation 3.14
+          :translation [200 200]
           :keyup
           {
             :esc safe
@@ -340,7 +454,7 @@
           :action :select
           :focus "hi"
           :context "poi"
-          :selected [7]
+          :selected #{7}
           :help
           [
           "iiiiioiooooo Clojure structure editor (barely functioning sketch of)"
@@ -353,8 +467,6 @@
           This is very primitive right now,
           it doesn't do much yet, just testing ideas, everything will change, or it will be abandoned.
           Works best in Chrome, keyboard-only! doesn't work on mobile browsers.
-          Plan: SVG view,
-          make as front-end for Session REPL. What can you do now ? Navigate the code and do basic editing.
           "
 
           ]
@@ -378,8 +490,8 @@
           }
           :qwe 0
           :test (with-meta '(+ 1 3) {:open true})
-          :test2 (with-meta (test/test-exp) {:open true})
-          :test3 (with-meta (test/test-exp3) {:open true})
+          :test2 (with-meta '(map inc (range 7)) {:open true})
+          :test3 (with-meta '(with-meta '(map inc (range 7)) {:open true}) {:open true})
           :test1
             (with-meta
               '((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
@@ -397,26 +509,25 @@
    )
    ([s h] ; s isa map, h isa zip location of the history
     (default-state (push-history (assoc s
-      :context (zip/up (find-first :test1 h)) ;(zip/down h)
+      :context (zip/up (find-first :test1 h))
       :focus (zip/up (zip/rightmost (zip/down h)))
-      :selected [3 4]
+      :selected #{3 4}
       :qwe 1 :poi "qwe") h) (latest-state h) nil)
    )
    ([h latest w]
     (push-history (assoc (latest-state h)
      :focus (zip/next (zip/next (:context (latest-state h))))
      :selected
-      [
+      #{
         (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
+        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next zip/next)
         (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right)
         (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right zip/right)
-      ]
-     :qwe 2 :wer "arse")
+       }
+      :qwe 2 :wer "arse")
       h)
    )
 )
-
 
 (defn fn-for-event [s e]
   (if (= e (select-keys s (keys e)))
@@ -442,4 +553,38 @@
 (defn update! [state e]
   (swap! state (fn [s] (update s e)))
 )
+
+(comment
+(defn IDL-match [[f & r]]
+   (m/match [f]
+            ["//"] {:comment (apply str r)}
+            ["typedef"] {:typedef 123}
+            :else []
+            )
+   )
+
+   (defn parseIDL
+  ([] (parseIDL "https://www.khronos.org/registry/webgl/specs/1.0/webgl.idl"))
+  ([url] (parseIDL url (slurp url)))
+  ([url idl]
+   (parseIDL url idl
+    (->>
+      idl
+      (partition-by (-_ = \newline))
+      (map (-_ partition-by (-_ = \space)))
+      (map (-_ map (-_ apply str)))
+      ))
+  )
+  ([url idl idls]
+    {
+      :header (filter (-+ (-_ = "//") first) idls)
+      :typedefs (filter (-+ (-_ = "typedef") first) idls)
+      :blocks (partition-by (-+ (-_ = "};") first) idls)
+      :idls idls
+      :idl idl
+      :url url
+    }
+  )
+)
+   )
 

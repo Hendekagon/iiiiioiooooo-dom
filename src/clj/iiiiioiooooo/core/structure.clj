@@ -1,7 +1,7 @@
 (ns iiiiioiooooo.core.structure
   (:require
     [clojure.zip :as zip]
-    [clojure.core.match :as m]
+    ;[clojure.core.match :as m]
   )
 )
 
@@ -550,15 +550,16 @@
   (swap! state (fn [s] (update s e)))
 )
 
+(comment
 (defn IDL-match [[f & r]]
-  (m/match [f]
-    ["//"] {:comment (apply str r)}
-    ["typedef"] {:typedef 123}
-    :else []
-  )
-)
+   (m/match [f]
+            ["//"] {:comment (apply str r)}
+            ["typedef"] {:typedef 123}
+            :else []
+            )
+   )
 
-(defn parseIDL
+   (defn parseIDL
   ([] (parseIDL "https://www.khronos.org/registry/webgl/specs/1.0/webgl.idl"))
   ([url] (parseIDL url (slurp url)))
   ([url idl]
@@ -581,3 +582,5 @@
     }
   )
 )
+   )
+

@@ -3,7 +3,7 @@
   [
     [org.clojure/clojure "1.6.0"]
     [org.clojure/core.logic "0.8.4"]
-    [org.clojure/core.match "0.2.0"]
+    [org.clojure/core.match "0.2.1"]
     [criterium "0.3.1"]
     [prismatic/dommy "0.1.3-SNAPSHOT"]
     [org.clojure/clojurescript "0.0-2322"]

@@ -376,5 +376,5 @@ ontos-MacBook-Air:clojurescript onto$ cp ./iiiiioiooooo.js ~/projects/morse/publ
 )
 
 
-
+; (-> (s/smz [1 2 3 *]) > > (s/put :1) > (s/put :2) > (s/put :3) (s/as :4 :3 :1 :2) (s/az :_+ :4) z/up s/nn)
 

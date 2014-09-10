@@ -6,9 +6,7 @@ goog.addDependency("../dommy/attrs.js", ['dommy.attrs'], ['cljs.core', 'clojure.
 goog.addDependency("../dommy/template.js", ['dommy.template'], ['cljs.core', 'dommy.attrs', 'clojure.string']);
 goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
 goog.addDependency("../dommy/core.js", ['dommy.core'], ['dommy.template', 'cljs.core', 'dommy.attrs', 'dommy.utils', 'clojure.string']);
-goog.addDependency("../iiiiioiooooo/style.js", ['iiiiioiooooo.style'], ['cljs.core']);
 goog.addDependency("../cljs/core/match.js", ['cljs.core.match'], ['cljs.core']);
-goog.addDependency("../iiiiioiooooo/core/test.js", ['iiiiioiooooo.core.test'], ['clojure.zip', 'cljs.core']);
-goog.addDependency("../iiiiioiooooo/core/structure.js", ['iiiiioiooooo.core.structure'], ['iiiiioiooooo.core.test', 'clojure.zip', 'cljs.core']);
+goog.addDependency("../iiiiioiooooo/core/structure.js", ['iiiiioiooooo.core.structure'], ['clojure.zip', 'cljs.core']);
 goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['cljs.core', 'goog.events.EventTarget', 'goog.events.EventType', 'goog.events']);
-goog.addDependency("../iiiiioiooooo/ui.js", ['iiiiioiooooo.ui'], ['clojure.zip', 'dommy.template', 'cljs.core', 'goog.events.KeyHandler', 'dommy.core', 'iiiiioiooooo.style', 'cljs.core.match', 'goog.events.KeyCodes', 'iiiiioiooooo.core.structure', 'clojure.browser.event']);
+goog.addDependency("../iiiiioiooooo/ui.js", ['iiiiioiooooo.ui'], ['clojure.zip', 'dommy.template', 'cljs.core', 'goog.events.KeyHandler', 'dommy.core', 'cljs.core.match', 'goog.events.KeyCodes', 'iiiiioiooooo.core.structure', 'clojure.browser.event']);
