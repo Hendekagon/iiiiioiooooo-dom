@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4191fb8b-d95b-4c3f-9263-6ace417e86df" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/macros.clj" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/cljs/iiiiioiooooo/style.cljs" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" afterPath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj" afterPath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs" afterPath="$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs" />
-    </list>
+    <list default="true" id="4191fb8b-d95b-4c3f-9263-6ace417e86df" name="Default" comment="" />
     <ignored path="morse.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -81,7 +75,7 @@
       <file leaf-file-name="structure.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="12" selection-start="2200" selection-end="2200" vertical-scroll-proportion="0.0" vertical-offset="754" max-vertical-offset="10584">
+            <state line="52" column="22" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0" vertical-offset="9610" max-vertical-offset="10584">
               <folding>
                 <marker date="1397801059000" expanded="true" signature="1463:1656" placeholder="(defn type-str ...)" />
                 <marker date="1397801059000" expanded="true" signature="15642:16393" placeholder="(defn update! ...)" />
@@ -90,10 +84,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ui.cljs" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ui.cljs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="209" column="3" selection-start="3432" selection-end="3432" vertical-scroll-proportion="0.0" vertical-offset="5398" max-vertical-offset="6552">
+            <state line="287" column="29" selection-start="6723" selection-end="6723" vertical-scroll-proportion="0.16837782" vertical-offset="5002" max-vertical-offset="6552">
               <folding>
                 <marker date="1397806639000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
               </folding>
@@ -101,7 +95,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.clj" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="test.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
           <provider selected="true" editor-type-id="text-editor">
             <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="6876">
@@ -457,9 +451,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="6876">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="12" selection-start="2200" selection-end="2200" vertical-scroll-proportion="0.0" vertical-offset="754" max-vertical-offset="10584">
+        <state line="52" column="22" selection-start="1680" selection-end="1680" vertical-scroll-proportion="0.0" vertical-offset="9610" max-vertical-offset="10584">
           <folding>
             <marker date="1397801059000" expanded="true" signature="1463:1656" placeholder="(defn type-str ...)" />
             <marker date="1397801059000" expanded="true" signature="15642:16393" placeholder="(defn update! ...)" />
@@ -469,17 +470,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="209" column="3" selection-start="3432" selection-end="3432" vertical-scroll-proportion="0.0" vertical-offset="5398" max-vertical-offset="6552">
+        <state line="287" column="29" selection-start="6723" selection-end="6723" vertical-scroll-proportion="0.16837782" vertical-offset="5002" max-vertical-offset="6552">
           <folding>
             <marker date="1397806639000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="6876">
-          <folding />
         </state>
       </provider>
     </entry>
