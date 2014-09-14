@@ -307,7 +307,7 @@
 
 (defn show [{{c :context w :w h :h} :ui r :rotation trans :translation root :context focus :focus selected :selected}]
   ;(dorun [(. c setTransform 1 0 0 1 0 0) (. c rotate 7.3) (. c clearRect 0 0 w h) (. c save)])
-  (log (apply str (take 16 (str (zip/node focus)))))
+  ;(log (apply str (take 16 (str (zip/node focus)))))
   ;(dorun (map log (map str (structure/r* root))))
   (dorun
     (mapcat
