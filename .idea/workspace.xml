@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4191fb8b-d95b-4c3f-9263-6ace417e86df" name="Default" comment="" />
+    <list default="true" id="4191fb8b-d95b-4c3f-9263-6ace417e86df" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" afterPath="$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj" />
+    </list>
     <ignored path="morse.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,7 +68,7 @@
       <file leaf-file-name="project.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="34" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="648">
+            <state line="5" column="34" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="612">
               <folding />
             </state>
           </provider>
@@ -75,10 +77,8 @@
       <file leaf-file-name="structure.clj" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="216" column="17" selection-start="5937" selection-end="5937" vertical-scroll-proportion="0.2402464" vertical-offset="3654" max-vertical-offset="10602">
-              <folding>
-                <marker date="1410664506000" expanded="true" signature="15683:16428" placeholder="(comment ...)" />
-              </folding>
+            <state line="12" column="88" selection-start="454" selection-end="454" vertical-scroll-proportion="-18.54801" vertical-offset="8124" max-vertical-offset="10013">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -86,13 +86,8 @@
       <file leaf-file-name="ui.cljs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="327" column="1" selection-start="9486" selection-end="9486" vertical-scroll-proportion="0.0" vertical-offset="5578" max-vertical-offset="6552">
-              <folding>
-                <marker date="1410332832000" expanded="true" signature="1234:1547" placeholder="(def alphabet ...)" />
-                <marker date="1410332832000" expanded="true" signature="3470:4042" placeholder="(defn add-eval ...)" />
-                <marker date="1410332832000" expanded="true" signature="4574:4863" placeholder="(defn keydown ...)" />
-                <marker date="1410332832000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
-              </folding>
+            <state line="327" column="1" selection-start="9486" selection-end="9486" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6188">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,7 +95,7 @@
       <file leaf-file-name="test.clj" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="6876">
+            <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="6067" max-vertical-offset="6494">
               <folding />
             </state>
           </provider>
@@ -109,7 +104,7 @@
       <file leaf-file-name="tree.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/tree.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="38" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="2304">
+            <state line="40" column="38" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="2176">
               <folding />
             </state>
           </provider>
@@ -118,7 +113,7 @@
       <file leaf-file-name="tree.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public1/css/tree.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="10" selection-start="630" selection-end="630" vertical-scroll-proportion="0.0" vertical-offset="234" max-vertical-offset="2322">
+            <state line="37" column="10" selection-start="630" selection-end="630" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="2193">
               <folding />
             </state>
           </provider>
@@ -142,10 +137,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="718" />
-    <option name="y" value="-1058" />
-    <option name="width" value="960" />
-    <option name="height" value="1058" />
+    <option name="y" value="23" />
+    <option name="width" value="1366" />
+    <option name="height" value="741" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -181,92 +175,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cljs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="iiiiioiooooo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="clj" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="morse" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -281,6 +189,22 @@
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="FullScreen" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="129" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="131" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="134" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="929" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="129" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="131" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="134" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="929" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
@@ -309,14 +233,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-      <method />
-    </configuration>
     <configuration default="true" type="ClojureREPL" factoryName="Local">
       <setting name="useLein" value="true" />
       <setting name="leinProjectName" value="" />
@@ -326,17 +242,12 @@
       <setting name="workingDir" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -364,6 +275,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -452,8 +376,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="718" y="-1058" width="960" height="1058" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="23" width="1366" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -465,13 +389,13 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3295129" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -500,6 +424,48 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/project.clj">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="34" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="17" selection-start="5937" selection-end="5937" vertical-scroll-proportion="0.0" vertical-offset="3672" max-vertical-offset="10013">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="327" column="1" selection-start="9486" selection-end="9486" vertical-scroll-proportion="0.0" vertical-offset="5559" max-vertical-offset="6188">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="6494">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/tree.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="38" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="2176">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public1/css/tree.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="10" selection-start="630" selection-end="630" vertical-scroll-proportion="0.0" vertical-offset="629" max-vertical-offset="2193">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project.clj">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="34" selection-start="158" selection-end="158" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="648">
           <folding />
         </state>
@@ -508,21 +474,14 @@
     <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="60" column="61" selection-start="1919" selection-end="1919" vertical-scroll-proportion="0.0" vertical-offset="468" max-vertical-offset="10656">
-          <folding>
-            <marker date="1410664506000" expanded="true" signature="15683:16428" placeholder="(comment ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="327" column="1" selection-start="9486" selection-end="9486" vertical-scroll-proportion="0.0" vertical-offset="5578" max-vertical-offset="6552">
-          <folding>
-            <marker date="1410332832000" expanded="true" signature="1234:1547" placeholder="(def alphabet ...)" />
-            <marker date="1410332832000" expanded="true" signature="3470:4042" placeholder="(defn add-eval ...)" />
-            <marker date="1410332832000" expanded="true" signature="4574:4863" placeholder="(defn keydown ...)" />
-            <marker date="1410332832000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -557,21 +516,14 @@
     <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="8" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0" vertical-offset="468" max-vertical-offset="10656">
-          <folding>
-            <marker date="1410664506000" expanded="true" signature="15683:16428" placeholder="(comment ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="319" column="0" selection-start="9211" selection-end="9211" vertical-scroll-proportion="0.0" vertical-offset="5578" max-vertical-offset="6552">
-          <folding>
-            <marker date="1410332832000" expanded="true" signature="1234:1547" placeholder="(def alphabet ...)" />
-            <marker date="1410332832000" expanded="true" signature="3470:4042" placeholder="(defn add-eval ...)" />
-            <marker date="1410332832000" expanded="true" signature="4574:4863" placeholder="(defn keydown ...)" />
-            <marker date="1410332832000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -596,25 +548,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="327" column="1" selection-start="9486" selection-end="9486" vertical-scroll-proportion="0.0" vertical-offset="5578" max-vertical-offset="6552">
-          <folding>
-            <marker date="1410332832000" expanded="true" signature="1234:1547" placeholder="(def alphabet ...)" />
-            <marker date="1410332832000" expanded="true" signature="3470:4042" placeholder="(defn add-eval ...)" />
-            <marker date="1410332832000" expanded="true" signature="4574:4863" placeholder="(defn keydown ...)" />
-            <marker date="1410332832000" expanded="true" signature="4896:5112" placeholder="(defn keyup ...)" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="6876">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/tree.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="38" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="2304">
@@ -629,12 +562,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/cljs/iiiiioiooooo/ui.cljs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="327" column="1" selection-start="9486" selection-end="9486" vertical-scroll-proportion="0.0" vertical-offset="5578" max-vertical-offset="6552">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/test.clj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="6876">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/clj/iiiiioiooooo/core/structure.clj">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="216" column="17" selection-start="5937" selection-end="5937" vertical-scroll-proportion="0.2402464" vertical-offset="3654" max-vertical-offset="10602">
-          <folding>
-            <marker date="1410664506000" expanded="true" signature="15683:16428" placeholder="(comment ...)" />
-          </folding>
+        <state line="12" column="88" selection-start="454" selection-end="454" vertical-scroll-proportion="-18.54801" vertical-offset="8124" max-vertical-offset="10013">
+          <folding />
         </state>
       </provider>
     </entry>

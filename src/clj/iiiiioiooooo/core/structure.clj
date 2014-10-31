@@ -5,7 +5,7 @@
   )
 )
 
-; Box of Pencils, Box of Matches, Box of Tea
+; Box of Pencils
 
 ; This is an experimental Structure Editor for Clojure.
 ; It works by having a zipper on a map which has a focus, selection and context.
