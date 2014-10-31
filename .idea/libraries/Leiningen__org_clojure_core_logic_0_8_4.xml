@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Leiningen: org.clojure/core.logic:0.8.4">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/clojure/core.logic/0.8.4/core.logic-0.8.4.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
