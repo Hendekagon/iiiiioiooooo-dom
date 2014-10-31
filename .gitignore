@@ -6,7 +6,6 @@
 /repl
 .DS_Store
 .nrepl-port
-*.iml
 *.js
 pom.xml
 pom.xml.asc
