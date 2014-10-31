@@ -5,6 +5,7 @@
 /out
 /repl
 .DS_Store
+**/.DS_Store
 .nrepl-port
 *.js
 pom.xml
