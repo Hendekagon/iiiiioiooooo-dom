@@ -1,49 +1,20 @@
 (ns iiiiioiooooo.core.structure
   (:require
     [clojure.zip :as zip]
-    [iiiiioiooooo.core.test :as test]
   )
 )
 
-(defn maybee [f x]
-  (if x
-    (f x)
-    x
-  )
-)
+(defn maybe [f x] (if x (f x) x))
 
-(defn peek-first [p] (-> p (zip/down) (partial maybee zip/node) str))
+(defn peek-first [p] (-> p (zip/down) (partial maybe zip/node) str))
 
-(defn make-id [h] (str "id" h))
-
-(defn to-html
-  ([n] (conj [:div {:class (str "leaf " (cond (fn? n) "fn ") (if (:open (meta n)) "open" "closed") )}] (str n)))
-  ([n c] (apply conj [:div {:class (str "branch open " n)}] c))
-  ([n n c] [:div {:class (str "branch folded")}])
-  ([] [:div {:class "branch "}])
-)
-
-(defn selector [p]
-  (str "#root > li:first-child " (apply str (map  {:down " > ul:first-child > li:first-child" :right " + li"} p)))
-)
-
-(defn replacement-selector
-  ([p]
-    (replacement-selector "#root > li:first-child "
-      (apply str (map  {:down " > ul:first-child > li:first-child" :right " + li"} p)))
-  )
-  ([s ps]
-    ;(log ">>> " ps)
-    (str s (if (= ps "")  "> ul:first-child" ps)))
-)
-
-
-(defn type-str [b]
+(defn typee [b]
   (cond
     (list? b) :list
     (symbol? b) (str b)
     (vector? b) :vector
     (map? b) :map
+    (seq? b) :seq
     :default :unknown
   )
 )
@@ -52,22 +23,23 @@
 (defn translate
   ([maxx maxy f p]
     (reduce
-      (fn [r c]
+      (fn [r [x c]]
           (if (> maxy 0)
             (conj r
               (if (and c (zip/branch? c))
                 (if (and (or (nil? (meta (zip/node c))) (:open (meta (zip/node c)))) (not (:zip/make-node (meta (zip/node c)))))
-                  (f (type-str (zip/node (zip/down c))) (translate maxx (dec maxy) f (zip/down c))) ; unfolded
-                  (f (type-str (zip/node (zip/down c))) nil nil) ;folded
+                  (f c
+                     (translate maxx (dec maxy) (or (:render-fn (meta (zip/node c))) f) (zip/down c))) ; unfolded
+                  (f (typee (zip/node (zip/down c))) nil nil) ; folded
                 )
-                (f (zip/node c)) ; leaf
+                (f [x maxy (zip/node c)]) ; leaf
               )
             )
             r
           )
       )
       []
-      (take maxx (take-while identity (iterate zip/right p)))
+      (map vector (range maxx) (take maxx (take-while identity (iterate zip/right p))))
     )
   )
 )
@@ -97,8 +69,8 @@
   )
 )
 
-(defn nodes [n] (take-while (complement zip/end?) (iterate zip/next n)))
-
+(defn nodes [n]
+  (take-while (complement zip/end?) (iterate zip/next n)))
 
 (defn climb [p]
   (if
@@ -144,7 +116,15 @@
 
 (defn carefull [f] (fn [x] (if-let [nx (f x)] nx x)))
 
-(defn stop-at-closed [f] (fn [x] (if (or (nil? (meta (zip/node x))) (:open (meta (zip/node x)))) (f x) x)))
+(defn stop-at-closed [f]
+  (fn [x]
+    (if
+      (and x (or (nil? (meta (zip/node x))) (:open (meta (zip/node x)))))
+      (f x)
+      (if (and x (meta (zip/node x)))
+        (zip/right x)
+        x
+      ))))
 
 ; this means that if the loc of the focus is itself a loc, then return the result of f on it, not loc
 (defn forward-zipper [f] (fn [loc]
@@ -155,7 +135,10 @@
 (defn maybe-select [x y] (if (= (meta (zip/node (:focus x))) (meta (zip/node (:focus y))))
   (assoc x :action :select) (assoc x :action :modify :modified (:focus x))))
 
-(defn selected [s f] (assoc (update-in s [:focus] (carefull (forward-zipper f))) :action :select))
+(defn selected [s f]
+  (assoc
+    (update-in s [:focus]
+      (carefull f)) :action :select))
 
 (defn modified
   ([s f] (modified s f (:focus s)))
@@ -166,7 +149,7 @@
       :modified m :action :modify :x (inc (or (:x s) 0))))
 )
 
-;(defn resolve [x] x) ; for below - delete - cljs-incljs
+;(defn resolve [x] x) ; for below - delete -   cljs-incljs
 
 "
 (defn apply-selected
@@ -251,7 +234,18 @@
 
 (defn home [s x] (update-in x [:focus] top))
 
-(defn hfn ^{:doc "history switch"} [s x] (assoc x :focus s))
+(defn hfn ^{:doc "history switch"}
+  ([h s]
+    (println (str "history: " (count (zip/node h))))
+   (modified
+    (assoc s
+      :context (top h)
+      :focus
+        h
+        ) identity)
+  )
+)
+
 
 (defn next-at [i c]
   (fn [loc]
@@ -261,7 +255,8 @@
 
 (defn find-first ^{:doc "makes :focus of the current state the first thing found at thing"}
   ([thing] (fn [s x] (selected x (partial find-first thing))))
-  ([x loc] (first (filter (comp (partial = x) zip/node) (nodes loc))))
+  ([x loc]
+    (first (filter (comp (partial = x) zip/node) (nodes loc))))
 )
 
 (defn next-starting-with [c]
@@ -284,159 +279,58 @@
   (-> history top zip/down zip/rightmost zip/node)
 )
 
-(defn focus-on-latest [h x] (selected x (fn [loc] (-> h top zip/down zip/rightmost))))
+(defn lattest-state [history s]
+  (println (str "back to latest state" (meta history)))
+  (modified s (fn [loc] (-> history top zip/down zip/rightmost zip/node)))
+)
+
+(defn focus-on-latest [h x]
+  (selected x (fn [loc] (-> h top zip/down zip/rightmost))))
 
 (defn default-keymap []
   {
-    :i {:i (fn [s x] (modified x (comp zip/prev zip/next)))}
-    :alt
-    {
-      :left {:left left}
-      :right {:right right}
-      :up {:up replace-parent}
-      :down {:down split-into-children}
-      :i {:i (fn [s x] (modified x identity))}
-      :alt nop
-    }
-    :up {:up out}
-    :down {:down in}
-    :right {:right depth-first-next
-            :space {:space depth-first-next}}
-    :h {:h hfn}
-    :left {:left depth-first-previous}
-    :backspace {:backspace delete}
-    :ctrl
-    {
-      :left  {:left insert-left}
-      :right {:right  insert-right}
-      :down {:down deepest}
-      :alt
-      {
-        :right {:right rightmost}
-        :left {:left leftmost}
-        :up {:up root}
-        :alt nop
-      }
-      :up {:up fuse-into-parent}
-      :ctrl nop
-    }
-    :shift {:shift nop}
-    :tab
-    {
-      :tab hfn
-    }
-    :0 {:0  home}
-    :default nop
-    :space {:space expand}
-  }
+   :i {:i (fn [s x] (modified x (comp zip/prev zip/next)))}
+   :alt
+              {
+               :left  {:left left}
+               :right {:right right}
+               :up    {:up replace-parent}
+               :down  {:down split-into-children}
+               :i     {:i (fn [s x] (modified x identity))}
+               :alt   nop
+               }
+   :up        {:up out}
+   :down      {:down in}
+   :right     {:right depth-first-next
+               :space {:space depth-first-next}}
+   :h         {:h hfn}
+   :left      {:left depth-first-previous}
+   :backspace {:backspace delete}
+   :ctrl
+              {
+               :left  {:left insert-left}
+               :right {:right insert-right}
+               :down  {:down deepest}
+               :alt
+                      {
+                       :right {:right rightmost}
+                       :left  {:left leftmost}
+                       :up    {:up root}
+                       :alt   nop
+                       }
+               :up    {:up fuse-into-parent}
+               :ctrl  nop
+               }
+   :shift     {:shift nop}
+   :tab
+              {
+               :tab lattest-state
+               }
+   :0         {:0 home}
+   :default   nop
+   :space     {:space expand}
+   }
 )
-
-(defn default-state
-  ([]
-    (default-state
-      (seq-map-zip
-      [
-        (with-meta
-         {
-          :keymap (default-keymap)
-          :keyup
-          {
-            :esc safe
-            :default keyup
-          }
-          :keydown
-          {
-            :default (fn keydown [s x] (push-history (update-in x [:keypath] (fn [kp] (conj kp (:key x)))) s))
-          }
-          :keypath [:keymap]
-          :action :select
-          :focus "hi"
-          :context "poi"
-          :selected [7]
-          :help
-          [
-          "iiiiioiooooo Clojure structure editor (barely functioning sketch of)"
-          "This is an experiment in making a functional code editor."
-          "https://www.youtube.com/watch?v=2Op3QLzMgSY&feature=player_detailpage#t=2077s"
-          "Lecture 1A | MIT 6.001 Structure and Interpretation, 1986 - 35m25s"
-          "
-          The idea here is to manipulate code
-          at the expression level, not at the text level.
-          This is very primitive right now,
-          it doesn't do much yet, just testing ideas, everything will change, or it will be abandoned.
-          Works best in Chrome, keyboard-only! doesn't work on mobile browsers.
-          Plan: SVG view,
-          make as front-end for Session REPL. What can you do now ? Navigate the code and do basic editing.
-          "
-
-          ]
-          :namespaces
-          {
-            :clojure.core
-            {
-              :c {
-                   :o {
-                        :n
-                        {
-                          :s :cons
-                          :c :juxt
-                          :j :conj
-                        }
-                      }
-                 }
-              :inc inc
-              :dec dec
-            }
-          }
-          :qwe 0
-          :test (with-meta '(+ 1 3) {:open true})
-          :test2 (with-meta (test/test-exp) {:open true})
-          :test3 (with-meta (test/test-exp3) {:open true})
-          :test1
-           (with-meta '(
-              "We could display Clojure code like Python's code:"
-              ((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
-               (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])
-               )
-              "which is easy"
-              (defn descendents
-  ([loc]
-    (mapcat (fn [r] (if (zip/branch? r) (descendents r) [r])) (take-while identity (iterate zip/right (if (zip/branch? loc) (zip/down loc) loc))))
-  )
-)
-              ) {:open true})
-         }
-          {:open true}
-       )
-      ]
-     )
-    )
-   )
-   ([h]
-    (default-state (latest-state h) h)
-   )
-   ([s h] ; s isa map, h isa zip location of the history
-    (default-state (push-history (assoc s
-      :context (zip/up (find-first :test1 h)) ;(zip/down h)
-      :focus (zip/up (zip/rightmost (zip/down h)))
-      :selected [3 4]
-      :qwe 1 :poi "qwe") h) (latest-state h) nil)
-   )
-   ([h latest w]
-    (push-history (assoc (latest-state h)
-     :focus (zip/next (zip/next (:context (latest-state h))))
-     :selected
-      [
-        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right)
-        (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right zip/right)
-      ]
-     :qwe 2 :wer "arse")
-      h)
-   )
-)
-
 
 (defn fn-for-event [s e]
   (if (= e (select-keys s (keys e)))
@@ -445,21 +339,16 @@
   )
 )
 
-(defn update
-  ([s e] (update s (latest-state s) e))
-  ([s x e] (update s (merge x e) e (fn-for-event x e)))
+(defn update-state
+  ([s e] (update-state s (latest-state s) e))
+  ([s x e] (update-state s (merge x e) e (fn-for-event x e)))
   ([s x e f] (f s x))
 )
 
-(defn maybe [f x]
-  (or (f x (latest-state x)) x)
-)
-
 (defn update-with [s f]
-  (push-history (maybe f s) s)
+  (push-history (or (f s (latest-state s)) s) s)
 )
 
 (defn update! [state e]
-  (swap! state (fn [s] (update s e)))
+  (swap! state (fn [s] (update-state s e)))
 )
-

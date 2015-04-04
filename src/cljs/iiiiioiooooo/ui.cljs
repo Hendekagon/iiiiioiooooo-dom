@@ -1,22 +1,18 @@
 (ns iiiiioiooooo.ui
   (:require
-    [iiiiioiooooo.core.structure :as structure]
-    ;[iiiiioiooooo.style :as style]
+    [iiiiioiooooo.core.structure :as s]
     [clojure.browser.event]
     [goog.events.KeyHandler]
     [goog.events.KeyCodes]
     [clojure.zip :as zip]
-    [cljs.core.match]
     ;[cljs.analyzer :as ana]
     ;[cljs.compiler :as compiler]
     ;[cljs.reader :as reader]
+    [hipo.core :as hipo]
+    [hipo.dom :as dom]
     [dommy.core :as dommy]
-    [dommy.template :as template]
-    ;[cljs-web-audio.core :as audio]
-    ;[cljs-web-audio.core-test :as at]
-  )
-  (:use-macros [dommy.macros :only [sel sel1 node]])
-    (:require-macros [cljs.core.match.macros :refer [match]])
+    [dommy.core :refer-macros [sel sel1]]
+    [clojure.zip :as zip])
 )
 
 (def mouse (atom [0 0]))
@@ -220,37 +216,40 @@ numbers
   )
 )
 
-;(extend-protocol template/PElement js/SVGElement (-elem [this] this))
-
 (defn to-svg
-  ([n]
-    [:g {:class "leaf" :transform "translate(0,0) scale(0.9)"}
-      [:circle {:stroke "blue"
-      :stroke-width 20 :fill "none"
-      :x 0 :y 0 :r 100
-      }]
-    ]
+  ([[x y n]]
+    [:circle {:stroke       "blue"
+              :stroke-width 1 :fill "red"
+              :cx            x :cy (if (number? n) n 0) :r 8
+              }]
   )
-  ([n c]
+  ([loc children]
     (apply
       conj
-      [:g {:class "branch"
-      :transform "translate(50,100) scale(0.9) "
-      }]
-      c)
+      (if (and (meta (zip/node (zip/up loc))) (= to-svg (:render-fn (meta (zip/node (zip/up loc))))))
+        [:svg
+            {
+              :width "2000"
+              :height "1000"
+            }]
+        [:g {:class     "branch"
+            :transform "translate(50,100) scale(0.9) "
+            }])
+      children)
   )
   ([n oiuoi c] [:g {:class (str "branch folded " n) }])
   ([] [:g {:class "sexp" :transform "translate(50,50) scale(0.5)"}])
 )
 
 (defn to-html
-  ([n] (conj [:div {:class (str "leaf "
+  ([[x y n]]
+    (conj [:div {:class (str "leaf "
     (cond
       (fn? n) "fn "
       (string? n) "string "
       (keyword? n) "keyword "
     ) )}] (to-str n) ))
-  ([n c] (apply conj [:div {:class (str "branch " n)}] c))
+  ([n c] (apply conj [:div {:class (str "branch " (s/typee (zip/node (zip/down n))))}] c))
   ([n oiuoi c] [:div {:class (str "branch folded " n)}])
   ([] [:div {:class "sexp"}])
 )
@@ -258,7 +257,6 @@ numbers
 (defn make-id [p]
   (str "n" (if (zip/branch? p) (hash p) (hash (zip/node p))))
 )
-(defn maybe [f x] (if x (f x) x))
 
 (defn selector [p]
   (str "#root " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
@@ -281,19 +279,18 @@ numbers
 (defn update-element!
   ([context] (update-element! context context context))
   ([context new old]
+    ;(log "replace " new)
       (dommy/replace!
-        (sel1 ;"#root > div:first-child "
-          (replacement-selector (structure/path context old))
-        )
-        (first (structure/translate 64 64 to-html new))
+        (sel1 (replacement-selector (s/path context old)))
+        (hipo/create (first (s/translate 32 32 to-html new)))
       )
    new)
 )
 
 (defn select-state!
-  ([s] (select-state! s (map (comp selector (partial structure/path (:context s))) (:selected s))))
+  ([s] (select-state! s (map (comp selector (partial s/path (:context s))) (:selected s))))
   ([s paths]
-    (select-state! s paths (sel paths) (sel1 (selector (structure/path (:context s) (:focus s))))))
+    (select-state! s paths (sel paths) (sel1 (selector (s/path (:context s) (:focus s))))))
   ([s paths selections focus]
     (last (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     (last (map (fn [q] (dommy/remove-class! q "selected-parent")) (sel ".selected-parent")))
@@ -324,13 +321,13 @@ numbers
 )
 
 (defn add-eval [s]
-   (structure/update s (structure/latest-state s) nil
+   (s/update-state s (s/latest-state s) nil
     (fn [s x]
-     (structure/push-history
+     (s/push-history
         (assoc-in x
           [:keymap :e :e]
           (fn [s x]
-            (structure/modified x
+            (s/modified x
             (fn [l] ;hmm, should this be returning a zipper (see forward-zipper)
               (log "evaluating! " (str (zip/node l)))
               (zip/insert-right l
@@ -344,9 +341,9 @@ numbers
 )
 
 (defn add-info [s]
-  (structure/update s (structure/latest-state s) nil
+  (s/update-state s (s/latest-state s) nil
     (fn [s x]
-      (structure/push-history
+      (s/push-history
         (assoc-in x [:keymap :shift :forwardslash :forwardslash]
           (fn [s x] (log "meta: " (str (meta (zip/node (:focus x))))) x)) s)))
 )
@@ -359,31 +356,133 @@ numbers
 (defn keydown [state e]
   ;(.log  js/console "kd> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
   (. e preventDefault)
-  (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
+  (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
   ;(log (str (:keymap @state)))
 )
 
 (defn keyup [state e]
   ;(.log  js/console "ku> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
-  (structure/update! state { :key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
+  (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
 )
 
+(defn default-state
+  ([]
+    (default-state
+      (s/seq-map-zip
+      [
+        (with-meta
+          {
+           :keymap (s/default-keymap)
+           :keyup
+                     {
+                      :esc     s/safe
+                      :default keyup
+                      }
+           :keydown
+                     {
+                      :default (fn keydown [s x] (s/push-history (update-in x [:keypath] (fn [kp] (conj kp (:key x)))) s))
+                      }
+           :keypath  [:keymap]
+           :action   :select
+           :focus    "hi"
+           :context  "poi"
+           :selected [7]
+           :help
+                     [
+                      "iiiiioiooooo Clojure structure editor"
+                      "This is an experiment in making a functional data structure editor"
+                      ]
+           :namespaces
+                     {
+                      :clojure.core
+                      {
+                       :c   {
+                             :o {
+                                 :n
+                                 {
+                                  :s :cons
+                                  :c :juxt
+                                  :j :conj
+                                  }
+                                 }
+                             }
+                       :inc inc
+                       :dec dec
+                       }
+                      }
+           :qwe      0
+           :table1
+                     (with-meta
+                       [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
+                       {:open true :render-fn to-svg})
+           :table2
+                     (with-meta
+                       [(repeatedly 3
+                                    (fn [] (iterate inc 0)))]
+                       {:open true :render-fn to-svg})
+           :table3
+                     (with-meta
+                       (map
+                         (fn [i] (iterate inc i))
+                         (iterate inc 0))
+                       {:open true})
+           :test     (with-meta '(+ 1 3) {:open true :q 3})
+           :test1
+                     (with-meta '(
+                                   ((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
+                                     (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])
+                                     )
+                                   (defn descendents
+                                         ([loc]
+                                           (mapcat (fn [r] (if (zip/branch? r) (descendents r) [r])) (take-while identity (iterate zip/right (if (zip/branch? loc) (zip/down loc) loc))))
+                                           )
+                                         )
+                                   ) {:open true :q 2})
+           }
+          {:open true :q 1}
+       )
+      ]
+     )
+    )
+   )
+   ([h]
+    (default-state (s/latest-state h) (s/top h))
+   )
+   ([s h] ; s isa map, h isa zip location of the history
+    (default-state
+      (s/push-history (assoc s
+      :context (zip/down h)
+      :focus (zip/up (zip/rightmost (zip/down h)))
+      :selected [3 4]
+      :qwe 1 :poi "qwe") h) (s/latest-state h) :qweqwe)
+   )
+   ([h latest w]
+    (s/push-history (assoc (s/latest-state h)
+     :focus (zip/next (zip/next (:context (s/latest-state h))))
+     :selected
+      [
+        (-> (:context (s/latest-state h)) zip/next zip/next zip/next zip/next)
+        (-> (:context (s/latest-state h)) zip/next zip/next zip/next zip/next)
+        (-> (:context (s/latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right)
+        (-> (:context (s/latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right zip/right)
+      ]
+     :qwe 2 :wer "arseee")
+      h)
+   )
+)
 
 (defn make-ui
-  ([e] (make-ui e (atom (add-eval (add-info (structure/default-state))))))
+  ([] (make-ui {}))
+  ([e] (make-ui e (atom (default-state))))
   ([e state]
     (log "make ui")
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
-    (update-element! (:context (structure/latest-state @state)))
+    (update-element! (:context (s/latest-state @state)))
     (add-watch state :update-display
       (fn [k r o n]
-      (display-with-latest (structure/latest-state n))))
+      (display-with-latest (s/latest-state n))))
   )
 )
 
-(log "huhhh")
-
-;(set! (.-onload js/window) make-ui)
-
-(make-ui nil)
+(defn test-state [] (.log js/console (default-state)))
