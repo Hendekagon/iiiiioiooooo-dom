@@ -28,12 +28,13 @@
             (conj r
               (if (and c (zip/branch? c))
                 (if (and (or (nil? (meta (zip/node c))) (:open (meta (zip/node c)))) (not (:zip/make-node (meta (zip/node c)))))
-                  (f c
+                  ((get rfns (:render-fn (meta (zip/node c))) f)
+                     c
                      (translate maxx (dec maxy)
                       rfns
-                      (or (get rfns (:render-fn (meta (zip/node c)))) f)
+                      (get rfns (:render-fn (meta (zip/node c))) f)
                       (zip/down c))) ; unfolded
-                  (f (typee (zip/node (zip/down c))) nil nil) ; folded
+                  (f (typee (zip/node (zip/down c))) 1 1) ; folded
                 )
                 (f [x maxy (zip/node c)]) ; leaf
               )
@@ -382,13 +383,11 @@
                         }
            :qwe        0
            :table1
-                       (with-meta
-                         [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
-                         {:open true :render-fn :to-svg})
+                       [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
            :table2
                        (with-meta
                          [(repeatedly 3
-                            (fn [] (iterate inc 0)))]
+                                      (fn [] (map (fn [x] (Math/sin (/ x 13.3))) (iterate inc (rand-int 180)))))]
                          {:open true :render-fn :to-svg})
            :table3
                        (with-meta

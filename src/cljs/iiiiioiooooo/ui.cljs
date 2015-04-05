@@ -190,7 +190,8 @@ numbers
   ([[x y n]]
     [:circle {:stroke       "blue"
               :stroke-width 1 :fill "red"
-              :cx            x :cy (if (number? n) n 0) :r 8
+              :cx (if (number? x) (* 100 x) 0)
+              :cy (if (number? n) (* 100 n) 0) :r 8
               }]
   )
   ([loc children]
