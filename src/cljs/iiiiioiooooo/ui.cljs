@@ -167,24 +167,9 @@ numbers
 (def keycode-to-keyword-up (zipmap (keys keycode-to-keyword) (map (fn [k] (keyword (str (name k) "-up"))) (vals keycode-to-keyword))))
 (def keycode-to-keyword-down (zipmap (keys keycode-to-keyword) (map (fn [k] (keyword (str (name k) "-down"))) (vals keycode-to-keyword))))
 
-(def f partial)
-
-(def k comp)
-
 (defn is-modifier [keycode] (#{16 17 18 91 93 20} keycode))
 
 (def isnt-modifier (complement is-modifier))
-
-(defn if-firefox [a b]
-  (try
-    (cond js/KeyEvent
-      a
-      )
-    (catch js/Error er
-      b
-    )
-  )
-)
 
 (defn log
   ([m] (.log js/console m))
@@ -193,21 +178,6 @@ numbers
   ([m1 m2 m3] (.log js/console m1 m2 m3))
   ([m1 m2 m3 m4] (.log js/console m1 m2 m3 m4))
 )
-
-
-(defn thread*
-  "Do the function f at regular intervals and send the results to g, starting with x"
-  ([g f x n] (. js/window setTimeout (fn [x]  (g x) (thread* g f (f x) n)) n x) )
-  ([f x n] (. js/window setTimeout (fn [x]  (thread* f (f x) n)) n x))
-)
-
-(defn repeat*
-  "Do the function f at regular intervals and send the results to g, starting with x"
-  ([f x n]
-    (. js/window setInterval
-      f n x)
-  ) )
-
 
 (defn to-str [n]
   (cond
@@ -226,7 +196,7 @@ numbers
   ([loc children]
     (apply
       conj
-      (if (and (meta (zip/node (zip/up loc))) (= to-svg (:render-fn (meta (zip/node (zip/up loc))))))
+      (if (and (meta (zip/node (zip/up loc))) (= :to-svg (:render-fn (meta (zip/node (zip/up loc))))))
         [:svg
             {
               :width "2000"
@@ -254,10 +224,6 @@ numbers
   ([] [:div {:class "sexp"}])
 )
 
-(defn make-id [p]
-  (str "n" (if (zip/branch? p) (hash p) (hash (zip/node p))))
-)
-
 (defn selector [p]
   (str "#root " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
 )
@@ -273,16 +239,20 @@ numbers
 )
 
 (defn set-attrs! [s a]
-  (doseq [e s] (apply (f dommy/set-attr! e) a))
+  (doseq [e s] (apply (partial dommy/set-attr! e) a))
 )
 
 (defn update-element!
   ([context] (update-element! context context context))
   ([context new old]
-    ;(log "replace " new)
+    ;(log "replace " (:render-fns (s/latest-state context)))
       (dommy/replace!
         (sel1 (replacement-selector (s/path context old)))
-        (hipo/create (first (s/translate 32 32 to-html new)))
+        (hipo/create
+          (first
+            (s/translate 32 32
+              {:to-svg to-svg}
+              to-html new)))
       )
    new)
 )
@@ -348,6 +318,17 @@ numbers
           (fn [s x] (log "meta: " (str (meta (zip/node (:focus x))))) x)) s)))
 )
 
+(defn add-render-fns [h]
+  (s/update-state h (s/latest-state h) :qwe
+    (fn [hh ss]
+      (log (:render-fns ss))
+      (s/push-history
+        (assoc-in
+          (assoc-in ss [:render-fns :to-svg] to-svg)
+          [:render-fns :to-html] to-html)
+        h)))
+)
+
 ;#root>li:first-child >ul:first-child>li:first-child + li >ul:first-child>li:first-child + li >ul:first-child>li:first-child
 
 ;event.initKeyEvent (type, bubbles, cancelable, viewArg,
@@ -365,115 +346,9 @@ numbers
   (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
 )
 
-(defn default-state
-  ([]
-    (default-state
-      (s/seq-map-zip
-      [
-        (with-meta
-          {
-           :keymap (s/default-keymap)
-           :keyup
-                     {
-                      :esc     s/safe
-                      :default keyup
-                      }
-           :keydown
-                     {
-                      :default (fn keydown [s x] (s/push-history (update-in x [:keypath] (fn [kp] (conj kp (:key x)))) s))
-                      }
-           :keypath  [:keymap]
-           :action   :select
-           :focus    "hi"
-           :context  "poi"
-           :selected [7]
-           :help
-                     [
-                      "iiiiioiooooo Clojure structure editor"
-                      "This is an experiment in making a functional data structure editor"
-                      ]
-           :namespaces
-                     {
-                      :clojure.core
-                      {
-                       :c   {
-                             :o {
-                                 :n
-                                 {
-                                  :s :cons
-                                  :c :juxt
-                                  :j :conj
-                                  }
-                                 }
-                             }
-                       :inc inc
-                       :dec dec
-                       }
-                      }
-           :qwe      0
-           :table1
-                     (with-meta
-                       [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
-                       {:open true :render-fn to-svg})
-           :table2
-                     (with-meta
-                       [(repeatedly 3
-                                    (fn [] (iterate inc 0)))]
-                       {:open true :render-fn to-svg})
-           :table3
-                     (with-meta
-                       (map
-                         (fn [i] (iterate inc i))
-                         (iterate inc 0))
-                       {:open true})
-           :test     (with-meta '(+ 1 3) {:open true :q 3})
-           :test1
-                     (with-meta '(
-                                   ((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
-                                     (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])
-                                     )
-                                   (defn descendents
-                                         ([loc]
-                                           (mapcat (fn [r] (if (zip/branch? r) (descendents r) [r])) (take-while identity (iterate zip/right (if (zip/branch? loc) (zip/down loc) loc))))
-                                           )
-                                         )
-                                   ) {:open true :q 2})
-           }
-          {:open true :q 1}
-       )
-      ]
-     )
-    )
-   )
-   ([h]
-    (default-state (s/latest-state h) (s/top h))
-   )
-   ([s h] ; s isa map, h isa zip location of the history
-    (default-state
-      (s/push-history (assoc s
-      :context (zip/down h)
-      :focus (zip/up (zip/rightmost (zip/down h)))
-      :selected [3 4]
-      :qwe 1 :poi "qwe") h) (s/latest-state h) :qweqwe)
-   )
-   ([h latest w]
-    (s/push-history (assoc (s/latest-state h)
-     :focus (zip/next (zip/next (:context (s/latest-state h))))
-     :selected
-      [
-        (-> (:context (s/latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (s/latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (s/latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right)
-        (-> (:context (s/latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right zip/right)
-      ]
-     :qwe 2 :wer "arseee")
-      h)
-   )
-)
-
 (defn make-ui
   ([] (make-ui {}))
-  ([e] (make-ui e (atom (default-state))))
+  ([e] (make-ui e (atom (add-render-fns (s/default-state)))))
   ([e state]
     (log "make ui")
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
@@ -481,8 +356,9 @@ numbers
     (update-element! (:context (s/latest-state @state)))
     (add-watch state :update-display
       (fn [k r o n]
-      (display-with-latest (s/latest-state n))))
+        (display-with-latest (s/latest-state n))
+      ))
   )
 )
 
-(defn test-state [] (.log js/console (default-state)))
+(defn test-state [] (.log js/console (s/default-state)))

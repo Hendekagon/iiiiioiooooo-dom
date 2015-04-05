@@ -19,9 +19,9 @@
   )
 )
 
-; this could be done much better with core.match
 (defn translate
-  ([maxx maxy f p]
+  ([maxx maxy rfns f p]
+    ;(println rfns)
     (reduce
       (fn [r [x c]]
           (if (> maxy 0)
@@ -29,7 +29,10 @@
               (if (and c (zip/branch? c))
                 (if (and (or (nil? (meta (zip/node c))) (:open (meta (zip/node c)))) (not (:zip/make-node (meta (zip/node c)))))
                   (f c
-                     (translate maxx (dec maxy) (or (:render-fn (meta (zip/node c))) f) (zip/down c))) ; unfolded
+                     (translate maxx (dec maxy)
+                      rfns
+                      (or (get rfns (:render-fn (meta (zip/node c)))) f)
+                      (zip/down c))) ; unfolded
                   (f (typee (zip/node (zip/down c))) nil nil) ; folded
                 )
                 (f [x maxy (zip/node c)]) ; leaf
@@ -56,7 +59,6 @@
   ([z up] (if up (top up) z))
 )
 
-; this while thing is just awefull!
 (defn path
   ([t] (path (top t) t))
   ([c t] (path t (zip/up t) (zip/left t) [] c))
@@ -138,7 +140,7 @@
 (defn selected [s f]
   (assoc
     (update-in s [:focus]
-      (carefull f)) :action :select))
+      (carefull (forward-zipper f))) :action :select))
 
 (defn modified
   ([s f] (modified s f (:focus s)))
@@ -322,14 +324,121 @@
                :ctrl  nop
                }
    :shift     {:shift nop}
-   :tab
+   :1
               {
-               :tab lattest-state
+               :1 lattest-state
                }
    :0         {:0 home}
    :default   nop
    :space     {:space expand}
    }
+)
+
+(defn default-state
+  ([]
+    (default-state
+      (seq-map-zip
+      [
+        (with-meta
+          {
+           :render-fns {:test :qwe}
+           :keymap     (default-keymap)
+           :keyup
+                       {
+                        :esc     safe
+                        :default keyup
+                        }
+           :keydown
+                       {
+                        :default (fn keydown [s x] (push-history (update-in x [:keypath] (fn [kp] (conj kp (:key x)))) s))
+                        }
+           :keypath    [:keymap]
+           :action     :select
+           :focus      "hi"
+           :context    "poi"
+           :selected   [7]
+           :help
+                       [
+                        "iiiiioiooooo Clojure structure editor"
+                        "This is an experiment in making a functional data structure editor"
+                        ]
+           :namespaces
+                       {
+                        :clojure.core
+                        {
+                         :c   {
+                               :o {
+                                   :n
+                                   {
+                                    :s :cons
+                                    :c :juxt
+                                    :j :conj
+                                    }
+                                   }
+                               }
+                         :inc inc
+                         :dec dec
+                         }
+                        }
+           :qwe        0
+           :table1
+                       (with-meta
+                         [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
+                         {:open true :render-fn :to-svg})
+           :table2
+                       (with-meta
+                         [(repeatedly 3
+                            (fn [] (iterate inc 0)))]
+                         {:open true :render-fn :to-svg})
+           :table3
+                       (with-meta
+                         (map
+                           (fn [i] (iterate inc i))
+                           (iterate inc 0))
+                         {:open true})
+           :test       (with-meta '(+ 1 3) {:open true :q 3})
+           :test1
+                       (with-meta '(
+                                     ((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
+                                       (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])
+                                       )
+                                     (defn descendents
+                                       ([loc]
+                                        (mapcat (fn [r] (if (zip/branch? r) (descendents r) [r])) (take-while identity (iterate zip/right (if (zip/branch? loc) (zip/down loc) loc))))
+                                         )
+                                       )
+                                     ) {:open true :q 2})
+           }
+          {:open true :q 1}
+       )
+      ]
+     )
+    )
+   )
+   ([h]
+    (default-state (latest-state h) (top h))
+   )
+   ([s h] ; s isa map, h isa zip location of the history
+    (default-state
+      (push-history (assoc s
+      :context (zip/down h)
+      :focus (zip/up (zip/rightmost (zip/down h)))
+      :selected [3 4]
+      :qwe 1 :poi "qwe") h) (latest-state h) :qweqwe)
+   )
+   ([h latest w]
+    (push-history (assoc (latest-state h)
+     :focus (zip/next (zip/next (:context (latest-state h))))
+     :selected
+      [
+        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
+        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
+        (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right)
+        (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right zip/right)
+      ]
+     :qwe 2 :wer "arseee")
+      h)
+   )
 )
 
 (defn fn-for-event [s e]
@@ -340,13 +449,13 @@
 )
 
 (defn update-state
-  ([s e] (update-state s (latest-state s) e))
-  ([s x e] (update-state s (merge x e) e (fn-for-event x e)))
-  ([s x e f] (f s x))
+  ([h e] (update-state h (latest-state h) e))
+  ([h s e] (update-state h (merge s e) e (fn-for-event s e)))
+  ([h s e f] (f h s))
 )
 
-(defn update-with [s f]
-  (push-history (or (f s (latest-state s)) s) s)
+(defn update-with [h f]
+  (push-history (or (f h (latest-state h)) h) h)
 )
 
 (defn update! [state e]
