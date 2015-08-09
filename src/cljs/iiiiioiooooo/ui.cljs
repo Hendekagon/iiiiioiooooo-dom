@@ -1,19 +1,27 @@
 (ns iiiiioiooooo.ui
+  (:require-macros [cljs.env.macros :refer [ensure]])
   (:require
     [iiiiioiooooo.core.structure :as s]
     [clojure.browser.event]
     [goog.events.KeyHandler]
     [goog.events.KeyCodes]
-    [clojure.zip :as zip]
-    ;[cljs.analyzer :as ana]
-    ;[cljs.compiler :as compiler]
-    ;[cljs.reader :as reader]
+    [cljs.analyzer :as ana]
+    [cljs.compiler :as compiler]
+    [cljs.reader :as reader]
+    [cljs.js :as cljs]
+    [clojure.browser.repl :as repl]
     [hipo.core :as hipo]
     [hipo.dom :as dom]
     [dommy.core :as dommy]
     [dommy.core :refer-macros [sel sel1]]
-    [clojure.zip :as zip])
+    [clojure.zip :as zip]
+    [garden.core :refer [css]]
+    )
 )
+
+(enable-console-print!)
+
+;(repl/connect "http://localhost:9000/repl")
 
 (def mouse (atom [0 0]))
 
@@ -173,10 +181,24 @@ numbers
 
 (defn log
   ([m] (.log js/console m))
-  ;([& m] (.log js/console m))
   ([m1 m2] (.log js/console m1 m2))
   ([m1 m2 m3] (.log js/console m1 m2 m3))
   ([m1 m2 m3 m4] (.log js/console m1 m2 m3 m4))
+)
+
+(defn gen-css
+  ([] (gen-css
+        (map css [
+          [:div {:background "rgba(255,253,250,0.9)" :display :flex :width "50%" :padding "1em"}]
+          [:.sexp {:display :flex}]
+          [:.selected {:background "rgba(240,255,240,0.9)"}]
+          ])))
+  ([rules] (gen-css (aget (.-styleSheets js/document) 0) rules))
+  ([stylesheet rules]
+    ;(println ">>> " (str stylesheet) (str rules))
+   (doall (map
+      (fn [rule index]
+        (.. stylesheet (insertRule rule index))) rules (range))))
 )
 
 (defn to-str [n]
@@ -220,8 +242,8 @@ numbers
       (string? n) "string "
       (keyword? n) "keyword "
     ) )}] (to-str n) ))
-  ([n c] (apply conj [:div {:class (str "branch " (s/typee (zip/node (zip/down n))))}] c))
-  ([n oiuoi c] [:div {:class (str "branch folded " n)}])
+  ([n c] (apply conj [:div {:class (str "sexp " (s/typee (zip/node (zip/down n))))}] c))
+  ([n oiuoi c] [:div {:class (str "sexp folded " n)}])
   ([] [:div {:class "sexp"}])
 )
 
@@ -246,7 +268,7 @@ numbers
 (defn update-element!
   ([context] (update-element! context context context))
   ([context new old]
-    ;(log "replace " (:render-fns (s/latest-state context)))
+    (log "replace " (str context))
       (dommy/replace!
         (sel1 (replacement-selector (s/path context old)))
         (hipo/create
@@ -259,16 +281,15 @@ numbers
 )
 
 (defn select-state!
-  ([s] (select-state! s (map (comp selector (partial s/path (:context s))) (:selected s))))
+  ([s]
+    ;(println "context: " (str (keys s)))
+    (select-state! s (map (comp selector (partial s/path (:context s))) (:selected s))))
   ([s paths]
     (select-state! s paths (sel paths) (sel1 (selector (s/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    (last (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
-    (last (map (fn [q] (dommy/remove-class! q "selected-parent")) (sel ".selected-parent")))
-    (doseq [selection selections]
-        (cond selection (dommy/add-class! selection "selected"))
-    )
-    ;(set-attrs! selections [:transform "translate(40,70) scale(1.5)"])
+    ;(println ">>w " (str (sel ".selected")))
+    (doall (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
+    (doseq [selection selections] (cond selection (dommy/add-class! selection "selected")))
     (cond focus (dommy/add-class! focus "selected"))
   )
 )
@@ -292,8 +313,8 @@ numbers
 )
 
 (defn add-eval [s]
-   (s/update-state s (s/latest-state s) nil
-    (fn [s x]
+   (s/update-state s :no-event
+    (fn [x]
      (s/push-history
         (assoc-in x
           [:keymap :e :e]
@@ -301,33 +322,43 @@ numbers
             (s/modified x
             (fn [l] ;hmm, should this be returning a zipper (see forward-zipper)
               (log "evaluating! " (str (zip/node l)))
-              (zip/insert-right l
-                "qwe"
-                ;(js/eval (compiler/emit-str (ana/analyze (assoc (ana/empty-env) :context :expr) (zip/node l))))
+              (zip/replace l
+                                ;"qwe"
+      (let [
+            n (zip/node l)
+            env (assoc (ana/empty-env) :context :expr)
+            p (log "env " env)
+            a (ensure (ana/analyze env n))
+            p (log "ana " a)
+            j (compiler/emit-str a)
+            p (log "js  " j)
+            res (try (js/eval j) (catch js/Error e e))
+      ]
+      [n res])
+                                ;(cljs/eval (cljs/empty-env) '(+ 1 2))
                 )))
           )
-        )
-     s)
+        ))
    ))
 )
 
 (defn add-info [s]
-  (s/update-state s (s/latest-state s) nil
-    (fn [s x]
+  (s/update-state s :no-event
+  (fn [s]
       (s/push-history
-        (assoc-in x [:keymap :shift :forwardslash :forwardslash]
-          (fn [s x] (log "meta: " (str (meta (zip/node (:focus x))))) x)) s)))
+        (assoc-in s [:keymap :shift :forwardslash :forwardslash]
+          (fn [s] (log "meta: " (str (meta (zip/node (:focus s))))) s)))))
 )
 
-(defn add-render-fns [h]
-  (s/update-state h (s/latest-state h) :qwe
-    (fn [hh ss]
+(defn add-render-fns [s]
+  (s/update-state s :no-event
+  (fn [ss]
       (log (:render-fns ss))
       (s/push-history
         (assoc-in
           (assoc-in ss [:render-fns :to-svg] to-svg)
           [:render-fns :to-html] to-html)
-        h)))
+        )))
 )
 
 ;#root>li:first-child >ul:first-child>li:first-child + li >ul:first-child>li:first-child + li >ul:first-child>li:first-child
@@ -337,27 +368,32 @@ numbers
 ;                     keyCodeArg, charCodeArg)
 (defn keydown [state e]
   ;(.log  js/console "kd> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
-  (. e preventDefault)
+  ;(. e preventDefault)
   (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
   ;(log (str (:keymap @state)))
 )
 
 (defn keyup [state e]
-  ;(.log  js/console "ku> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
+  (.log  js/console "ku> " (str (:keypath @state)) (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
   (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
 )
 
 (defn make-ui
   ([] (make-ui {}))
-  ([e] (make-ui e (atom (add-render-fns (s/default-state)))))
+  ([e] (make-ui e (atom (add-render-fns (add-eval (s/default-state))))))
   ([e state]
     (log "make ui")
+    (gen-css)
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
-    (update-element! (:context (s/latest-state @state)))
+    (set! (.-onfocus js/window) (fn [e] (log "focus ") (s/update-state @state :no-event
+                                    (fn [s] (s/reset-keypath s))) nil))
+    (set! (.-onblur   js/window) (fn [e] (log "blur") (s/update-state @state :no-event
+                                    (fn [s] (s/reset-keypath s))) nil))
+    (update-element! (:context @state))
     (add-watch state :update-display
       (fn [k r o n]
-        (display-with-latest (s/latest-state n))
+        (display-with-latest n)
       ))
   )
 )

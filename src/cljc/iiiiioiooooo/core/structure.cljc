@@ -1,6 +1,7 @@
 (ns iiiiioiooooo.core.structure
   (:require
     [clojure.zip :as zip]
+    [cljs.core :as c]
   )
 )
 
@@ -27,7 +28,8 @@
           (if (> maxy 0)
             (conj r
               (if (and c (zip/branch? c))
-                (if (and (or (nil? (meta (zip/node c))) (:open (meta (zip/node c)))) (not (:zip/make-node (meta (zip/node c)))))
+                (if (and (or (nil? (meta (zip/node c))) (:open (meta (zip/node c))))
+                					(not (:zip/make-node (meta (zip/node c)))))
                   ((get rfns (:render-fn (meta (zip/node c))) f)
                      c
                      (translate maxx (dec maxy)
@@ -87,15 +89,19 @@
   )
 )
 
-(defn push-history [x h]
+(defn push-history1 [x h]
   (top (if x (zip/append-child h (with-meta x (merge (meta x) {:open false :version (inc (count h))}))) h))
 )
 
+(defn push-history [state]
+	(update-in state [:history] (fn [h] (conj h (apply dissoc state (:dont-record state)))))
+	)
+
 (defn kop [x] (update-in x [:keypath] (fn [p] (subvec p 0 (dec (count p))))))
 
-(defn safe [s x]  (assoc x :keypath [:keymap]))
+(defn safe [x]  (assoc x :keypath [:keymap]))
 
-(defn nop [s x] x)
+(defn nop [s] s)
 
 (defn descendents
   ([loc]
@@ -185,37 +191,37 @@
           [n n])))))
 )
 
-(defn left ^{:doc "previous"} [s x] (selected x zip/left))
+(defn left ^{:doc "previous"} [s] (selected s zip/left))
 
-(defn right ^{:doc "next"} [s x] (selected x zip/right))
+(defn right ^{:doc "next"} [s] (selected s zip/right))
 
-(defn out ^{:doc "out"} [s x] (selected x zip/up))
+(defn out ^{:doc "out"} [x] (selected x zip/up))
 
-(defn in ^{:doc "in"} [s x] (selected x (stop-at-closed zip/down)))
+(defn in ^{:doc "in"} [x] (selected x (stop-at-closed zip/down)))
 
-(defn depth-first-next ^{:doc "depth-first next"} [s x] (selected x (stop-at-closed zip/next)))
+(defn depth-first-next ^{:doc "depth-first next"} [s] (selected s (stop-at-closed zip/next)))
 
-(defn depth-first-previous ^{:doc "depth-first previous"} [s x] (selected x zip/prev))
+(defn depth-first-previous ^{:doc "depth-first previous"} [s] (selected s zip/prev))
 
-(defn expand ^{:doc "expand"} [s x] (maybe-select (update-in x [:focus] (carefull maybe-open)) x))
+(defn expand ^{:doc "expand"} [x] (maybe-select (update-in x [:focus] (carefull maybe-open)) x))
 
-(defn delete ^{:doc "delete"} [s x] (modified x zip/remove))
+(defn delete ^{:doc "delete"} [x] (modified x zip/remove))
 
-(defn insert-left ^{:doc "insert left"} [s x] (modified x (fn [c] (zip/insert-left c "+"))))
+(defn insert-left ^{:doc "insert left"} [x] (modified x (fn [c] (zip/insert-left c "+"))))
 
-(defn insert-right ^{:doc "insert right"} [s x]  (modified x (fn [c] (zip/insert-right c "+"))))
+(defn insert-right ^{:doc "insert right"} [x]  (modified x (fn [c] (zip/insert-right c "+"))))
 
-(defn rightmost ^{:doc "last"} [s x] (selected x zip/rightmost))
+(defn rightmost ^{:doc "last"} [x] (selected x zip/rightmost))
 
-(defn deepest ^{:doc "deepest"} [s x] (selected x (stop-at-closed deeepest)))
+(defn deepest ^{:doc "deepest"} [x] (selected x (stop-at-closed deeepest)))
 
-(defn leftmost ^{:doc "first"} [s x] (selected x zip/leftmost))
+(defn leftmost ^{:doc "first"} [x] (selected x zip/leftmost))
 
 (defn add-keybinding [x path f] (assoc-in x (cons :keymap path) f))
 
-(defn root ^{:doc "root"} [s x] (selected x top))
+(defn root ^{:doc "root"} [x] (selected x top))
 
-(defn replace-parent ^{:doc "replace parent with child"} [s x]
+(defn replace-parent ^{:doc "replace parent with child"} [x]
   (modified x
     (fn [l]
       (zip/replace (zip/up l) (zip/node l))
@@ -224,18 +230,18 @@
   )
 )
 
-(defn split-into-children ^{:doc "split into children"} [s x]
+(defn split-into-children ^{:doc "split into children"} [x]
   (assoc (update-in x [:focus] (fn [n] (zip/replace n
                                     (zip/make-node n (zip/node n)
                                       (zip/children (zip/vector-zip (vec (name (zip/node n))))))
                                   ))) :action :modify)
 )
 
-(defn fuse-into-parent ^{:doc "fuse into parent"} [s x]
+(defn fuse-into-parent ^{:doc "fuse into parent"} [x]
   (assoc (update-in x [:focus] (fn [n] (zip/replace n (symbol (apply str (zip/children n))))) ) :action :modify)
 )
 
-(defn home [s x] (update-in x [:focus] top))
+(defn home [x] (update-in x [:focus] top))
 
 (defn hfn ^{:doc "history switch"}
   ([h s]
@@ -266,25 +272,10 @@
   (fn [s x] (selected x (next-at (dec (count (:keypath x))) c)))
 )
 
-; this happens for *every* key that's released: e.g. alt-e would result in 2 of these, 1 for alt, 1 for e
-(defn keyup
-  ([s x] (keyup s x (get-in x (conj (:keypath x) (:key x)) nop)))
-  ([s x f]
-    (push-history
-      (or
-        (f s (assoc (kop x) :op (str f)))
-         s)
-         s)
-  )
-)
+(defn reset-keypath [s] (assoc s :keypath [:keymap]))
 
 (defn latest-state [history]
   (-> history top zip/down zip/rightmost zip/node)
-)
-
-(defn lattest-state [history s]
-  (println (str "back to latest state" (meta history)))
-  (modified s (fn [loc] (-> history top zip/down zip/rightmost zip/node)))
 )
 
 (defn focus-on-latest [h x]
@@ -292,14 +283,14 @@
 
 (defn default-keymap []
   {
-   :i {:i (fn [s x] (modified x (comp zip/prev zip/next)))}
+   :i {:i (fn [s] (modified s (comp zip/prev zip/next)))}
    :alt
               {
                :left  {:left left}
                :right {:right right}
                :up    {:up replace-parent}
                :down  {:down split-into-children}
-               :i     {:i (fn [s x] (modified x identity))}
+               :i     {:i (fn [s] (modified s identity))}
                :alt   nop
                }
    :up        {:up out}
@@ -325,118 +316,64 @@
                :ctrl  nop
                }
    :shift     {:shift nop}
-   :1
-              {
-               :1 lattest-state
-               }
+   :tab {:tab hfn}
    :0         {:0 home}
    :default   nop
    :space     {:space expand}
    }
 )
 
+;"this happens for *every* key that's released: e.g. alt-e would result in 2 of these, 1 for alt, 1 for e"
+
 (defn default-state
   ([]
     (default-state
-      (seq-map-zip
-      [
-        (with-meta
-          {
-           :render-fns {:test :qwe}
-           :keymap     (default-keymap)
-           :keyup
-                       {
-                        :esc     safe
-                        :default keyup
-                        }
-           :keydown
-                       {
-                        :default (fn keydown [s x] (push-history (update-in x [:keypath] (fn [kp] (conj kp (:key x)))) s))
-                        }
-           :keypath    [:keymap]
-           :action     :select
-           :focus      "hi"
-           :context    "poi"
-           :selected   [7]
-           :help
-                       [
-                        "iiiiioiooooo Clojure structure editor"
-                        "This is an experiment in making a functional data structure editor"
-                        ]
-           :namespaces
-                       {
-                        :clojure.core
-                        {
-                         :c   {
-                               :o {
-                                   :n
-                                   {
-                                    :s :cons
-                                    :c :juxt
-                                    :j :conj
-                                    }
-                                   }
-                               }
-                         :inc inc
-                         :dec dec
-                         }
-                        }
-           :qwe        0
-           :table1
-                       [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
-           :table2
-                       (with-meta
-                         [(repeatedly 3
-                                      (fn [] (map (fn [x] (Math/sin (/ x 13.3))) (iterate inc (rand-int 180)))))]
-                         {:open true :render-fn :to-svg})
-           :table3
-                       (with-meta
-                         (map
-                           (fn [i] (iterate inc i))
-                           (iterate inc 0))
-                         {:open true})
-           :test       (with-meta '(+ 1 3) {:open true :q 3})
-           :test1
-                       (with-meta '(
-                                     ((fn [x] (list (rest x) (cons (read-string (first x)) [x])))
-                                       (quote ["quote" fn [x] (list (rest x) (cons (read-string (first x)) [x]))])
-                                       )
-                                     (defn descendents
-                                       ([loc]
-                                        (mapcat (fn [r] (if (zip/branch? r) (descendents r) [r])) (take-while identity (iterate zip/right (if (zip/branch? loc) (zip/down loc) loc))))
-                                         )
-                                       )
-                                     ) {:open true :q 2})
-           }
-          {:open true :q 1}
-       )
-      ]
-     )
+      (with-meta
+        {
+         :history [{}]
+         :aaa     (with-meta '(+ 1 3) {:open true :q 3})
+         :keymap  (default-keymap)
+         :keyup
+                  {
+                   :esc     safe
+                   :default (fn keyup
+                              ([s] (keyup s (get-in s (conj (:keypath s) (:key s)) nop)))
+                              ([s f]
+                               (or
+                                 (f (assoc (kop s) :op (str f)))
+                                 s)
+                                )
+                              )
+                   }
+         :keydown
+                  {
+                   :default (fn keydown [s] (update-in (push-history s) [:keypath] (fn [kp] (conj kp (:key s)))))
+                   }
+         :keypath [:keymap]
+         :action  :select
+         :focus   (seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))
+         :context (seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))
+         :eval-test
+         ;'((fn [x] (cljs.core/cons 5 x)) [1 2 3])
+                  '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
+         :help
+                  [
+                   "iiiiioiooooo Clojure structure editor"
+                   "This is an experiment in making a functional data structure editor"
+                   ]
+
+         :qwe     0
+         :table1
+                  [['x 'y 'z] [1 2 3] [4 5 6] [7 8 9]]
+         }
+        {:open true :q 1}
+        )
     )
    )
-   ([h]
-    (default-state (latest-state h) (top h))
-   )
-   ([s h] ; s isa map, h isa zip location of the history
-    (default-state
-      (push-history (assoc s
-      :context (zip/down h)
-      :focus (zip/up (zip/rightmost (zip/down h)))
-      :selected [3 4]
-      :qwe 1 :poi "qwe") h) (latest-state h) :qweqwe)
-   )
-   ([h latest w]
-    (push-history (assoc (latest-state h)
-     :focus (zip/next (zip/next (:context (latest-state h))))
-     :selected
-      [
-        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (latest-state h)) zip/next zip/next zip/next zip/next)
-        (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right)
-        (-> (:context (latest-state h)) zip/down zip/right zip/down zip/right zip/down zip/right zip/right zip/right)
-      ]
-     :qwe 2 :wer "arseee")
-      h)
+   ([state]
+    (assoc (push-history state)
+      :selected [(seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))]
+      :qwe 1 :poi "qwe")
    )
 )
 
@@ -448,15 +385,11 @@
 )
 
 (defn update-state
-  ([h e] (update-state h (latest-state h) e))
-  ([h s e] (update-state h (merge s e) e (fn-for-event s e)))
-  ([h s e f] (f h s))
-)
-
-(defn update-with [h f]
-  (push-history (or (f h (latest-state h)) h) h)
+  ([s e] (update-state (merge s e) e (fn-for-event s e)))
+  ([s e f] (f s))
 )
 
 (defn update! [state e]
   (swap! state (fn [s] (update-state s e)))
 )
+
