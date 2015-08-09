@@ -97,7 +97,7 @@
 	(update-in state [:history] (fn [h] (conj h (apply dissoc state (:dont-record state)))))
 	)
 
-(defn kop [x] (update-in x [:keypath] (fn [p] (subvec p 0 (dec (count p))))))
+(defn kop [x] (update-in x [:keypath] (fn [p]  (if (zero? (count p)) [:keymap] (subvec p 0 (dec (count p)))))))
 
 (defn safe [x]  (assoc x :keypath [:keymap]))
 
@@ -233,7 +233,7 @@
 (defn split-into-children ^{:doc "split into children"} [x]
   (assoc (update-in x [:focus] (fn [n] (zip/replace n
                                     (zip/make-node n (zip/node n)
-                                      (zip/children (zip/vector-zip (vec (name (zip/node n))))))
+                                      (zip/children (seq-map-zip (vec (str (zip/node n))))))
                                   ))) :action :modify)
 )
 
@@ -323,6 +323,7 @@
    }
 )
 
+
 ;"this happens for *every* key that's released: e.g. alt-e would result in 2 of these, 1 for alt, 1 for e"
 
 (defn default-state
@@ -332,12 +333,26 @@
         {
          :history [{}]
          :aaa     (with-meta '(+ 1 3) {:open true :q 3})
+         :style
+         [
+          [:body {:background "black"}]
+          [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
+          [:.sexp {:background "rgba(255,255,255,0.1)"
+                :display :flex :flex-flow "row wrap" :padding "0.5em"
+                :border-radius "4px" :margin "1em"}]
+
+          [:.leaf {:background "rgba(255,255,255,0.1)"
+                :display :flex :flex-flow "row wrap" :padding "0.5em"
+                :border-radius "4px" :margin "1em"}]
+          [:.selected {:background "rgba(200,255,200,0.7)"}]
+          ;[:.selected>div:first-child {:background "rgba(200,255,200,0.7)"}]
+          ]
          :keymap  (default-keymap)
          :keyup
                   {
                    :esc     safe
                    :default (fn keyup
-                              ([s] (keyup s (get-in s (conj (:keypath s) (:key s)) nop)))
+                              ([s] (keyup s (get-in s (conj (:keypath s) (:key s)) identity)))
                               ([s f]
                                (or
                                  (f (assoc (kop s) :op (str f)))
@@ -347,7 +362,7 @@
                    }
          :keydown
                   {
-                   :default (fn keydown [s] (update-in (push-history s) [:keypath] (fn [kp] (conj kp (:key s)))))
+                   :default (fn keydown [s] (update-in (push-history s) [:keypath] (fn [kp] (println "kd " kp) (conj kp (:key s)))))
                    }
          :keypath [:keymap]
          :action  :select
@@ -372,6 +387,8 @@
    )
    ([state]
     (assoc (push-history state)
+      :focus (seq-map-zip (:style state))
+      :context (seq-map-zip (:style state))
       :selected [(seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))]
       :qwe 1 :poi "qwe")
    )

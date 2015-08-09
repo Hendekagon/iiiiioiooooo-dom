@@ -187,14 +187,10 @@ numbers
 )
 
 (defn gen-css
-  ([] (gen-css
-        (map css [
-          [:div {:background "rgba(255,253,250,0.9)" :display :flex :width "50%" :padding "1em"}]
-          [:.sexp {:display :flex}]
-          [:.selected {:background "rgba(240,255,240,0.9)"}]
-          ])))
-  ([rules] (gen-css (aget (.-styleSheets js/document) 0) rules))
-  ([stylesheet rules]
+  ([state] (gen-css state
+        (map css (:style state))))
+  ([state rules] (gen-css state (aget (.-styleSheets js/document) 0) rules))
+  ([state stylesheet rules]
     ;(println ">>> " (str stylesheet) (str rules))
    (doall (map
       (fn [rule index]
@@ -287,9 +283,9 @@ numbers
   ([s paths]
     (select-state! s paths (sel paths) (sel1 (selector (s/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    ;(println ">>w " (str (sel ".selected")))
+    (println "selected " (str (zip/node (:focus s))))
     (doall (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
-    (doseq [selection selections] (cond selection (dommy/add-class! selection "selected")))
+    ;(doseq [selection selections] (cond selection (dommy/add-class! selection "selected")))
     (cond focus (dommy/add-class! focus "selected"))
   )
 )
@@ -382,8 +378,8 @@ numbers
   ([] (make-ui {}))
   ([e] (make-ui e (atom (add-render-fns (add-eval (s/default-state))))))
   ([e state]
-    (log "make ui")
-    (gen-css)
+    (log "make ui ")
+    (gen-css @state)
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
     (set! (.-onfocus js/window) (fn [e] (log "focus ") (s/update-state @state :no-event
