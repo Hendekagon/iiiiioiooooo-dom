@@ -189,15 +189,23 @@ numbers
   ([m1 m2 m3 m4 m5] (.log js/console m1 m2 m3 m4 m5))
 )
 
-(defn gen-css
-  ([state] (gen-css state (map css (:style state))))
-  ([state rules] (gen-css state (aget (.-styleSheets js/document) 0) rules))
-  ([state stylesheet rules]
-    ;(println ">>> " (str stylesheet) (str rules))
+(defn set-css!
+([style] (set-css! (aget (.-styleSheets js/document) 0)) (map css style))
+([stylesheet rules]
+    (println ">>> " (str stylesheet) (str rules))
    (doall (map (fn [index] (.. stylesheet (deleteRule (aget (.-rules stylesheet) index)))) (range (.-length (.-rules stylesheet)))))
    (doall (map
       (fn [rule index]
-        (.. stylesheet (insertRule rule index))) rules (range))))
+        (.. stylesheet (insertRule rule index))) rules (range)))
+)
+)
+
+(defn gen-css
+  ([state] (gen-css state (map css (:styyle state))))
+  ([state rules] (gen-css state (aget (.-styleSheets js/document) 0) rules))
+  ([state stylesheet rules]
+    (set-css! stylesheet rules)
+  )
 )
 
 (defn to-str [n]
@@ -310,7 +318,7 @@ numbers
      (s/push-history
         (assoc-in x
           [:keymap :e :e]
-          (fn [s x]
+          (fn [x]
             (s/modified x
             (fn [l] ;hmm, should this be returning a zipper (see forward-zipper)
               (log "evaluating! " (str (zip/node l)))
@@ -342,12 +350,17 @@ numbers
           (fn [s] (log "meta: " (str (meta (zip/node (:focus s))))) s)))))
 )
 
-(defn add-css [s]
-  (s/update-state s :no-event
-  (fn [s]
+(defn add-css [state]
+  (s/update-state state :no-event
+    (fn [sss]
       (s/push-history
-        (assoc-in (assoc s :style (zip/node (:focus s))) [:keymap :c :c]
-          (fn [s] (println "update css") (gen-css s) s)))))
+        (assoc-in sss [:keymap :c :c]
+          (fn [ss]
+            (let [q (assoc ss :style (zip/node (s/top (:focus ss))))]
+              (println "update css" (str (:style q)))
+              (gen-css q)
+              q
+            ))))))
 )
 
 (defn add-render-fns [s]

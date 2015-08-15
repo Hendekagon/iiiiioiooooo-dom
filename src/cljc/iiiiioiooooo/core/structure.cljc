@@ -349,20 +349,32 @@
         {
          :history [{}]
          :aaa     (with-meta '(+ 1 3) {:open true :q 3})
-         :style
-         [
-          [:body {:background "black"}]
-          [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
-          [:.sexp {:background "rgba(255,255,255,0.1)"
-                :display :flex :flex-flow "row wrap" :padding "0.5em"
-                :border-radius "4px" :margin "1em"}]
+         :styyle [
+                    [:body {:background "black"}]
+                    [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
+                    [:.sexp {:background    "rgba(255,255,255,0.1)"
+                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                             :border-radius "4px" :margin "1em"}]
 
-          [:.leaf {:background "rgba(255,255,255,0.1)"
-                :display :flex :flex-flow "row wrap" :padding "0.5em"
-                :border-radius "4px" :margin "1em"}]
-          [:.selected {:background (rgba 200 255 200 0.9)}]
-          ;[:.selected>div:first-child {:background "rgba(200,255,200,0.7)"}]
-          ]
+                    [:.leaf {:background    "rgba(255,255,255,0.1)"
+                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                             :border-radius "4px" :margin "1em"}]
+                    [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
+                    ]
+         :style
+                  '(iiiiioiooooo.ui/set-css!
+                    [
+                    [:body {:background "black"}]
+                    [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
+                    [:.sexp {:background    "rgba(255,255,255,0.1)"
+                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                             :border-radius "4px" :margin "1em"}]
+
+                    [:.leaf {:background    "rgba(255,255,255,0.1)"
+                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                             :border-radius "4px" :margin "1em"}]
+                    [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
+                    ])
          :keymap  (default-keymap)
          :keyup
                   {
