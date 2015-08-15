@@ -14,8 +14,10 @@
     [hipo.dom :as dom]
     [dommy.core :as dommy]
     [dommy.core :refer-macros [sel sel1]]
-    [clojure.zip :as zip]
+    ;[clojure.zip :as zip]
+    [fast-zip.core :as zip]
     [garden.core :refer [css]]
+    [garden.color :as color :refer [hsl rgb]]
     )
 )
 
@@ -184,14 +186,15 @@ numbers
   ([m1 m2] (.log js/console m1 m2))
   ([m1 m2 m3] (.log js/console m1 m2 m3))
   ([m1 m2 m3 m4] (.log js/console m1 m2 m3 m4))
+  ([m1 m2 m3 m4 m5] (.log js/console m1 m2 m3 m4 m5))
 )
 
 (defn gen-css
-  ([state] (gen-css state
-        (map css (:style state))))
+  ([state] (gen-css state (map css (:style state))))
   ([state rules] (gen-css state (aget (.-styleSheets js/document) 0) rules))
   ([state stylesheet rules]
     ;(println ">>> " (str stylesheet) (str rules))
+   (doall (map (fn [index] (.. stylesheet (deleteRule (aget (.-rules stylesheet) index)))) (range (.-length (.-rules stylesheet)))))
    (doall (map
       (fn [rule index]
         (.. stylesheet (insertRule rule index))) rules (range))))
@@ -244,17 +247,7 @@ numbers
 )
 
 (defn selector [p]
-  (str "#root " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
-)
-
-(defn replacement-selector
-  ([p]
-    (replacement-selector "#root "
-      (apply str (map  {:v " > div:first-child " :> " + div"} p)))
-  )
-  ([s ps]
-    ;(log ">>> rsel " ps)
-    (str s ps))
+  (str "body " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
 )
 
 (defn set-attrs! [s a]
@@ -264,9 +257,8 @@ numbers
 (defn update-element!
   ([context] (update-element! context context context))
   ([context new old]
-    (log "replace " (str context))
       (dommy/replace!
-        (sel1 (replacement-selector (s/path context old)))
+        (sel1 (selector (s/path context old)))
         (hipo/create
           (first
             (s/translate 32 32
@@ -283,29 +275,33 @@ numbers
   ([s paths]
     (select-state! s paths (sel paths) (sel1 (selector (s/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    (println "selected " (str (zip/node (:focus s))))
+    ;(println "selected " (s/path (:context s) (:focus s)))
     (doall (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     ;(doseq [selection selections] (cond selection (dommy/add-class! selection "selected")))
-    (cond focus (dommy/add-class! focus "selected"))
+    (cond focus
+      (do
+        (dommy/add-class! focus "selected")
+        (.scrollIntoView focus)
+        (set! (.-scrollTop (.-body js/document)) (- (.. js/document -body -scrollTop) (* 0.125 (.-availHeight js/screen))))))
   )
 )
 
 (def update-ui-fn
   {
-    :select select-state!
-    :modify (fn [s]
-               (update-element!
-                (:context s)
-                (:focus s)
-                (if (:modified s) (:modified s) (:focus s))
+   :select (fn [o n] (select-state! n))
+   :modify (fn [o s]
+             (update-element!
+               (:context o)
+               (:focus s)
+               (if (:modified s) (:modified s) (:focus s))
                )
-               (select-state! s)
-            )
-  }
+             (select-state! s)
+             )
+   }
 )
 
-(defn display-with-latest [n]
-  (((:action n) update-ui-fn) n)
+(defn display-with-latest [o n]
+  (((:action n) update-ui-fn) o n)
 )
 
 (defn add-eval [s]
@@ -346,6 +342,14 @@ numbers
           (fn [s] (log "meta: " (str (meta (zip/node (:focus s))))) s)))))
 )
 
+(defn add-css [s]
+  (s/update-state s :no-event
+  (fn [s]
+      (s/push-history
+        (assoc-in (assoc s :style (zip/node (:focus s))) [:keymap :c :c]
+          (fn [s] (println "update css") (gen-css s) s)))))
+)
+
 (defn add-render-fns [s]
   (s/update-state s :no-event
   (fn [ss]
@@ -364,19 +368,19 @@ numbers
 ;                     keyCodeArg, charCodeArg)
 (defn keydown [state e]
   ;(.log  js/console "kd> " (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
-  ;(. e preventDefault)
+  (. e preventDefault)
   (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keydown})
   ;(log (str (:keymap @state)))
 )
 
 (defn keyup [state e]
-  (.log  js/console "ku> " (str (:keypath @state)) (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
+  ;(.log  js/console "ku> " (str (:keypath @state)) (str (keycode-to-keyword (.-keyCode e))) (.-keyCode e))
   (s/update! state {:key (keycode-to-keyword (.-keyCode e)) :keycode (.-keyCode e) :event :keyup})
 )
 
 (defn make-ui
   ([] (make-ui {}))
-  ([e] (make-ui e (atom (add-render-fns (add-eval (s/default-state))))))
+  ([e] (make-ui e (atom (add-css (add-render-fns (add-eval (s/default-state)))))))
   ([e state]
     (log "make ui ")
     (gen-css @state)
@@ -389,7 +393,7 @@ numbers
     (update-element! (:context @state))
     (add-watch state :update-display
       (fn [k r o n]
-        (display-with-latest n)
+        (display-with-latest o n)
       ))
   )
 )

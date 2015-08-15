@@ -10,6 +10,7 @@
    [hiccup "1.0.5"]
    [garden "1.2.5"]
    [compojure "1.3.4"]
+   [fast-zip "0.6.1"]
   ]
   :source-paths ["./src/clj" "./src/cljc" "./src/cljs"]
 )

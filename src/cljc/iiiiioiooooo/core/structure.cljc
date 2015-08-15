@@ -1,9 +1,16 @@
 (ns iiiiioiooooo.core.structure
   (:require
-    [clojure.zip :as zip]
+    ;[clojure.zip :as zip]
+    [fast-zip.core :as zip]
     [cljs.core :as c]
+    [cljs.analyzer :as ana]
+    [cljs.compiler :as compiler]
+    [cljs.reader :as reader]
+    [garden.color :as color :refer [hsl rgb rgba]]
   )
 )
+
+(defn pp [f y] (fn [x] (f x y)))
 
 (defn maybe [f x] (if x (f x) x))
 
@@ -101,8 +108,6 @@
 
 (defn safe [x]  (assoc x :keypath [:keymap]))
 
-(defn nop [s] s)
-
 (defn descendents
   ([loc]
     (mapcat (fn [r] (if (zip/branch? r) (descendents r) [r])) (take-while identity (iterate zip/right (if (zip/branch? loc) (zip/down loc) loc))))
@@ -144,18 +149,23 @@
 (defn maybe-select [x y] (if (= (meta (zip/node (:focus x))) (meta (zip/node (:focus y))))
   (assoc x :action :select) (assoc x :action :modify :modified (:focus x))))
 
-(defn selected [s f]
-  (assoc
-    (update-in s [:focus]
-      (carefull (forward-zipper f))) :action :select))
+(defn selected
+  ([f] (fn [s] (selected s f)))
+  ([s f] (assoc
+     (update-in s [:focus]
+                (carefull (forward-zipper f))) :action :select)))
+
+(defn nop [s] (assoc s :action :select))
+
+(defn update-context [s] (assoc s :context (top (:focus s))))
 
 (defn modified
+  ([f] (fn [s] (modified s f)))
   ([s f] (modified s f (:focus s)))
   ([s f m]
-    (assoc
-      (update-in s [:focus] (carefull (forward-zipper f))
-      )
-      :modified m :action :modify :x (inc (or (:x s) 0))))
+   (update-context (assoc
+      (update-in s [:focus] (carefull (forward-zipper f)))
+      :modified m :action :modify :x (inc (or (:x s) 0)))))
 )
 
 ;(defn resolve [x] x) ; for below - delete -   cljs-incljs
@@ -207,9 +217,9 @@
 
 (defn delete ^{:doc "delete"} [x] (modified x zip/remove))
 
-(defn insert-left ^{:doc "insert left"} [x] (modified x (fn [c] (zip/insert-left c "+"))))
+(defn insert-left ^{:doc "insert left"} [x] (modified x (fn [c] (zip/insert-left c "+")) (zip/up (:focus x))))
 
-(defn insert-right ^{:doc "insert right"} [x]  (modified x (fn [c] (zip/insert-right c "+"))))
+(defn insert-right ^{:doc "insert right"} [x]  (modified x (fn [c] (zip/insert-right c "+")) (zip/up (:focus x))))
 
 (defn rightmost ^{:doc "last"} [x] (selected x zip/rightmost))
 
@@ -222,6 +232,7 @@
 (defn root ^{:doc "root"} [x] (selected x top))
 
 (defn replace-parent ^{:doc "replace parent with child"} [x]
+(println "replace parent with child")
   (modified x
     (fn [l]
       (zip/replace (zip/up l) (zip/node l))
@@ -231,14 +242,18 @@
 )
 
 (defn split-into-children ^{:doc "split into children"} [x]
-  (assoc (update-in x [:focus] (fn [n] (zip/replace n
-                                    (zip/make-node n (zip/node n)
-                                      (zip/children (seq-map-zip (vec (str (zip/node n))))))
-                                  ))) :action :modify)
+  (modified x (fn [n] (zip/replace n
+                                   (zip/make-node n (zip/node n)
+                                                  (zip/children (seq-map-zip (vec (str (zip/node n))))))
+                                   )))
 )
 
 (defn fuse-into-parent ^{:doc "fuse into parent"} [x]
-  (assoc (update-in x [:focus] (fn [n] (zip/replace n (symbol (apply str (zip/children n))))) ) :action :modify)
+  (modified x (fn [n] (zip/replace n (symbol (apply str (zip/children n))))))
+)
+
+(defn to-string ^{:doc "make them a string"} [x]
+  (modified x (fn [n] (zip/replace n (apply str (zip/children n)))))
 )
 
 (defn home [x] (update-in x [:focus] top))
@@ -283,7 +298,7 @@
 
 (defn default-keymap []
   {
-   :i {:i (fn [s] (modified s (comp zip/prev zip/next)))}
+   :i         {:i (fn [s] (modified s (comp zip/prev zip/next)))}
    :alt
               {
                :left  {:left left}
@@ -315,8 +330,9 @@
                :up    {:up fuse-into-parent}
                :ctrl  nop
                }
+   :n         {:up {:up (modified (pp zip/edit inc))} :down {:down (modified (pp zip/edit dec))}}
    :shift     {:shift nop}
-   :tab {:tab hfn}
+   :tab       {:tab hfn}
    :0         {:0 home}
    :default   nop
    :space     {:space expand}
@@ -344,7 +360,7 @@
           [:.leaf {:background "rgba(255,255,255,0.1)"
                 :display :flex :flex-flow "row wrap" :padding "0.5em"
                 :border-radius "4px" :margin "1em"}]
-          [:.selected {:background "rgba(200,255,200,0.7)"}]
+          [:.selected {:background (rgba 200 255 200 0.9)}]
           ;[:.selected>div:first-child {:background "rgba(200,255,200,0.7)"}]
           ]
          :keymap  (default-keymap)
@@ -362,7 +378,7 @@
                    }
          :keydown
                   {
-                   :default (fn keydown [s] (update-in (push-history s) [:keypath] (fn [kp] (println "kd " kp) (conj kp (:key s)))))
+                   :default (fn keydown [s] (update-in (push-history s) [:keypath] (fn [kp] (conj kp (:key s)))))
                    }
          :keypath [:keymap]
          :action  :select
