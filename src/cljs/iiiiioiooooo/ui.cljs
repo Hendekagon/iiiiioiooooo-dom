@@ -17,7 +17,7 @@
     ;[clojure.zip :as zip]
     [fast-zip.core :as zip]
     [garden.core :refer [css]]
-    [garden.color :as color :refer [hsl rgb]]
+    [garden.color :as color :refer [hsl rgb rgba]]
     )
 )
 
@@ -190,18 +190,24 @@ numbers
 )
 
 (defn set-css!
-([style] (set-css! (aget (.-styleSheets js/document) 0)) (map css style))
+([style]
+  (if-let [s (. js/document (getElementById "sheet"))] (. (.-parentNode s) (removeChild s)))
+  (let [s (. js/document (createElement "style"))] (.setAttribute s "id" "sheet") (. (.-body js/document) (appendChild s)))
+  (set-css! (aget (.-styleSheets js/document) 0) (map css style))
+   )
 ([stylesheet rules]
     (println ">>> " (str stylesheet) (str rules))
-   (doall (map (fn [index] (.. stylesheet (deleteRule (aget (.-rules stylesheet) index)))) (range (.-length (.-rules stylesheet)))))
+  ;(doall (map (fn [index] (.. stylesheet (deleteRule (aget (.-rules stylesheet) index)))) (range (.-length (.-rules stylesheet)))))
+  (log stylesheet)
    (doall (map
       (fn [rule index]
         (.. stylesheet (insertRule rule index))) rules (range)))
+  nil
 )
 )
 
 (defn gen-css
-  ([state] (gen-css state (map css (:styyle state))))
+  ([state] (set-css! (:styyle state)))
   ([state rules] (gen-css state (aget (.-styleSheets js/document) 0) rules))
   ([state stylesheet rules]
     (set-css! stylesheet rules)
@@ -312,33 +318,68 @@ numbers
   (((:action n) update-ui-fn) o n)
 )
 
+(defn do-eval! [f]
+  (fn [x] (s/modified x
+               (fn [l]                                      ;hmm, should this be returning a zipper (see forward-zipper)
+                 (log "evaluating! " (str (zip/node (f l))))
+                 (zip/replace (f l)
+                              ;"qwe"
+                              (let [
+                                    n (zip/node (f l))
+                                    env (assoc (ana/empty-env)
+                                          :context :expr
+                                          :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
+
+                                          )
+                                    p (log "env " env)
+                                    ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
+                                    a (ensure (ana/analyze env n))
+                                    p (log "ana " a)
+                                    j (compiler/emit-str a)
+                                    ; p (log "js  " j)
+                                    res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
+                                    ]
+                                n)
+                              ;(cljs/eval (cljs/empty-env) '(+ 1 2))
+                              ))))
+          )
+
+(defn do-eval [f]
+  (fn [x] (s/modified x
+               (fn [l]                                      ;hmm, should this be returning a zipper (see forward-zipper)
+                 (log "evaluating! " (str (zip/node (f l))))
+                 (zip/replace (f l)
+                              ;"qwe"
+                              (let [
+                                    n (zip/node (f l))
+                                    env (assoc (ana/empty-env)
+                                          :context :expr
+                                          :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
+
+                                          )
+                                    p (log "env " env)
+                                    ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
+                                    a (ensure (ana/analyze env n))
+                                    p (log "ana " a)
+                                    j (compiler/emit-str a)
+                                    ; p (log "js  " j)
+                                    res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
+                                    ]
+                                (if res [n res] n))
+                              ;(cljs/eval (cljs/empty-env) '(+ 1 2))
+                              ))))
+          )
+
 (defn add-eval [s]
    (s/update-state s :no-event
     (fn [x]
      (s/push-history
+       (assoc-in
         (assoc-in x
-          [:keymap :e :e]
-          (fn [x]
-            (s/modified x
-            (fn [l] ;hmm, should this be returning a zipper (see forward-zipper)
-              (log "evaluating! " (str (zip/node l)))
-              (zip/replace l
-                                ;"qwe"
-      (let [
-            n (zip/node l)
-            env (assoc (ana/empty-env) :context :expr)
-            p (log "env " env)
-            a (ensure (ana/analyze env n))
-            p (log "ana " a)
-            j (compiler/emit-str a)
-            p (log "js  " j)
-            res (try (js/eval j) (catch js/Error e e))
-      ]
-      [n res])
-                                ;(cljs/eval (cljs/empty-env) '(+ 1 2))
-                )))
-          )
-        ))
+                  [:keymap :e :e] (do-eval identity)
+                  )
+          [:keymap :w :w] (do-eval! s/top))
+        )
    ))
 )
 

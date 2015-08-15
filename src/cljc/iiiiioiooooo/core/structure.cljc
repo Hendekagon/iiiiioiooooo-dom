@@ -61,7 +61,14 @@
   (zip/zipper
     (fn [n] (or (seq? n) (map? n) (vector? n))) ; can have children ?
     (fn [b] (if (map? b) (seq b) b))  ;return children of given node
-    (fn [node children] (with-meta children (merge (or (meta node) {}) {:open true}))) ; return new branch of given children
+    (fn [node children]
+      ;(cond (or (vector? node) (map? node)) (println "zzz " children))
+      (with-meta
+        (cond
+          (map? node) (apply hash-map (mapcat identity children))
+          (vector? node) (vec children)
+          :default children)
+        (merge (or (meta node) {}) {:open true}))) ; return new branch of given children
     x))
 
 (defn top
@@ -293,6 +300,8 @@
   (-> history top zip/down zip/rightmost zip/node)
 )
 
+(defn ggg [x] x)
+
 (defn focus-on-latest [h x]
   (selected x (fn [loc] (-> h top zip/down zip/rightmost))))
 
@@ -349,32 +358,32 @@
         {
          :history [{}]
          :aaa     (with-meta '(+ 1 3) {:open true :q 3})
-         :styyle [
-                    [:body {:background "black"}]
-                    [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
-                    [:.sexp {:background    "rgba(255,255,255,0.1)"
-                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                             :border-radius "4px" :margin "1em"}]
-
-                    [:.leaf {:background    "rgba(255,255,255,0.1)"
-                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                             :border-radius "4px" :margin "1em"}]
-                    [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
-                    ]
+         :styyle  [
+                   [:body {:background "black" :display :flex :flex-flow "column wrap"}]
+                   [:div {:display :flex :flex-flow "column wrap"}]
+                   [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
+                   [:.sexp {:background    "rgba(255,255,255,0.1)"
+                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
+                   [:.leaf {:background    (garden.color/rgba 255, 255, 255, 0.1)
+                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
+                   [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
+                   ]
          :style
                   '(iiiiioiooooo.ui/set-css!
-                    [
-                    [:body {:background "black"}]
-                    [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
-                    [:.sexp {:background    "rgba(255,255,255,0.1)"
-                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                             :border-radius "4px" :margin "1em"}]
-
-                    [:.leaf {:background    "rgba(255,255,255,0.1)"
-                             :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                             :border-radius "4px" :margin "1em"}]
-                    [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
-                    ])
+                     [
+                   [:body {:background "black" :display :flex :flex-flow "column wrap"}]
+                   [:div {:display :flex :flex-flow "column wrap"}]
+                   [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
+                   [:.sexp {:background    "rgba(255,255,255,0.1)"
+                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
+                   [:.leaf {:background    (garden.color/rgba 255, 255, 255, 0.1)
+                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
+                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
+                   [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
+                   ])
          :keymap  (default-keymap)
          :keyup
                   {
