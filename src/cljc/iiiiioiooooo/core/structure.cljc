@@ -369,7 +369,7 @@
                       [:body>.sexp:first-child {:flex-flow "row wrap"}]
                       [:.sexp {:background    (garden.color/rgba 255 255 255 0.2) :font-size (str 1 "rem")
                                :font-family   "monospace"
-                               :fill "red"
+                               :fill          "red"
                                :margin-left   (str 1 "em") :margin-right (str 0.1 "em")
                                :margin-top    (str 0.01 "em") :margin-bottom (str 0.01 "em")
                                :align-items   "flex-start"
@@ -386,7 +386,15 @@
                                :flex-shrink   1}]
                       [".keyword" {:color (garden.color/rgb 100 0 100)}]
                       [:.selected {:background (garden.color/rgba 100 255 100 0.3)
-                                    :fill (garden.color/rgba 100 255 100 0.3)}]
+                                   :fill       (garden.color/rgba 100 255 100 0.3)}]
+                      ["g:nth-child(odd)" {:transform "translate(10,20)"}]
+                      ["g:nth-child(even)" {:transform "translate(20,20)"}]
+                      [:circle {:fill "red"}]
+                      [:line {:stroke "white" :stroke-width 2}]
+                      [:.selected>g>circle {
+                                            :fill   (garden.color/rgb 100 255 100)
+                                            :stroke "yellow" :stroke-width 2
+                                            }]
                       ])
          :keymap  (default-keymap)
          :keyup
@@ -407,8 +415,10 @@
                    }
          :keypath [:keymap]
          :action  :select
-         :focus   (with-meta '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
-                      {:render-fn :to-svg} )
+         :focus1  (with-meta '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
+                             {:render-fn :to-svg :open true})
+         :focus   (with-meta [(map (fn [x] (js/Math.cos (* 4 x))) (range 0 24 0.1))]
+                             {:render-fn :to-svg :open true})
          :context '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
          :help
                   [

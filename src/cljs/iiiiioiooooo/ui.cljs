@@ -215,27 +215,30 @@ numbers
 
 (defn to-svg
   ([[x y n]]
-    [:circle {:stroke       "blue"
-              :stroke-width 1 :fill "red"
-              :cx (if (number? x) (* 100 x) 0)
-              :cy (if (number? n) (* 100 n) 0) :r 8
+   [:g {:class "leaf"}
+     [:circle {
+              :cx           (if (number? x) (* 20 x) 0)
+              :cy           (if (number? n) (* 20 n) 0)
+              :r 8
               }]
+              ]
   )
   ([loc children]
     (apply
       conj
-      (if (and (meta (zip/node (zip/up loc))) (= :to-svg (:render-fn (meta (zip/node loc)))))
+      (if (and (meta (zip/node loc)) (= :to-svg (:render-fn (meta (zip/node loc)))))
         [:svg
             {
               :width "2000"
               :height "1000"
+              :class "sexp"
             }]
         [:g {:class     "sexp"
-            :transform "translate(50,100) scale(0.9) "
+             :transform "translate(10,20)"
             }])
       children)
   )
-  ([n oiuoi c] [:g {:class (str "sexp  " n) }])
+  ([n oiuoi c] [:g {:class (str "sexp folded " n) }])
   ([] [:g {:class "sexp" :transform "translate(50,50) scale(0.5)"}])
 )
 
@@ -253,7 +256,7 @@ numbers
 )
 
 (defn selector [p]
-  (str "body " (apply str (map  {:v " > div:first-child " :> " + div"} p)))
+  (str "body " (apply str (map  {:v " > *:first-child " :> " + *"} p)))
 )
 
 (defn set-attrs! [s a]
@@ -281,14 +284,17 @@ numbers
   ([s paths]
     (select-state! s paths (sel paths) (sel1 (selector (s/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    ;(println "selected " (s/path (:context s) (:focus s)))
+    (println "selected " (.-namespaceURI focus))
     (doall (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     ;(doseq [selection selections] (cond selection (dommy/add-class! selection "selected")))
     (cond focus
-      (do
-        (dommy/add-class! focus "selected")
-        (.scrollIntoView focus)
-        (set! (.-scrollTop (.-body js/document)) (- (.. js/document -body -scrollTop) (* 0.125 (.-availHeight js/screen))))))
+          (do
+            (dommy/add-class! focus "selected")
+            (cond (= "http://www.w3.org/1999/xhtml" (.-namespaceURI focus))
+                  (do (.scrollIntoView focus)
+                      (set! (.-scrollTop (.-body js/document)) (- (.. js/document -body -scrollTop) (* 0.125 (.-availHeight js/screen))))
+                  ))
+            ))
   )
 )
 
