@@ -18,12 +18,12 @@
 
 (defn typee [b]
   (cond
-    (list? b) :list
+    (list? b) "list"
     (symbol? b) (str b)
-    (vector? b) :vector
-    (map? b) :map
-    (seq? b) :seq
-    :default :unknown
+    (vector? b) "vector"
+    (map? b) "map"
+    (seq? b) "seq"
+    :default ""
   )
 )
 
@@ -340,6 +340,9 @@
                :ctrl  nop
                }
    :n         {:up {:up (modified (pp zip/edit inc))} :down {:down (modified (pp zip/edit dec))}}
+   :d         {
+                :up {:up (modified (pp zip/edit (fn [d] (* d 2))))}
+                :down {:down (modified (pp zip/edit (fn [d] (* d 0.5))))}}
    :shift     {:shift nop}
    :tab       {:tab hfn}
    :0         {:0 home}
@@ -358,32 +361,33 @@
         {
          :history [{}]
          :aaa     (with-meta '(+ 1 3) {:open true :q 3})
-         :styyle  [
-                   [:body {:background "black" :display :flex :flex-flow "column wrap"}]
-                   [:div {:display :flex :flex-flow "column wrap"}]
-                   [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
-                   [:.sexp {:background    "rgba(255,255,255,0.1)"
-                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
-                   [:.leaf {:background    (garden.color/rgba 255, 255, 255, 0.1)
-                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
-                   [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
-                   ]
          :style
                   '(iiiiioiooooo.ui/set-css!
                      [
-                   [:body {:background "black" :display :flex :flex-flow "column wrap"}]
-                   [:div {:display :flex :flex-flow "column wrap"}]
-                   [:#root>.selected {:background "rgba(255,255,255,0.1)"}]
-                   [:.sexp {:background    "rgba(255,255,255,0.1)"
-                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
-                   [:.leaf {:background    (garden.color/rgba 255, 255, 255, 0.1)
-                            :display       :flex :flex-flow "row wrap" :padding "0.5em"
-                            :border-radius "4px" :margin "0.1em" :flex-shrink 1}]
-                   [:.selected {:background (garden.color/rgba 200 255 200 0.9)}]
-                   ])
+                      [:body {:background (garden.color/rgb 0 0 0) :font-size (str 1 "rem")
+                              :display    :flex :flex-flow "row wrap"}]
+                      [:body>.sexp:first-child {:flex-flow "row wrap"}]
+                      [:.sexp {:background    (garden.color/rgba 255 255 255 0.2) :font-size (str 1 "rem")
+                               :font-family   "monospace"
+                               :fill "red"
+                               :margin-left   (str 1 "em") :margin-right (str 0.1 "em")
+                               :margin-top    (str 0.01 "em") :margin-bottom (str 0.01 "em")
+                               :align-items   "flex-start"
+                               :display       :flex :flex-flow "column wrap" :padding (str 0.1 "em")
+                               :border-radius (str 4 "px") :flex-shrink 1}]
+                      [".str>.leaf:first-child" {:opacity 0.3}]
+                      [".str" {:color (garden.color/rgb 150 50 50)}]
+                      [:.leaf {:background    (garden.color/rgba 255 255 255 0.001)
+                               :display       :flex :flex-flow "row wrap" :padding (str 0.1 "em")
+                               :margin-top    (str 0.01 "em") :margin-bottom (str 0.01 "em")
+                               :border-radius (str 4 "px")
+                               :align-items   "center" :font-size (str 1 "rem")
+                               :margin-left   (str 0.5 "em") :margin-right (str 0.1 "em")
+                               :flex-shrink   1}]
+                      [".keyword" {:color (garden.color/rgb 100 0 100)}]
+                      [:.selected {:background (garden.color/rgba 100 255 100 0.3)
+                                    :fill (garden.color/rgba 100 255 100 0.3)}]
+                      ])
          :keymap  (default-keymap)
          :keyup
                   {
@@ -403,11 +407,9 @@
                    }
          :keypath [:keymap]
          :action  :select
-         :focus   (seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))
-         :context (seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))
-         :eval-test
-         ;'((fn [x] (cljs.core/cons 5 x)) [1 2 3])
-                  '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
+         :focus   (with-meta '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
+                      {:render-fn :to-svg} )
+         :context '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
          :help
                   [
                    "iiiiioiooooo Clojure structure editor"
@@ -424,8 +426,8 @@
    )
    ([state]
     (assoc (push-history state)
-      :focus (seq-map-zip (:style state))
-      :context (seq-map-zip (:style state))
+      :focus (seq-map-zip (select-keys state [:style :focus]))
+      :context (seq-map-zip (select-keys state [:style :focus]))
       :selected [(seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))]
       :qwe 1 :poi "qwe")
    )

@@ -206,14 +206,6 @@ numbers
 )
 )
 
-(defn gen-css
-  ([state] (set-css! (:styyle state)))
-  ([state rules] (gen-css state (aget (.-styleSheets js/document) 0) rules))
-  ([state stylesheet rules]
-    (set-css! stylesheet rules)
-  )
-)
-
 (defn to-str [n]
   (cond
     (and (fn? n) (not (associative? n))) (.replace (.-name n) \_ \-)
@@ -232,18 +224,18 @@ numbers
   ([loc children]
     (apply
       conj
-      (if (and (meta (zip/node (zip/up loc))) (= :to-svg (:render-fn (meta (zip/node (zip/up loc))))))
+      (if (and (meta (zip/node (zip/up loc))) (= :to-svg (:render-fn (meta (zip/node loc)))))
         [:svg
             {
               :width "2000"
               :height "1000"
             }]
-        [:g {:class     "branch"
+        [:g {:class     "sexp"
             :transform "translate(50,100) scale(0.9) "
             }])
       children)
   )
-  ([n oiuoi c] [:g {:class (str "branch folded " n) }])
+  ([n oiuoi c] [:g {:class (str "sexp  " n) }])
   ([] [:g {:class "sexp" :transform "translate(50,50) scale(0.5)"}])
 )
 
@@ -318,36 +310,36 @@ numbers
   (((:action n) update-ui-fn) o n)
 )
 
+(defn do-eval-! [n]
+  (let [
+         env (assoc (ana/empty-env)
+               :context :expr
+               :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
+
+               )
+        ;p (log "env " env)
+         ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
+         a (ensure (ana/analyze env n))
+        ;p (log "ana " a)
+         j (compiler/emit-str a)
+         ; p (log "js  " j)
+         res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
+       ]
+   res)
+)
+
 (defn do-eval! [f]
   (fn [x] (s/modified x
                (fn [l]                                      ;hmm, should this be returning a zipper (see forward-zipper)
-                 (log "evaluating! " (str (zip/node (f l))))
-                 (zip/replace (f l)
-                              ;"qwe"
-                              (let [
-                                    n (zip/node (f l))
-                                    env (assoc (ana/empty-env)
-                                          :context :expr
-                                          :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
-
-                                          )
-                                    p (log "env " env)
-                                    ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
-                                    a (ensure (ana/analyze env n))
-                                    p (log "ana " a)
-                                    j (compiler/emit-str a)
-                                    ; p (log "js  " j)
-                                    res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
-                                    ]
-                                n)
-                              ;(cljs/eval (cljs/empty-env) '(+ 1 2))
-                              ))))
+                 ;(log "evaluating! " (str (zip/node (f l))))
+                 (do-eval-! (zip/node (f l)))
+                 )))
           )
 
 (defn do-eval [f]
   (fn [x] (s/modified x
                (fn [l]                                      ;hmm, should this be returning a zipper (see forward-zipper)
-                 (log "evaluating! " (str (zip/node (f l))))
+                 ;(log "evaluating! " (str (zip/node (f l))))
                  (zip/replace (f l)
                               ;"qwe"
                               (let [
@@ -357,10 +349,10 @@ numbers
                                           :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
 
                                           )
-                                    p (log "env " env)
+                                    ;p (log "env " env)
                                     ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
                                     a (ensure (ana/analyze env n))
-                                    p (log "ana " a)
+                                    ;p (log "ana " a)
                                     j (compiler/emit-str a)
                                     ; p (log "js  " j)
                                     res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
@@ -389,19 +381,6 @@ numbers
       (s/push-history
         (assoc-in s [:keymap :shift :forwardslash :forwardslash]
           (fn [s] (log "meta: " (str (meta (zip/node (:focus s))))) s)))))
-)
-
-(defn add-css [state]
-  (s/update-state state :no-event
-    (fn [sss]
-      (s/push-history
-        (assoc-in sss [:keymap :c :c]
-          (fn [ss]
-            (let [q (assoc ss :style (zip/node (s/top (:focus ss))))]
-              (println "update css" (str (:style q)))
-              (gen-css q)
-              q
-            ))))))
 )
 
 (defn add-render-fns [s]
@@ -434,16 +413,16 @@ numbers
 
 (defn make-ui
   ([] (make-ui {}))
-  ([e] (make-ui e (atom (add-css (add-render-fns (add-eval (s/default-state)))))))
+  ([e] (make-ui e (atom (add-render-fns (add-eval (s/default-state))))))
   ([e state]
     (log "make ui ")
-    (gen-css @state)
+    (do-eval-! (:style @state))
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
-    (set! (.-onfocus js/window) (fn [e] (log "focus ") (s/update-state @state :no-event
-                                    (fn [s] (s/reset-keypath s))) nil))
-    (set! (.-onblur   js/window) (fn [e] (log "blur") (s/update-state @state :no-event
-                                    (fn [s] (s/reset-keypath s))) nil))
+    (set! (.-onfocus js/window) (fn [e] (log "focus ") (swap! state (fn [s] (s/update-state s :no-event
+                                                                                     (fn [s] (s/reset-keypath s))))) nil))
+    (set! (.-onblur   js/window) (fn [e] (log "blur") (swap! state (fn [s] (s/update-state s :no-event
+                                                                                     (fn [s] (s/reset-keypath s))))) nil))
     (update-element! (:context @state))
     (add-watch state :update-display
       (fn [k r o n]
