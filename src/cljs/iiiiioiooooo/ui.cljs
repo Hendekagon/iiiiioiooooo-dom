@@ -122,56 +122,90 @@
    57		:9}
 )
 
+(def space-keys
+  {
+      32 :space
+      9 :tab
+  }
+)
+
+(def other-keys
+{
+  8 :backspace
+  13 :enter
+  16 :shift
+  17 :ctrl
+  18 :alt
+  19 :break
+  20 :capslock
+  27 :esc
+  91 :leftmeta
+  93 :rightmeta
+  33 :pageup
+  34 :pagedown
+  35 :end
+  36 :home
+  37 :left
+  38 :up
+  39 :right
+  40 :down
+  45 :insert
+  46 :delete
+  144 :numlock
+  145 :scrolllock
+  188 :comma
+  190 :dot
+  191 :forwardslash
+  192 :tilde
+  219 :leftbracket
+  220 :backslash
+  221 :rightbracket
+  222 :apostrophe
+
+  ; http://www.javascripter.net/faq/keycodes.htm
+  186 :semicolon
+  59 :semicolon
+  187 :equals
+  107 :equals
+  189 :minus
+  109 :minus
+}
+)
+
 ; keycodes to keywords (name of key on keyboard)
 ; if the key has multiple synonyms, the shortest name first in alphabet is taken
 (def keycode-to-keyword
-(merge
-{
-8 :backspace
-9 :tab
-13 :enter
-16 :shift
-17 :ctrl
-18 :alt
-19 :break
-20 :capslock
-27 :esc
-91 :leftmeta
-93 :rightmeta
-32 :space
-33 :pageup
-34 :pagedown
-35		:end
-36		:home
-37		:left
-38	  :up
-39		:right
-40		:down
-45		:insert
-46		:delete
-
-144 :numlock
-145 :scrolllock
-188 :comma
-190 :dot
-191 :forwardslash
-192 :tilde
-219 :leftbracket
-220 :backslash
-221 :rightbracket
-222 ::apostrophe
-
-; http://www.javascripter.net/faq/keycodes.htm
-186 :semicolon
-59 :semicolon
-187 :equals
-107 :equals
-189 :minus
-109 :minus
-}
-alphabet
-numbers
+  (merge
+    space-keys
+    other-keys
+    alphabet
+    numbers
+  )
 )
+
+(def keyword-to-keycode
+  (zipmap (vals keycode-to-keyword) (keys keycode-to-keyword))
+)
+
+(def keyword-to-string
+  (merge
+    (zipmap (vals alphabet) (map name (vals alphabet)))
+    (zipmap (vals numbers) (map name (vals numbers)))
+    {
+      :space " "
+      :comma ","
+      :dot "."
+      :forwardslash "/"
+      :backslash "\\"
+      :minus "-"
+      :equals "="
+      :semicolon ";"
+      :apostrophe "'"
+      :tilde "`"
+      :leftbracket "["
+      :rightbracket "]"
+    }
+  )
 )
 
 (def keycode-to-keyword-up (zipmap (keys keycode-to-keyword) (map (fn [k] (keyword (str (name k) "-up"))) (vals keycode-to-keyword))))
@@ -194,9 +228,9 @@ numbers
   (if-let [s (. js/document (getElementById "sheet"))] (. (.-parentNode s) (removeChild s)))
   (let [s (. js/document (createElement "style"))] (.setAttribute s "id" "sheet") (. (.-body js/document) (appendChild s)))
   (set-css! (aget (.-styleSheets js/document) 0) (map css style))
-   )
+  )
 ([stylesheet rules]
-    (println ">>> " (str stylesheet) (str rules))
+  ;(println ">>> " (str stylesheet) (str rules))
   ;(doall (map (fn [index] (.. stylesheet (deleteRule (aget (.-rules stylesheet) index)))) (range (.-length (.-rules stylesheet)))))
   (log stylesheet)
    (doall (map
@@ -242,15 +276,17 @@ numbers
   ([] [:g {:class "sexp" :transform "translate(50,50) scale(0.5)"}])
 )
 
+(defn kw2css [kw] (name kw))
+
 (defn to-html
   ([[x y n]]
-    (conj [:div {:class (str "leaf "
-    (cond
-      (fn? n) "fn "
-      (string? n) "string "
-      (keyword? n) "keyword "
-    ) )}] (to-str n) ))
-  ([n c] (apply conj [:div {:class (str "sexp " (s/typee (zip/node (zip/down n))))}] c))
+    (conj [:div {:class (str "leaf " (s/typee n))}] (to-str n) ))
+  ([n c] (apply conj [:div {:class
+                            (str "sexp " (s/typee (zip/node n)) " "
+                                 (cond (meta (zip/node n))
+                                  (if-let [s (:dtype (meta (zip/node n)))] (kw2css s))) " "
+                                 (if-let [p (zip/down n)]
+                                   (s/typee (zip/node p)) ""))}] c))
   ([n oiuoi c] [:div {:class (str "sexp folded " n)}])
   ([] [:div {:class "sexp"}])
 )
@@ -263,17 +299,27 @@ numbers
   (doseq [e s] (apply (partial dommy/set-attr! e) a))
 )
 
+(defn filter-ast [l]
+  (let [n (zip/node l)]
+    ;(.log js/console "> " (list? n) (seq? n) (seqable? n) (vector? n) (implements? IMapEntry n))
+    (not (and (implements? IMapEntry n) (#{:env :ret :f :args :children :tag} (key n))))
+  )
+)
+
 (defn update-element!
   ([context] (update-element! context context context))
   ([context new old]
+   (let [e (sel1 (selector (s/path context old)))]
+     ;(println "replacing " e (zip/node old) " with " (zip/node new))
+     (cond e
       (dommy/replace!
-        (sel1 (selector (s/path context old)))
+        e
         (hipo/create
           (first
-            (s/translate 32 32
-              {:to-svg to-svg}
-              to-html new)))
-      )
+            ((s/make-translate identity) 16 16
+                         {:to-svg to-svg}
+                         to-html new)))
+        )))
    new)
 )
 
@@ -284,7 +330,7 @@ numbers
   ([s paths]
     (select-state! s paths (sel paths) (sel1 (selector (s/path (:context s) (:focus s))))))
   ([s paths selections focus]
-    (println "selected " (.-namespaceURI focus))
+    ;(println "selected " (.-namespaceURI focus))
     (doall (map (fn [q] (dommy/remove-class! q "selected")) (sel ".selected")))
     ;(doseq [selection selections] (cond selection (dommy/add-class! selection "selected")))
     (cond focus
@@ -304,8 +350,8 @@ numbers
    :modify (fn [o s]
              (update-element!
                (:context o)
-               (:focus s)
-               (if (:modified s) (:modified s) (:focus s))
+               ((:post-modf s) (:focus s))
+               (if (:modified s) ((:post-modf s) (:modified s)) (:focus s))
                )
              (select-state! s)
              )
@@ -316,13 +362,9 @@ numbers
   (((:action n) update-ui-fn) o n)
 )
 
-(defn do-eval-! [n]
+(defn do-eval-! [x n]
   (let [
-         env (assoc (ana/empty-env)
-               :context :expr
-               :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
-
-               )
+         env (:env x)
         ;p (log "env " env)
          ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
          a (ensure (ana/analyze env n))
@@ -334,50 +376,60 @@ numbers
    res)
 )
 
-(defn do-eval! [f]
-  (fn [x] (s/modified x
-               (fn [l]                                      ;hmm, should this be returning a zipper (see forward-zipper)
-                 ;(log "evaluating! " (str (zip/node (f l))))
-                 (do-eval-! (zip/node (f l)))
-                 )))
+(defn do-eval [x]
+(println "eval")
+  (s/modified x
+              (fn [l]
+                ;(log "evaluating! " (str (zip/node (f l))))
+                (zip/replace l
+                             ;"qwe"
+                             (let [
+                                   n (zip/node l)
+                                   env (:env x)
+                                   ;p (log "env " env)
+                                   ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
+                                   a (ensure (ana/analyze env n))
+                                   ;p (log "ana " a)
+                                   j (compiler/emit-str a)
+                                   ; p (log "js  " j)
+                                   res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
+                                   ]
+                               (if res [n res] n))
+                             ;(cljs/eval (cljs/empty-env) '(+ 1 2))
+                             )))
           )
 
-(defn do-eval [f]
-  (fn [x] (s/modified x
-               (fn [l]                                      ;hmm, should this be returning a zipper (see forward-zipper)
-                 ;(log "evaluating! " (str (zip/node (f l))))
-                 (zip/replace (f l)
-                              ;"qwe"
-                              (let [
-                                    n (zip/node (f l))
-                                    env (assoc (ana/empty-env)
-                                          :context :expr
-                                          :ns {:requires #{'iiiiioiooooo.ui 'garden.color}}
 
-                                          )
-                                    ;p (log "env " env)
-                                    ;p (log "> " (str (ensure (ana/resolve-var env 'garden.color/rgb))))
-                                    a (ensure (ana/analyze env n))
-                                    ;p (log "ana " a)
-                                    j (compiler/emit-str a)
-                                    ; p (log "js  " j)
-                                    res (try (js/eval j) (catch js/Error e (do (log e) {:error e})))
-                                    ]
-                                (if res [n res] n))
-                              ;(cljs/eval (cljs/empty-env) '(+ 1 2))
-                              ))))
-          )
+(defn add-thing [s]
+  (let [
+          y (s/seq-map-zip (ensure (ana/analyze (get s :env) (zip/node (:focus s)))))
+        ]
+        (s/update-state s :no-event
+                   (fn [x]
+                     (assoc x :focus y :context y)
+                     )))
+)
 
 (defn add-eval [s]
    (s/update-state s :no-event
     (fn [x]
-     (s/push-history
-       (assoc-in
-        (assoc-in x
-                  [:keymap :e :e] (do-eval identity)
-                  )
-          [:keymap :w :w] (do-eval! s/top))
-        )
+      (assoc-in
+        (assoc-in (assoc x :env (assoc (ana/empty-env)
+                                 :context :expr
+                                 :ns {:requires #{'cljs.core 'iiiiioiooooo.ui 'garden.color 'garden.units 'iiiiioiooooo.structure}}
+                                 ))
+                 [:keymap :alt :enter :enter] do-eval)
+                 [:keymap :ctrl :1 :1] (fn [ss] (println "eval 1") (do-eval (assoc ss :focus (get-in ss [:eval :1])))))
+   ))
+)
+
+(defn add-keys [s]
+   (s/update-state s :no-event
+    (fn [x]
+      (s/push-history
+        (s/add-all-keys
+        x
+        keyword-to-string))
    ))
 )
 
@@ -397,8 +449,7 @@ numbers
         (assoc-in
           (assoc-in ss [:render-fns :to-svg] to-svg)
           [:render-fns :to-html] to-html)
-        )))
-)
+        ))))
 
 ;#root>li:first-child >ul:first-child>li:first-child + li >ul:first-child>li:first-child + li >ul:first-child>li:first-child
 
@@ -419,16 +470,18 @@ numbers
 
 (defn make-ui
   ([] (make-ui {}))
-  ([e] (make-ui e (atom (add-render-fns (add-eval (s/default-state))))))
+  ([e] (make-ui e (atom (add-render-fns (add-keys (add-eval (s/default-state)))))))
   ([e state]
     (log "make ui ")
-    (do-eval-! (:style @state))
+    ;(log "> " (str (:op (ensure (ana/analyze (:env @state) '(list (fn [x] x) [1 2 3 "qwe"]))))))
+    ;(log "> " (str (zip/node (:focus @state))))
+    (do-eval-! @state (:style @state))
     (set! (.-onkeydown js/window) (fn [e] (keydown state e)))
     (set! (.-onkeyup js/window) (fn [e] (keyup state e)))
-    (set! (.-onfocus js/window) (fn [e] (log "focus ") (swap! state (fn [s] (s/update-state s :no-event
-                                                                                     (fn [s] (s/reset-keypath s))))) nil))
-    (set! (.-onblur   js/window) (fn [e] (log "blur") (swap! state (fn [s] (s/update-state s :no-event
-                                                                                     (fn [s] (s/reset-keypath s))))) nil))
+    (set! (.-onfocus js/window) (fn [e] (swap! state (fn [s] (s/update-state s :no-event
+                                         (fn [s] (s/reset-keypath s))))) nil))
+    (set! (.-onblur   js/window) (fn [e] (swap! state (fn [s] (s/update-state s :no-event
+                                          (fn [s] (s/reset-keypath s))))) nil))
     (update-element! (:context @state))
     (add-watch state :update-display
       (fn [k r o n]

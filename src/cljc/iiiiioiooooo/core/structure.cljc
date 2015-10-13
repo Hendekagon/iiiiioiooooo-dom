@@ -19,16 +19,19 @@
 (defn typee [b]
   (cond
     (list? b) "list"
-    (symbol? b) (str b)
+    (symbol? b) (str "symbol " b)
     (vector? b) "vector"
     (map? b) "map"
     (seq? b) "seq"
+    (fn? b) "fn"
+    (string? b) "string"
+    (keyword? b) "keyword"
     :default ""
   )
 )
 
-(defn translate
-  ([maxx maxy rfns f p]
+(defn make-translate [g]
+  (fn translate [maxx maxy rfns f p]
     ;(println rfns)
     (reduce
       (fn [r [x c]]
@@ -52,7 +55,7 @@
           )
       )
       []
-      (map vector (range maxx) (take maxx (take-while identity (iterate zip/right p))))
+      (map vector (range maxx) (take maxx (filter g (take-while identity (iterate zip/right p)))))
     )
   )
 )
@@ -62,6 +65,7 @@
     (fn [n] (or (seq? n) (map? n) (vector? n))) ; can have children ?
     (fn [b] (if (map? b) (seq b) b))  ;return children of given node
     (fn [node children]
+      ;(println (str "meta " node))
       ;(cond (or (vector? node) (map? node)) (println "zzz " children))
       (with-meta
         (cond
@@ -108,8 +112,7 @@
 )
 
 (defn push-history [state]
-	(update-in state [:history] (fn [h] (conj h (apply dissoc state (:dont-record state)))))
-	)
+	(update-in state [:history] (fn [h] (conj h (apply dissoc state (:dont-record state))))))
 
 (defn kop [x] (update-in x [:keypath] (fn [p]  (if (zero? (count p)) [:keymap] (subvec p 0 (dec (count p)))))))
 
@@ -153,14 +156,12 @@
 
 (defn forward-to-zipper [f] (fn [x] (if (and x (contains? (meta (zip/node x)) :zip/branch?)) (f (zip/node x)) (f x))) )
 
-(defn maybe-select [x y] (if (= (meta (zip/node (:focus x))) (meta (zip/node (:focus y))))
-  (assoc x :action :select) (assoc x :action :modify :modified (:focus x))))
-
 (defn selected
   ([f] (fn [s] (selected s f)))
-  ([s f] (assoc
+  ([s f]
+    (assoc
      (update-in s [:focus]
-                (carefull (forward-zipper f))) :action :select)))
+      (carefull (forward-zipper f))) :action :select)))
 
 (defn nop [s] (assoc s :action :select))
 
@@ -169,33 +170,18 @@
 (defn modified
   ([f] (fn [s] (modified s f)))
   ([s f] (modified s f (:focus s)))
-  ([s f m]
+  ([s f m] (modified s f m identity))
+  ([s f m g]
    (update-context (assoc
       (update-in s [:focus] (carefull (forward-zipper f)))
-      :modified m :action :modify :x (inc (or (:x s) 0)))))
-)
+      :modified m :post-modf g
+      :action :modify :x (inc (or (:x s) 0))))))
 
-;(defn resolve [x] x) ; for below - delete -   cljs-incljs
-
-"
-(defn apply-selected
-  ([h x]
-    (apply-selected h x (zip/node (first (:selected x)))
-      [
-        (list (zip/node (first (rest (:selected x)))) (map zip/node (rest (rest (:selected x)))))
-        (apply
-          (resolve (zip/node (first (rest (:selected x)))))
-          (map zip/node (rest (rest (:selected x))))
-          )
-        (resolve (zip/node (first (rest (:selected x)))))
-      ]
-    )
-  )
-  ([h x rl r]
-    (assoc x :result r :modified (first (:selected x)))
-  )
-)
-"
+(defn maybe-select [x y]
+  (if (= (meta (zip/node (:focus x))) (meta (zip/node (:focus y))))
+    (assoc x :action :select)
+    (assoc x :action :modify :modified (:focus x)
+            :post-modf identity)))
 
 (defn deeepest
   ([n]
@@ -222,11 +208,16 @@
 
 (defn expand ^{:doc "expand"} [x] (maybe-select (update-in x [:focus] (carefull maybe-open)) x))
 
-(defn delete ^{:doc "delete"} [x] (modified x zip/remove))
+(defn delete ^{:doc "delete"} [x] (modified x zip/remove (:focus x) zip/up))
 
 (defn insert-left ^{:doc "insert left"} [x] (modified x (fn [c] (zip/insert-left c "+")) (zip/up (:focus x))))
 
 (defn insert-right ^{:doc "insert right"} [x]  (modified x (fn [c] (zip/insert-right c "+")) (zip/up (:focus x))))
+
+(defn insert-key-right ^{:doc "insert right"}
+  ([k]
+    (fn [x]
+      (modified x (fn [c] (zip/right (zip/insert-right c k))) (:focus x) zip/up))))
 
 (defn rightmost ^{:doc "last"} [x] (selected x zip/rightmost))
 
@@ -248,19 +239,34 @@
   )
 )
 
-(defn split-into-children ^{:doc "split into children"} [x]
-  (modified x (fn [n] (zip/replace n
-                                   (zip/make-node n (zip/node n)
-                                                  (zip/children (seq-map-zip (vec (str (zip/node n))))))
-                                   )))
+(defn as-list [x]
+  (cond
+    (symbol? x) (seq (name x))
+    (string? x) (seq x)
+    (keyword? x) (seq (name x))
+    :else (seq (str x))))
+
+(defn to-list ^{:doc "split into children"} [x]
+  (modified x
+    (fn [n]
+      (zip/replace n
+       (zip/make-node n (with-meta (symbol (zip/node n)) {:dtype :to_list})
+        (zip/children
+          (seq-map-zip
+            (vec (as-list (zip/node n))))))))))
+
+(defn list-to-keyword ^{:doc "fuse into parent"} [x]
+  (modified x (fn [n] (zip/replace n (keyword (apply str (zip/children n))))))
 )
 
-(defn fuse-into-parent ^{:doc "fuse into parent"} [x]
+(defn list-to-symbol ^{:doc "fuse into parent"} [x]
   (modified x (fn [n] (zip/replace n (symbol (apply str (zip/children n))))))
 )
 
-(defn to-string ^{:doc "make them a string"} [x]
-  (modified x (fn [n] (zip/replace n (apply str (zip/children n)))))
+(defn list-to-string ^{:doc "make them a string"} [x]
+  (modified x
+    (fn [n]
+      (zip/replace n (apply str (zip/children n)))))
 )
 
 (defn home [x] (update-in x [:focus] top))
@@ -276,7 +282,6 @@
         ) identity)
   )
 )
-
 
 (defn next-at [i c]
   (fn [loc]
@@ -307,21 +312,24 @@
 
 (defn default-keymap []
   {
-   :i         {:i (fn [s] (modified s (comp zip/prev zip/next)))}
    :alt
               {
+               :1 {:1 (fn [s] (println "add eval 1") (assoc-in s [:eval :1] (:focus s)))}
                :left  {:left left}
                :right {:right right}
                :up    {:up replace-parent}
-               :down  {:down split-into-children}
                :i     {:i (fn [s] (modified s identity))}
+               :l  {:l to-list}
+               :apostrophe {:apostrophe list-to-string}
+               :forwardslash {:forwardslash list-to-symbol}
+               :semicolon {:semicolon list-to-keyword}
                :alt   nop
+               :space {:space expand}
                }
    :up        {:up out}
    :down      {:down in}
    :right     {:right depth-first-next
                :space {:space depth-first-next}}
-   :h         {:h hfn}
    :left      {:left depth-first-previous}
    :backspace {:backspace delete}
    :ctrl
@@ -336,7 +344,6 @@
                        :up    {:up root}
                        :alt   nop
                        }
-               :up    {:up fuse-into-parent}
                :ctrl  nop
                }
    :n         {:up {:up (modified (pp zip/edit inc))} :down {:down (modified (pp zip/edit dec))}}
@@ -345,14 +352,22 @@
                 :down {:down (modified (pp zip/edit (fn [d] (* d 0.5))))}}
    :shift     {:shift nop}
    :tab       {:tab hfn}
-   :0         {:0 home}
    :default   nop
-   :space     {:space expand}
    }
 )
 
+(defn add-key-insert
+  ([all-keys s [k ks]]
+   (assoc-in
+     (reduce
+       (fn [r [ok oks]]
+         (assoc-in r [:keymap k ok ok] (insert-key-right oks)))
+       s all-keys)
+     [:keymap k k]
+     (insert-key-right ks))))
 
-;"this happens for *every* key that's released: e.g. alt-e would result in 2 of these, 1 for alt, 1 for e"
+(defn add-all-keys
+  ([s keyz] (reduce (partial add-key-insert keyz) s keyz)))
 
 (defn default-state
   ([]
@@ -364,17 +379,19 @@
          :style
                   '(iiiiioiooooo.ui/set-css!
                      [
-                      [:body {:background (garden.color/rgb 0 0 0) :font-size (str 1 "rem")
-                              :display    :flex :flex-flow "row wrap"}]
-                      [:body>.sexp:first-child {:flex-flow "row wrap"}]
+                      [:body {:background (garden.color/rgb 0 0 0)
+                              :display    :flex :flex-flow "column wrap"}]
                       [:.sexp {:background    (garden.color/rgba 255 255 255 0.2) :font-size (str 1 "rem")
                                :font-family   "monospace"
                                :fill          "red"
-                               :margin-left   (str 1 "em") :margin-right (str 0.1 "em")
-                               :margin-top    (str 0.01 "em") :margin-bottom (str 0.01 "em")
+                               :margin-left   (str 1 "em") :margin-right (garden.units/em 0.5)
+                               :margin-top    (str 0.1 "em") :margin-bottom (str 0.01 "em")
                                :align-items   "flex-start"
                                :display       :flex :flex-flow "column wrap" :padding (str 0.1 "em")
-                               :border-radius (str 4 "px") :flex-shrink 1}]
+                               :border-radius (str 4 "px") :flex-shrink 1
+                               }]
+                      [:body>.sexp:first-child {:flex-flow "column wrap"
+                                                }]
                       [".str>.leaf:first-child" {:opacity 0.3}]
                       [".str" {:color (garden.color/rgb 150 50 50)}]
                       [:.leaf {:background    (garden.color/rgba 255 255 255 0.001)
@@ -383,10 +400,25 @@
                                :border-radius (str 4 "px")
                                :align-items   "center" :font-size (str 1 "rem")
                                :margin-left   (str 0.5 "em") :margin-right (str 0.1 "em")
-                               :flex-shrink   1}]
+                               :flex-shrink   1
+                               :flex-grow 1}]
                       [".keyword" {:color (garden.color/rgb 100 0 100)}]
+                      [".symbol" {:color (garden.color/rgb 0 0 0)}]
+                      [".string" {:color (garden.color/rgb 0 0 0)
+                        :font-style "Italic"}]
+                      [:.to_list {:display :flex :flex-flow "row wrap" :white-space "pre"}]
+                      [".to_list>*" {:display "flex" :color (garden.color/rgb 0 0 0)
+                                      :margin 0 :padding 0
+                                      }]
+                      [".list" {:color (garden.color/rgb 50 100 255) :flex-flow "column wrap"}]
+                      [".vector" {:color (garden.color/rgb 25 50 255) :flex-flow "row wrap"}]
                       [:.selected {:background (garden.color/rgba 100 255 100 0.3)
                                    :fill       (garden.color/rgba 100 255 100 0.3)}]
+                      [".to_list>.selected"
+                       {:background    (garden.color/rgba 255 100 100 0.0)
+                        :border-radius "0px"
+                        :border-right  "2px solid red"
+                        }]
                       ["g:nth-child(odd)" {:transform "translate(10,20)"}]
                       ["g:nth-child(even)" {:transform "translate(20,20)"}]
                       [:circle {:fill "red"}]
@@ -417,8 +449,7 @@
          :action  :select
          :focus1  (with-meta '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
                              {:render-fn :to-svg :open true})
-         :focus   (with-meta [(map (fn [x] (js/Math.cos (* 4 x))) (range 0 24 0.1))]
-                             {:render-fn :to-svg :open true})
+         :focus   '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
          :context '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x])))))
          :help
                   [
@@ -435,11 +466,15 @@
     )
    )
    ([state]
-    (assoc (push-history state)
-      :focus (seq-map-zip (select-keys state [:style :focus]))
-      :context (seq-map-zip (select-keys state [:style :focus]))
-      :selected [(seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))]
-      :qwe 1 :poi "qwe")
+    (let [f (seq-map-zip {:style (:style state)
+      "Here is an example expression to evaluate.
+      Select it and then do alt-enter (option-enter on a Mac)"
+      (:context state)})]
+      (assoc (push-history state)
+       :focus f
+       :context f
+       :selected [(seq-map-zip '((fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))) (quote (quote fn [x] (cljs.core/list (cljs.core/rest x) (cljs.core/cons (cljs.core/first x) [x]))))))]
+       :qwe 1 :poi "qwe"))
    )
 )
 
