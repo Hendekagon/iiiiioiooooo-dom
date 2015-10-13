@@ -20,4 +20,4 @@ pom.xml.asc
 .lein-plugins
 .lein-repl-history
 .repl*
-/public
+/public/js
